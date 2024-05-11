@@ -1,0 +1,10 @@
+.git
+.svn
+.hg
+.env
+.env.sample
+
+node_modules
+package.json
+package-lock.json
+

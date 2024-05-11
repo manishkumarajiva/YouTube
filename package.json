@@ -1,0 +1,29 @@
+{
+  "name": "youtube",
+  "version": "1.0.0",
+  "description": "YouTube, Twitter",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node src/index.js",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manishkumarajiva/YouTube.git"
+  },
+  "keywords": [
+    "YouTube",
+    "Twitter"
+  ],
+  "author": "Manish Dhiman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manishkumarajiva/YouTube/issues"
+  },
+  "homepage": "https://github.com/manishkumarajiva/YouTube#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2"
+  }
+}
