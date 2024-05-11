@@ -5,12 +5,12 @@ import asyncHandler from "../utils/asyncHandler.js";
 
 // --------------- Auth's Handlers --------------- START
 
-const LoginUser = asyncHandler(async (req, res) => {
+const LoginAuthentication = asyncHandler(async (req, res) => {
 
 });
 
 
-const LogoutUser = asyncHandler(async (req, res) => {
+const LogoutAuthentication = asyncHandler(async (req, res) => {
 
 });
 
@@ -35,8 +35,8 @@ const RefreshAccessToken = asyncHandler(async (req, res) => {
 
 // Export Auth Handlers
 export {
-    LoginUser,
-    LogoutUser, 
+    LoginAuthentication,
+    LogoutAuthentication, 
     UpdateCurrentPassword,
     ResetUserPassword,
     RefreshAccessToken

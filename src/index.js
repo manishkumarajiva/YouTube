@@ -1,8 +1,9 @@
-// import "dotenv/config";
+import "dotenv/config";
 import express from "express";
+import ApiRoutes from "./routes/index.js";
+
 
 const youtube = express();
-
 
 const PORT = process.env.MONGO_PORT || 8000;
 
@@ -10,5 +11,7 @@ const PORT = process.env.MONGO_PORT || 8000;
 youtube.use(express.json());
 youtube.use(express.urlencoded({ extended : true }));
 
+
+youtube.use("/api", ApiRoutes);
 
 youtube.listen(PORT, console.log(`YouTube App Listening on PORT :: ${PORT}`));

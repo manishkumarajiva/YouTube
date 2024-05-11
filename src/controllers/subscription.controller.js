@@ -15,7 +15,7 @@ const GetUserChannelSubscriber = asyncHandler(async (req, res) => {
 });
 
 
-const GetSubscribedChannel = asyncHandler(async (req, res) => {
+const GetUserSubscribedChannel = asyncHandler(async (req, res) => {
 
 });
 
@@ -26,5 +26,5 @@ const GetSubscribedChannel = asyncHandler(async (req, res) => {
 export{
     ToggleSubscription,
     GetUserChannelSubscriber,
-    GetSubscribedChannel
+    GetUserSubscribedChannel
 };
