@@ -1,12 +1,4 @@
-# This Project is clone of YouTube App
-...
-
-## This Project have its own Dashboard
-...
-
-[View Project](This is link please click on this link)
-
-<h2 align="left">Hi 👋! My name is Manish and I'm a Softperware Developer </h2>
+<h2 align="left">Hi 👋! My name is ... and I'm a ..., from ....</h2>
 
 ###
 
@@ -17,9 +9,6 @@
 
 ###
 
-<img align="right" height="150" src="https://i.imgflip.com/65efzo.gif"  />
-
-###
 
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="30" alt="javascript logo"  />
@@ -33,8 +22,6 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="30" alt="css3 logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" alt="python logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" height="30" alt="csharp logo"  />
 </div>
 
 ###
@@ -48,9 +35,9 @@
   <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo"  />
 </div>
 
-###
-
-<br clear="both">
-
-
-###
+<div align="left">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPj3C9gybUtM-cYjkudnbJNg2B8fkrRw46Ynd7gIRvOZQcIFMxJD2WNogU2zZcZuLr288&usqp=CAU" height="100" alt="logo"  />
+  <img src="https://cms.liara.ir/wp-content/uploads/2020/09/express-framework-tutorials.png" height="100" alt="logo"  />
+  <img src="https://community-cdn-digitalocean-com.global.ssl.fastly.net/uCcwj4q1e8Tx91Ce5En11NdE" height="100" alt="logo"  />
+  <img src="https://strapi.dhiwise.com/uploads/618fa90c201104b94458e1fb_64feb5cad0f3feb3468e13e9_best_resources_to_learn_React_Main_Image_2c7daa739e.jpg" height="100" alt="logo"  />
+</div>
