@@ -29,7 +29,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     });
 
     if(!createUser){
-        throw new ErrorHandler(500, "Something went wrong during registeration");
+        throw new ErrorHandler(500, "Something went wrong during Registeration");
     }
 
     return res

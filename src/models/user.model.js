@@ -53,9 +53,21 @@ const userSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
+    isVerified : {
+        type : Boolean,
+        default : false
+    },
     isAdmin : {
         type : Boolean,
         default : false
+    },
+    verificationToken : {
+        type : String,
+        trim : true
+    },
+    resetPasswordToken : {
+        type : String,
+        trim : true
     }
 },{ timestamps : true });
 
