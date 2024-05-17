@@ -23,7 +23,7 @@ const generateRefreshAndAccessToken = async (user) => {
     } catch (error) {
         throw new ErrorHandler(400, "Somethind Went Wrong");
     }
-}
+};
 
 
 const LoginAuthentication = asyncHandler(async (req, res) => {
@@ -183,9 +183,7 @@ const ResetUserPassword = asyncHandler(async (req, res) => {
     return res
     .status(200)
     .json(new ResponseHandler(201, resetPassword, "Password Reset Successfully"))
-
 });
-
 
 
 const RefreshAccessToken = asyncHandler(async (req, res) => {
