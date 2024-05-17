@@ -83,7 +83,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
 
 const GetWatchHistory = asyncHandler(async (req, res) => {
-
+    
 });
 
 // --------------- User's Handlers --------------- END

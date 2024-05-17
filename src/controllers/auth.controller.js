@@ -194,7 +194,7 @@ const RefreshAccessToken = asyncHandler(async (req, res) => {
     }
 
     const secretKey = process.env.YOUTUBE_SECRECT_KEY
-    const decode = await JWT.verify(incomingRefreshToken, secretKey);
+    const decode = JWT.verify(incomingRefreshToken, secretKey);
 
     const user = await UserModel.findById({ _id : decode.id });
     if(!user){
