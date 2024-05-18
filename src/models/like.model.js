@@ -9,18 +9,15 @@ const likeSchema = new mongoose.Schema({
     },
     videoId : {
         type : Schema.Types.ObjectId,
-        ref : "Video",
-        required : true
+        ref : "Video"
     },
     commentId : {
         type : Schema.Types.ObjectId,
-        ref : "Comment",
-        required : true
+        ref : "Comment"
     },
     tweetBy : {
         type : Schema.Types.ObjectId,
-        ref : "Tweet",
-        required : true
+        ref : "Tweet"
     }
 },{ timestamps : true });
 
