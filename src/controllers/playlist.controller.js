@@ -94,12 +94,43 @@ const DeleteVideoPlaylist = asyncHandler(async (req, res) => {
 
 
 const AddVideoToPlaylist = asyncHandler(async (req, res) => {
+    const { playlistId, videoId } = req.query;
+
+    const playlist = await PlaylistModel.findById({ _id : playlistId })
+
+    if(!playlist){
+        throw new ErrorHandler(400, "Not Found")
+    }
+
+    const AddVideo = { videoId : videoId }
+    playlist.videos.push(AddVideo)
+
+    const NewVideo = await playlist.save();
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, NewVideo, "Successfully Added" ))
 
 });
 
 
 const RemoveVideoFromPlaylist = asyncHandler(async (req, res) => {
+    const { playlistId, videoId } = req.query;
 
+    const playlist = await PlaylistModel.findById({ _id : playlistId })
+
+    if(!playlist){
+        throw new ErrorHandler(400, "Not Found")
+    }
+
+    const RemoveVideo = videoId;
+    playlist.videos.pop(RemoveVideo)
+
+    const DeletedVideo = await playlist.save()
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, DeletedVideo, "Successfully Deleted"))
 });
 
 // --------------- Playlis's Handlers --------------- END
