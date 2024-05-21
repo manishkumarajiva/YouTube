@@ -18,10 +18,9 @@ const GetChannelStates = asyncHandler(async (req, res) => {
 
     const Likes = await LikeModel.find({ channel : req.user?._id })
 
-    
-   
-
-
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, Videos, Subscribers, Likes, "Channel States" ))
 });
 
 
