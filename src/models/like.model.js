@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 const likeSchema = new mongoose.Schema({
+    channel : {
+        type : Schema.Types.ObjectId,
+        ref : "User",
+        required : true
+    },
     likedBy : {
         type : Schema.Types.ObjectId,
         ref : "User",
