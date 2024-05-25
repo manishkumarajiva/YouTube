@@ -18,10 +18,30 @@ const userSchema = new mongoose.Schema({
         trim : true
     },
     coverImage : {
+        filename : {
+            type : String,
+            trim : true
+        },
+        url : {
+            type : String,
+            trim : true
+        }
+    },
+    avatar : {
+        filename : {
+            type : String,
+            trim : true
+        },
+        url : {
+            type : String,
+            trim : true
+        }
+    },
+    cloudnaryCoverImage : {
         type : String,
         trim : true
     },
-    avatar : {
+    cloudnaryAvatar : {
         type : String,
         trim : true
     },

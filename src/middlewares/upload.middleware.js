@@ -1,21 +1,22 @@
-const multer = require('multer');
-const path = require('path');
+// const path = require('path');
+import ErrorHandler  from "../utils/errorHandler.js";
 
 
-// Upload Images Middleware Function
 
+// This is only filter for file type
 const fileFilter = async (req, file, callback) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
         callback(null, true);
     } else {
-        let error = new Error('Invalid File Type : only jpeg allow 🟥 ');
+        let error = new ErrorHandler(401, 'Invalid File Type : only jpeg allow 🟥');
         error.code = 'LIMIT_UNEXPECTED_FILE';
         callback(null, false)
     }
 };
 
 
-// First
+
+// Use for Single File
 const Uploader = (dir) => {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -31,8 +32,8 @@ const Uploader = (dir) => {
 };
 
 
-// -------------------------------//
-//Second
+
+// Use for Array of Files
 const MultiUploader = (dir) => {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -48,8 +49,8 @@ const MultiUploader = (dir) => {
 };
 
 
-// ------------------------------ //
-// Third
+
+// Use Promise for upload Single File
 const ProductUploader = (req, res) => {
     return new Promise((resolve, reject) => {
         const storage = multer.diskStorage({
@@ -67,8 +68,8 @@ const ProductUploader = (req, res) => {
 };
 
 
-// --------------------------------- //
-//Fourth
+
+// Simple Implementation
 const productStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./uploads/product/");
@@ -79,6 +80,9 @@ const productStorage = multer.diskStorage({
     },
 });
 
+
+
+// User for Multiple files upload in single directory
 const logoStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./uploads/logo/");
@@ -99,15 +103,15 @@ const cpUploader = uploader.fields([
 
 
 
-// --------------------------------//
+// User for upload Multiple Field File in different directories - not work
 const MulterUploader = (req, res) => {
     return new Promise((resolve, reject) => {
         const storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                if (file.fieldname === 'file') {
-                    cb(null, path.join(__dirname, '../uploads/products/'), function (error, success) { })
+                if (file.fieldname === 'avatar') {
+                    cb(null, path.join(__dirname, '../../public/upload/avatar'), function (error, success) { })
                 } else {
-                    cb(null, path.join(__dirname, '../uploads/logo/'))
+                    cb(null, path.join(__dirname, '../../public/upload/coverImage'))
                 }
             },
             filename: function (req, file, cb) {
@@ -126,7 +130,7 @@ const MulterUploader = (req, res) => {
 
 
 
-// Sixth pass
+// User for upload Multiple Field File in different directories - Work
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         if (file.fieldname === 'file') {
@@ -142,13 +146,12 @@ const storage = multer.diskStorage({
 });
 
 
-
-const upload = multer({
+const YouTubeProfile = multer({
     storage: storage,
     fileFilter: fileFilter
-}).fields([{ name: "file", maxCount: 4 }, { name: "brandLogo", maxCount: 1 }]);
+}).fields([{ name: "avatar", maxCount: 1 }, { name: "coverImage", maxCount: 1 }]);
 
-module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, MulterUploader, upload };
+module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, MulterUploader, YouTubeProfile };
 
 
 

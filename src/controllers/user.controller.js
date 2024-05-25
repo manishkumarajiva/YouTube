@@ -19,13 +19,40 @@ const RegisterUser = asyncHandler(async (req, res) => {
         throw new ErrorHandler(409, "User with Email or Username Already Exist")
     }
 
+    // Avatar
+    const avatarLocalPath = req.files.avatar[0]?.path;
+    if(!avatar){
+        throw new ErrorHandler(401, "Avatar is required")
+    }
+
+    const avatarLocal = new Object({
+        filename : req.files.avatar[0].filename,
+        url : "http://localhost:8000/public/upload/avatar/"
+    })
+    
+    // CoverImage
+    let coverImageLocalPath = "";
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage[0].path){
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
+
+    const coverImageLocal = new Object({
+        filename : req.files.coverImage[0].filename,
+        url : "http://localhost:8000/public/upload/coverImage/"
+    })
+
+
+
+
     const hashedPassword = await Bcrypt.hash(password,12);
 
     const createUser = await UserModel.create({
         fullname : fullname,
         username : username.toLowerCase(),
         email : email.toLowerCase(),
-        password : hashedPassword
+        password : hashedPassword,
+        avatar : avatarLocal,
+        coverImage : coverImageLocal
     });
 
     if(!createUser){

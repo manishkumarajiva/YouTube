@@ -4,7 +4,7 @@ import YouTubeRoutes from "./api/index.route.js";
 
 
 // --------------- YouTube App Version --------------- 
-router.use("/V.YT.0.0.1", YouTubeRoutes);
+router.use("/V.YT.1.0.0", YouTubeRoutes);
 
 
 export default router;
