@@ -1,4 +1,3 @@
-// const path = require('path');
 import ErrorHandler  from "../utils/errorHandler.js";
 
 
