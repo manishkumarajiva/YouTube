@@ -10,8 +10,8 @@ import { YouTubeProfile } from "../../middlewares/upload.middleware.js";
 router.post("/register", YouTubeProfile, RegisterUser);
 router.get("/profile", GetCurrentUser);
 router.put("/updateprofile", UpdateUserAccountDetails);
-router.put("/coverimage", UpdateUserCoverImage);
-router.put("/avatar", UpdateUserAvatar);
+router.put("/coverimage", YouTubeProfile, UpdateUserCoverImage);
+router.put("/avatar", YouTubeProfile, UpdateUserAvatar);
 router.get("/history", GetWatchHistory);
 
 // ----------------- User's Routes -------------- END

@@ -1,4 +1,6 @@
+import { application } from "express";
 import asyncHandler from "../utils/asyncHandler";
+import ResponseHandler from "../utils/responseHandler";
 
 
 
@@ -6,8 +8,25 @@ import asyncHandler from "../utils/asyncHandler";
 
 const HealthCheckYouTube = asyncHandler(async (req, res) => {
     return res.status(200)
-    .send("<h1>WELCOME TO YOUTUBE APP<h1>")
-    .send("<h1 style='color : red'> Server Running....<h1/>")
+    .send("<h1 style='color : red, font-size : 80px'>WELCOME ON YOUTUBE APP<h1>")
+    .send("<h1 style='font-size : 40px'> Server is Running<h1/>")
+});
+
+
+const YouTubeAppInfo = asyncHandler(async (req, res) => {
+
+    const AboutMe = {
+        application : "YouTube",
+        version : "V/.YT.1.0.0",
+        released : "2024",
+        developer : "Manish Dhiman Leo",
+        origin : "India",
+        features : "Apply Monetization for make money, Live Video Striming, Brand Collaboration"
+    }
+   
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, AboutMe, "About Me"))
 });
 
 // --------------- HealthCheck Handlers --------------- END

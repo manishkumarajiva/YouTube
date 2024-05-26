@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema({
     fullName : {
@@ -14,6 +15,10 @@ const userSchema = new mongoose.Schema({
         trim : true
     },
     mobile : {
+        type : String,
+        trim : true
+    },
+    password : {
         type : String,
         trim : true
     },
@@ -45,14 +50,12 @@ const userSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
-    password : {
-        type : String,
-        trim : true
-    },
-    refreshToken : {
-        type : String,
-        trim : true
-    },
+    watchHistory : [
+        {
+            videoId : Schema.Types.ObjectId,
+            ref : "Video"
+        }
+    ],
     googleId : {
         type : String,
         trim : true
@@ -80,6 +83,10 @@ const userSchema = new mongoose.Schema({
     isAdmin : {
         type : Boolean,
         default : false
+    },
+    refreshToken : {
+        type : String,
+        trim : true
     },
     verificationToken : {
         type : String,

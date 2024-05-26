@@ -3,6 +3,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import Bcrypt from "bcryptjs";
+import fs from 'fs';
 
 // --------------- User's Handlers --------------- START
 
@@ -101,16 +102,89 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 
 const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
+    if(! (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage[0].filename)){
+        throw new ErrorHandler(401, "Please Select Profile Avatar")
+    }
+
+    // Local Handling
+    const UserProfile = await UserModel.findById({ _id : req.user?._id })
+
+    const OldCoverImage = UserProfile.coverImage.url + UserProfile.coverImage.name;
+
+    const NewCoverImage = new Object({
+        name : req.files.coverImage[0].filename,
+        url : "http://localhost:8000/public/upload/converImage/"
+    })
+
+    const UpdateCoverImage = await UserModel.findByIdAndUpdate(
+        { _id : req.user?._id },
+        NewCoverImage,
+        { new : true }
+    )
+
+    if(!UpdateCoverImage){
+        throw new ErrorHandler(400, "Failed to Update")
+    }
+
+    const RemovePreviousAvatar = fs.unlinkSync(OldCoverImage);
+
+    // Cloudinary
+
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, UpdateCoverImage, "Update Successfully"))
+    
 });
 
 
 const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
+    if(! (req.files && Array.isArray(req.files.avatar) && req.files.avatar[0].filename)){
+        throw new ErrorHandler(401, "Please Select Profile Avatar")
+    }
+
+    // Local Handling
+    const UserProfile = await UserModel.findById({ _id : req.user?._id })
+
+    const OldAvatar = UserProfile.avatar.url + UserProfile.avatar.name;
+
+    const NewAvatar = new Object({
+        name : req.files.avatar[0].filename,
+        url : "http://localhost:8000/public/upload/avatar/"
+    })
+
+    const UpdateAvatar = await UserModel.findByIdAndUpdate(
+        { _id : req.user?._id },
+        NewAvatar,
+        { new : true }
+    )
+
+    if(!UpdateAvatar){
+        throw new ErrorHandler(400, "Failed to Update")
+    }
+
+    const RemovePreviousAvatar = fs.unlinkSync(OldAvatar);
+    // Cloudinary
+
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, UpdateAvatar, "Update Successfully"))
 });
 
 
 const GetWatchHistory = asyncHandler(async (req, res) => {
     
+    const WatchHistory = await UserModel.findById({ _id : req.user?._id })
+
+    if(WatchHistory.length < 1){
+        throw new ErrorHandler(400, "Empty")
+    }
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, WatchHistory, "Successfully Fetch"))
 });
 
 // --------------- User's Handlers --------------- END
