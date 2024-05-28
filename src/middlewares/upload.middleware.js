@@ -150,7 +150,27 @@ const YouTubeProfile = multer({
     fileFilter: fileFilter
 }).fields([{ name: "avatar", maxCount: 1 }, { name: "coverImage", maxCount: 1 }]);
 
-module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, VideoUploader, YouTubeProfile };
+
+
+
+
+
+// Use for YouTube App
+    const Storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, `./uploads/${dir}/`);
+        },
+        filename: function (req, file, cb) {
+            const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9) + "-";
+            cb(null, uniqueSuffix + `${file.originalname}`);
+        },
+    });
+
+    const upload = multer({ storage: Storage });
+
+
+
+module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, VideoUploader, YouTubeProfile, upload };
 
 
 
