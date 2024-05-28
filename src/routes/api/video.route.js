@@ -2,14 +2,14 @@ import { Router } from "express";
 const router = Router();
 import { UpdateChannelVideo, GetChannelVideo, GetVideoById, UpdateChannelVideo } from "../../controllers/video.controller.js";
 import { PublishChannelVideo, TogglePublicStatus, DeleteChannelVideo } from "../../controllers/video.controller.js";
-
+import { VideoUploader } from "../../middlewares/upload.middleware.js";
 
 // ----------------- Video's Routes -------------- START
 
-router.post("/upload", UpdateChannelVideo);
+router.post("/upload", VideoUploader, UpdateChannelVideo);
 router.get("/channelvideo", GetChannelVideo);
 router.get("/getbyId", GetVideoById);
-router.put("/update", UpdateChannelVideo);
+router.put("/update", VideoUploader, UpdateChannelVideo);
 router.patch("/publish", PublishChannelVideo);
 router.patch("/public", TogglePublicStatus);
 router.delete("/delete", DeleteChannelVideo);

@@ -102,15 +102,15 @@ const cpUploader = uploader.fields([
 
 
 
-// User for upload Multiple Field File in different directories - not work
-const MulterUploader = (req, res) => {
+// User for upload Multiple Field File in different directories -  work
+const VideoUploader = (req, res) => {
     return new Promise((resolve, reject) => {
         const storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                if (file.fieldname === 'avatar') {
-                    cb(null, path.join(__dirname, '../../public/upload/avatar'), function (error, success) { })
+                if (file.fieldname === 'video') {
+                    cb(null, path.join(__dirname, '../../public/upload/video'), function (error, success) { })
                 } else {
-                    cb(null, path.join(__dirname, '../../public/upload/coverImage'))
+                    cb(null, path.join(__dirname, '../../public/upload/thumbnail'))
                 }
             },
             filename: function (req, file, cb) {
@@ -120,8 +120,8 @@ const MulterUploader = (req, res) => {
         });
 
         const upload = multer({ storage: storage }).fields([
-            { name: "file", maxCount: 4 },
-            { name: "brandLogo", maxCount: 1 }
+            { name: "video", maxCount: 1 },
+            { name: "thumbnail", maxCount: 1 }
         ]);
         resolve(upload);
     })
@@ -132,10 +132,10 @@ const MulterUploader = (req, res) => {
 // User for upload Multiple Field File in different directories - Work
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        if (file.fieldname === 'file') {
-            cb(null, path.join(__dirname, '../uploads/products/'))
+        if (file.fieldname === 'avatar') {
+            cb(null, path.join(__dirname, '../../public/upload/avatar'))
         } else {
-            cb(null, path.join(__dirname, '../uploads/logo/'))
+            cb(null, path.join(__dirname, '../../public/upload/coverImage'))
         }
     },
     filename: function (req, file, cb) {
@@ -150,7 +150,7 @@ const YouTubeProfile = multer({
     fileFilter: fileFilter
 }).fields([{ name: "avatar", maxCount: 1 }, { name: "coverImage", maxCount: 1 }]);
 
-module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, MulterUploader, YouTubeProfile };
+module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, VideoUploader, YouTubeProfile };
 
 
 
