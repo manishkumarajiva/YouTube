@@ -31,11 +31,30 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 
 
 const GetVideoById = asyncHandler(async (req, res) => {
+    const videoId = req.query.videoId;
 
+    const video = await VideoModel.findById({ _id : videoId });
+    if(!video){
+        throw new ErrorHandler(400, "Empty")
+    }
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, video, "Fetched Successfully"))
 });
 
 
 const GetChannelVideo = asyncHandler(async (req, res) => {
+
+    const channelVideos = await VideoModel.find({ channel : req.user?._id })
+
+    if(channelVideos.length < 1){
+        throw new ErrorHandler(400, "Empty")
+    }
+
+    return res
+    .statu(200)
+    .json(new ResponseHandler(201, channelVideos, "Fetched Successfully"))
 
 });
 
