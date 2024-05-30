@@ -75,7 +75,16 @@ const TogglePublicStatus = asyncHandler(async (req, res) => {
 
 
 const DeleteChannelVideo = asyncHandler(async (req, res) => {
+    const videoId = req.query.videoId;
 
+    const deleteVideo = await VideoModel.findByIdAndDelete({ _id : videoId })
+    if(!deleteVideo){
+        throw new ErrorHandler(400, "Failed to delete")
+    }
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, deleteVideo, "Deleted Successfully"))
 });
 
 // --------------- Video's Handlers --------------- END
