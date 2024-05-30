@@ -155,10 +155,18 @@ const YouTubeProfile = multer({
 
 
 
-// Use for YouTube App
+// Use for YouTube App -- LOCAL STORAGE
     const Storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, `./uploads/${dir}/`);
+            if(file.fieldname === "avatar"){
+                cb(null, path.join(__dirname, "../../public/upload/avatar"));
+            }else if(file.fieldname === "coverImage"){
+                cb(null, path.join(__dirname, "../../public/upload/converImage"));
+            }else if(file.fieldname === "video"){
+                cb(null, path.join(__dirname, "../../public/upload/video"));
+            }else{
+                cb(null, path.join(__dirname, "../../public/upload/thumbnail"));
+            }
         },
         filename: function (req, file, cb) {
             const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9) + "-";

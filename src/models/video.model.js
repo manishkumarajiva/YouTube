@@ -33,8 +33,7 @@ const videoSchema = new mongoose.Schema({
     },
     views : {
         type : Number,
-        default : 0,
-        required : true
+        default : 0
     },
     isPublish : {
         type : Boolean,
