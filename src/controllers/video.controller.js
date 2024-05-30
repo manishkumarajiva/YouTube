@@ -73,6 +73,10 @@ const TogglePublicStatus = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
     const video = await VideoModel.findById({ _id : videoId })
+    if(video.isPublish){
+        const togglePublish = await VideoModel.findByIdAndUpdate({ _id : videoId });
+
+    }
     const togglePublish = await VideoModel.findByIdAndUpdate({ _id : videoId });
 
 
