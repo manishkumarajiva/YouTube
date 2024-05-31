@@ -77,8 +77,9 @@ const UpdateChannelVideo = asyncHandler(async (req, res) => {
 
     updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, updatePayload, { new : true });
 
-    
-
+    return res
+    .status(200)
+    .json(new ResponseHandler(201, updatePayload, "Update Successfully"))
 });
 
 
