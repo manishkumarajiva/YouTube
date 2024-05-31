@@ -16,6 +16,7 @@ const HealthCheckYouTube = asyncHandler(async (req, res) => {
 const YouTubeAppInfo = asyncHandler(async (req, res) => {
 
     const AboutMe = {
+        image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBS1uhGKUFyBAzgZlK1MFG54vapUWIKNmslbUt_EHGUtp2Xw-Xu1rnwe2FYKZzfQZJncQ&usqp=CAU",
         application : "YouTube",
         version : "V/.YT.1.0.0",
         released : "2024",
