@@ -61,6 +61,24 @@ const GetChannelVideo = asyncHandler(async (req, res) => {
 
 const UpdateChannelVideo = asyncHandler(async (req, res) => {
 
+    const { videoId, title, description } = req.body;
+    const thumbnail = req.file?.filename;
+    let updateVideo;
+
+    if(!thumbnail){
+        updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { title, description }, { new : true });
+    }
+
+    const updatePayload = new Object({
+        title : title,
+        description : description,
+        thumbnail : thumbnail
+    })
+
+    updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, updatePayload, { new : true });
+
+    
+
 });
 
 
