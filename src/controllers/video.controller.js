@@ -84,6 +84,15 @@ const UpdateChannelVideo = asyncHandler(async (req, res) => {
 
 
 const PublishChannelVideo = asyncHandler(async (req, res) => {
+    const videoId = req.query.videoId;
+
+    const publishvideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { isPublish : true }, { true : false })
+
+    if(!publishvideo){
+        throw new ErrorHandler(400, "Failed to publish")
+    }
+
+    
 
 });
 
