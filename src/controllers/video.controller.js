@@ -92,8 +92,9 @@ const PublishChannelVideo = asyncHandler(async (req, res) => {
         throw new ErrorHandler(400, "Failed to publish")
     }
 
-    
-
+    return res
+    .status(200)
+    .json(new ErrorHandler(201, publishvideo, "Publish Successfully"))
 });
 
 
