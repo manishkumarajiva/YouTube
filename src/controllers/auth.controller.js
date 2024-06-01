@@ -57,14 +57,13 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
     .cookie("AccessToken", AuthAccessToken, cookieOption)
     .cookie("RefreshToken", AuthRefreshToken, cookieOption)
     .json( new ResponseHandler(200, existUser, "Successfully Login", AuthAccessToken, AuthRefreshToken))
-
 });
 
 
 const LogoutAuthentication = asyncHandler(async (req, res) => {
 
     const userLogout = await UserModel.findByIdAndUpdate(
-        req.user?._id,
+        req.user._id,
         {
             $unset : { refreshToken : 1 }
         },
@@ -92,7 +91,7 @@ const LogoutAuthentication = asyncHandler(async (req, res) => {
 const UpdateCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
 
-    const user = await UserModel.findById(req.user?._id);
+    const user = await UserModel.findById(req.user._id);
     const comparePassword = await Bcrypt.compare(oldPassword, user.password);
 
     if(!comparePassword){
@@ -201,7 +200,7 @@ const RefreshAccessToken = asyncHandler(async (req, res) => {
         throw new ErrorHandler(401, "Invalid Refresh Token")
     }
 
-    if(incomingRefreshToken !== user?.refreshToken){
+    if(incomingRefreshToken !== user.refreshToken){
         throw new ErrorHandler(401, "Refresh Token is expired or used")
     }
 

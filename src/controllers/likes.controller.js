@@ -10,7 +10,7 @@ const ToggleVideoLike = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
     const like = await LikeModel.findOne({
-        likedBy : req.user?._id,
+        likedBy : req.user._id,
         videoId : videoId
     })
 
@@ -25,7 +25,7 @@ const ToggleVideoLike = asyncHandler(async (req, res) => {
     }
 
     const createLike = await LikeModel.create({ 
-        likedBy : req.user?._id,
+        likedBy : req.user._id,
         videoId : videoId
      });
 
@@ -45,7 +45,7 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
     const commentId = req.query.commentId;
 
     const comment = await LikeModel.findOne({
-        likedBy : req.user?._id,
+        likedBy : req.user._id,
         commentId : commentId
     })
 
@@ -61,7 +61,7 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
 
 
     const createComment = await LikeModel.create({ 
-        likedBy : req.user?._id,
+        likedBy : req.user._id,
         commentId : commentId
      });
 
@@ -81,7 +81,7 @@ const ToggleTweetLike = asyncHandler(async (req, res) => {
     const tweetId = req.query.tweetId;
 
     const tweet = await LikeModel.findOne({
-        likedBy : req.user?._id,
+        likedBy : req.user._id,
         tweetId : tweetId
     })
 
@@ -97,7 +97,7 @@ const ToggleTweetLike = asyncHandler(async (req, res) => {
 
 
     const createComment = await LikeModel.create({ 
-        likedBy : req.user?._id,
+        likedBy : req.user._id,
         tweetId : tweetId
      });
 
@@ -114,7 +114,7 @@ const ToggleTweetLike = asyncHandler(async (req, res) => {
 
 const GetLikedVideos = asyncHandler(async (req, res) => {
 
-    const likedVideos = await LikeModel.find({ likedBy : req.user?._id });
+    const likedVideos = await LikeModel.find({ likedBy : req.user._id });
 
     if(likedVideos.length < 1){
         throw new ErrorHandler(401, "Empty Likes")

@@ -46,7 +46,7 @@ const GetVideoById = asyncHandler(async (req, res) => {
 
 const GetChannelVideo = asyncHandler(async (req, res) => {
 
-    const channelVideos = await VideoModel.find({ channel : req.user?._id })
+    const channelVideos = await VideoModel.find({ channel : req.user._id })
 
     if(channelVideos.length < 1){
         throw new ErrorHandler(400, "Empty")

@@ -21,7 +21,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     }
 
     // Avatar
-    const avatarLocalPath = req.files.avatar[0]?.path;
+    const avatarLocalPath = req.files.avatar[0].path;
     if(!avatar){
         throw new ErrorHandler(401, "Avatar is required")
     }
@@ -89,7 +89,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
     };
 
     const updateUser = await UserModel.findByIdAndUpdate(
-        req.user?._id,
+        req.user._id,
         { fullname : fullname, email : email },
         { new : true }
     ).select("-password");
@@ -107,7 +107,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     }
 
     // Local Handling
-    const UserProfile = await UserModel.findById({ _id : req.user?._id })
+    const UserProfile = await UserModel.findById({ _id : req.user._id })
 
     const OldCoverImage = UserProfile.coverImage.url + UserProfile.coverImage.name;
 
@@ -145,7 +145,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     }
 
     // Local Handling
-    const UserProfile = await UserModel.findById({ _id : req.user?._id })
+    const UserProfile = await UserModel.findById({ _id : req.user._id })
 
     const OldAvatar = UserProfile.avatar.url + UserProfile.avatar.name;
 
@@ -155,7 +155,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     })
 
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
-        { _id : req.user?._id },
+        { _id : req.user._id },
         NewAvatar,
         { new : true }
     )
@@ -176,7 +176,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
 const GetWatchHistory = asyncHandler(async (req, res) => {
     
-    const WatchHistory = await UserModel.findById({ _id : req.user?._id })
+    const WatchHistory = await UserModel.findById({ _id : req.user._id })
 
     if(WatchHistory.length < 1){
         throw new ErrorHandler(400, "Empty")
