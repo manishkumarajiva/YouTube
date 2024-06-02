@@ -11,7 +11,7 @@ const CreateVideoPlaylist = asyncHandler(async (req, res) => {
     const { playlistName, description } = req.body;
 
     const createPlaylist = await PlaylistModel.create({
-        channel : req.user?._id,
+        channel : req.user._id,
         name : playlistName,
         description : description
     })

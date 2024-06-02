@@ -117,7 +117,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     })
 
     const UpdateCoverImage = await UserModel.findByIdAndUpdate(
-        { _id : req.user?._id },
+        { _id : req.user._id },
         NewCoverImage,
         { new : true }
     )

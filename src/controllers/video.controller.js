@@ -62,7 +62,7 @@ const GetChannelVideo = asyncHandler(async (req, res) => {
 const UpdateChannelVideo = asyncHandler(async (req, res) => {
 
     const { videoId, title, description } = req.body;
-    const thumbnail = req.file?.filename;
+    const thumbnail = req.file.filename;
     let updateVideo;
 
     if(!thumbnail){

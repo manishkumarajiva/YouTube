@@ -15,7 +15,7 @@ const CreateUserTweet = asyncHandler(async (req, res) => {
     }
 
     const createTweet = await TweetModel.create({ 
-        owner : req.user?._id,
+        owner : req.user._id,
         content : content
     })
 
@@ -31,7 +31,7 @@ const CreateUserTweet = asyncHandler(async (req, res) => {
 
 const GetUserTweets = asyncHandler(async (req, res) => {
 
-    const userTweet = await TweetModel.find({ owner : req.user?._id })
+    const userTweet = await TweetModel.find({ owner : req.user._id })
 
     if(userTweet.length < 0){
         return res.status(200)

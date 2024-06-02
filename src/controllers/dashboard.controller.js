@@ -12,11 +12,11 @@ import ErrorHandler from "../utils/errorHandler.js";
 const GetChannelStates = asyncHandler(async (req, res) => {
 // Total Videos, Total Views, Total Subscriber, Total Likes
 
-    const Videos = await VideoModel.find({ channel : req.user?._id })
+    const Videos = await VideoModel.find({ channel : req.user._id })
 
-    const Subscribers = await SubscriptionModel.find({ channelId : req.user?._id })
+    const Subscribers = await SubscriptionModel.find({ channelId : req.user._id })
 
-    const Likes = await LikeModel.find({ channel : req.user?._id })
+    const Likes = await LikeModel.find({ channel : req.user._id })
 
     return res
     .status(200)
@@ -26,7 +26,7 @@ const GetChannelStates = asyncHandler(async (req, res) => {
 
 const GetChannelVideos = asyncHandler(async (req, res) => {
     
-    const ChannelVideos = await VideoModel.find({ channel : req.user?._id })
+    const ChannelVideos = await VideoModel.find({ channel : req.user._id })
 
     if(ChannelVideos.length < 1){
         throw new ErrorHandler(400, "Empty")

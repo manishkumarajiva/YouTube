@@ -12,7 +12,7 @@ const AddVideoComment = asyncHandler(async (req, res) => {
     const content = req.body.content;
 
     const createComment = await CommentModel.create({
-        owner : req.user?._id,
+        owner : req.user._id,
         videoId : videoId,
         content : content
     })
@@ -30,7 +30,7 @@ const AddVideoComment = asyncHandler(async (req, res) => {
 const GetVideoComments = asyncHandler(async (req, res) => {
     let { videoId, limit, page, top, newest } = req.query;
 
-    const videoComments = await CommentModel.find({ owner : req.user?._id, videoId : videoId })
+    const videoComments = await CommentModel.find({ owner : req.user._id, videoId : videoId })
     .skip(page).limit(limit).sort({ createdAt : newest });
 
     const comments = await CommentModel.documentCount();
