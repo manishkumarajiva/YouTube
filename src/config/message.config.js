@@ -1,6 +1,7 @@
 const message  = {
+    
     unAuthorize : "Un-Authorize User  ",
-    catch : "Server Error - Catche  "
+    catch : "Server Error - Catche  ",
 };
 
 
