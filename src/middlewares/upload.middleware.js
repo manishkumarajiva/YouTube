@@ -1,5 +1,5 @@
 import ErrorHandler  from "../utils/errorHandler.js";
-
+import multer from "multer";
 
 
 // This is only filter for file type
@@ -178,7 +178,15 @@ const YouTubeProfile = multer({
 
 
 
-module.exports = { Uploader, MultiUploader, ProductUploader, cpUploader, VideoUploader, YouTubeProfile, upload };
+export { 
+    Uploader, 
+    MultiUploader, 
+    ProductUploader, 
+    cpUploader, 
+    VideoUploader, 
+    YouTubeProfile, 
+    upload 
+};
 
 
 

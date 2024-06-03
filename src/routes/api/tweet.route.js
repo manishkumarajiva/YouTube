@@ -1,12 +1,12 @@
 import { Router } from "express";
 const router = Router();
-import { CreateUserTweet, GetUserTweet, UpdateUserTweet, DeleteUserTweet } from "../../controllers/tweet.controller.js";
+import { CreateUserTweet, GetUserTweets, UpdateUserTweet, DeleteUserTweet } from "../../controllers/tweet.controller.js";
 
 
 // ----------------- Tweet's Routes -------------- START
 
 router.post("/create", CreateUserTweet);
-router.get("/gettweet", GetUserTweet);
+router.get("/gettweet", GetUserTweets);
 router.put("/update", UpdateUserTweet);
 router.delete("/delete", DeleteUserTweet);
 
