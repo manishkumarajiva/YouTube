@@ -20,7 +20,7 @@ router.post("/register", upload.fields([
 router.get("/profile", GetCurrentUser);
 router.put("/updateprofile", UpdateUserAccountDetails);
 router.put("/coverimage", upload.single("converImage"), UpdateUserCoverImage);
-router.put("/avatar", upload.single("avatar"), YouTubeProfile, UpdateUserAvatar);
+router.put("/avatar", upload.single("avatar"), UpdateUserAvatar);
 router.get("/history", GetWatchHistory);
 
 // ----------------- User's Routes -------------- END
