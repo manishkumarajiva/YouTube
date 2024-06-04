@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import ApiRoutes from "./routes/index.js";
-
+import connectDB from "./database/DBconnect.js";
 
 const youtube = express();
 
