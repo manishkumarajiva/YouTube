@@ -1,15 +1,16 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors"
 import ApiRoutes from "./routes/index.js";
 import connectDB from "./database/DBconnect.js";
 
 const youtube = express();
-
 const PORT = process.env.MONGO_PORT || 8000;
-
 
 youtube.use(express.json());
 youtube.use(express.urlencoded({ extended : true }));
+
+youtube.cors("*")
 
 
 youtube.use("/api", ApiRoutes);
