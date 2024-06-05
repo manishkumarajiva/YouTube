@@ -1,5 +1,5 @@
-import asyncHandler from "../utils/asyncHandler";
-import ResponseHandler from "../utils/responseHandler";
+import asyncHandler from "../utils/asyncHandler.js";
+import ResponseHandler from "../utils/responseHandler.js";
 
 
 
@@ -7,8 +7,7 @@ import ResponseHandler from "../utils/responseHandler";
 
 const HealthCheckYouTube = asyncHandler(async (req, res) => {
     return res.status(200)
-    .send("<h1 style='color : red, font-size : 80px'>WELCOME ON YOUTUBE APP<h1>")
-    .send("<h1 style='font-size : 40px'> Server is Running<h1/>")
+    .send("<h1 style='color : red, font-size : 80px'>WELCOME ON YOUTUBE APP SERVER<h1>")
 });
 
 
