@@ -1,4 +1,3 @@
-import { application } from "express";
 import asyncHandler from "../utils/asyncHandler";
 import ResponseHandler from "../utils/responseHandler";
 
@@ -35,5 +34,6 @@ const YouTubeAppInfo = asyncHandler(async (req, res) => {
 
 // Export HealthCheck Handler
 export{
-    HealthCheckYouTube
+    HealthCheckYouTube,
+    YouTubeAppInfo
 };

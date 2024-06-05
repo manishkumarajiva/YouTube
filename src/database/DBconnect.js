@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import ErrorHandler from "../utils/errorHandler.js";
+const MONGODB_URL = process.env.MONGODB_URL;
+const DATABASE_NAME = process.env.DATABASE;
+const MONGODB_CONNECTION = `${MONGODB_URL}${DATABASE_NAME}`;
 
 
 const databaseConnection = (async (MONGODB_CONNECTION_STRING) => {
@@ -12,6 +15,7 @@ const databaseConnection = (async (MONGODB_CONNECTION_STRING) => {
     } catch (error) {
         console.error(`MONGODB ERROR :: ${error}`)
     }
-})(process.env.MONGODB_URL)
+})(MONGODB_CONNECTION)
+
 
 export default databaseConnection;
