@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
-    coverImage : {
+    banner : {
         filename : {
             type : String,
             trim : true

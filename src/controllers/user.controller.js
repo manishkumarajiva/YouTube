@@ -32,12 +32,13 @@ const RegisterUser = asyncHandler(async (req, res) => {
     })
     
     // CoverImage
-    if(req.files && Array.isArray(req.files.banner) && req.files.banner[0].path){
-        bannerLocal = req.files.banner[0].path;
+    let bannerFile;
+    if(req.files && Array.isArray(req.files.banner)){
+        bannerFile = req.files.banner[0]?.filename;
     }
 
     const bannerLocal = new Object({
-        filename : req.files.coverImage[0]?.filename,
+        filename : bannerFile,
         url : "http://localhost:8000/public/upload/banner/"
     })
 
