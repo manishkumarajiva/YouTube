@@ -9,9 +9,9 @@ import fs from 'fs';
 
 const RegisterUser = asyncHandler(async (req, res) => {
 
-    const { firstname, username, email, password } = req.body;
+    const { fullname, username, email, password } = req.body;
 
-    if([firstname, username, email, password].some((field) => field.trim() === "")){
+    if([fullname, username, email, password].some((field) => field.trim() === "")){
         throw new ErrorHandler(401, "All fields are required");
     }
 
@@ -21,13 +21,13 @@ const RegisterUser = asyncHandler(async (req, res) => {
     }
 
     // Avatar
-    const avatarLocalPath = req.files.avatar[0].path;
+    const avatarLocalPath = req.files.avatar[0]?.path;
     if(!avatarLocalPath){
         throw new ErrorHandler(401, "Avatar is required");
     }
 
     const avatarLocal = new Object({
-        filename : req.files.avatar[0].filename,
+        filename : req.files.avatar[0]?.filename,
         url : "http://localhost:8000/public/upload/avatar/"
     })
     
@@ -37,8 +37,8 @@ const RegisterUser = asyncHandler(async (req, res) => {
     }
 
     const bannerLocal = new Object({
-        filename : req.files.coverImage[0].filename,
-        url : "http://localhost:8000/public/upload/coverImage/"
+        filename : req.files.coverImage[0]?.filename,
+        url : "http://localhost:8000/public/upload/banner/"
     })
 
 
@@ -51,7 +51,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
         password : hashedPassword,
         avatar : avatarLocal,
         banner : bannerLocal
-    });
+    })
 
     if(!createUser){
         throw new ErrorHandler(500, "Something went wrong during Registeration");

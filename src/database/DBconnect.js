@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import ErrorHandler from "../utils/errorHandler.js";
 const MONGODB_URL = process.env.MONGODB_URL;
-const DATABASE_NAME = process.env.DATABASE;
+const DATABASE_NAME = process.env.DATABASE_NAME;
 const MONGODB_CONNECTION = `${MONGODB_URL}${DATABASE_NAME}`;
 
 
