@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { UploadChannelVideo, GetChannelVideo, GetVideoById, UpdateChannelVideo } from "../../controllers/video.controller.js";
 import { PublishChannelVideo, TogglePublicStatus, DeleteChannelVideo } from "../../controllers/video.controller.js";
-import { upload } from "../../middlewares/upload.middleware.js";
+import upload from "../../middlewares/upload.middleware.js";
 
 // ----------------- Video's Routes -------------- START
 

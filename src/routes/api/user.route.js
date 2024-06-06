@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { RegisterUser, GetCurrentUser, UpdateUserAccountDetails } from "../../controllers/user.controller.js";
 import { UpdateUserCoverImage, UpdateUserAvatar, GetWatchHistory } from "../../controllers/user.controller.js";
-import { upload } from "../../middlewares/upload.middleware.js";
+import upload from "../../middlewares/upload.middleware.js";
 
 
 // ----------------- User's Routes -------------- START
@@ -13,7 +13,7 @@ router.post("/register", upload.fields([
         maxCount : 1
     },
     {
-        name : "coverImage",
+        name : "banner",
         maxCount : 1
     }
 ]), RegisterUser);

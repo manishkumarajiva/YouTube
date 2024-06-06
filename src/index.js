@@ -10,7 +10,7 @@ const PORT = process.env.MONGO_PORT || 8000;
 youtube.use(express.json());
 youtube.use(express.urlencoded({ extended : true }));
 
-youtube.cors("*")
+youtube.use(cors("*"))
 
 
 youtube.use("/api", ApiRoutes);

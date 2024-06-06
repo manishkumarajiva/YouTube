@@ -12,18 +12,18 @@ const RegisterUser = asyncHandler(async (req, res) => {
     const { firstname, username, email, password } = req.body;
 
     if([firstname, username, email, password].some((field) => field.trim() === "")){
-        throw new ErrorHandler(401, "All fields are required")
+        throw new ErrorHandler(401, "All fields are required");
     }
 
     const existedUser = await UserModel.findOne({ $or : [{username},{email}]});
     if(existedUser){
-        throw new ErrorHandler(409, "User with Email or Username Already Exist")
+        throw new ErrorHandler(409, "User with Email or Username Already Exist");
     }
 
     // Avatar
     const avatarLocalPath = req.files.avatar[0].path;
-    if(!avatar){
-        throw new ErrorHandler(401, "Avatar is required")
+    if(!avatarLocalPath){
+        throw new ErrorHandler(401, "Avatar is required");
     }
 
     const avatarLocal = new Object({
@@ -32,17 +32,14 @@ const RegisterUser = asyncHandler(async (req, res) => {
     })
     
     // CoverImage
-    let coverImageLocalPath = "";
-    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage[0].path){
-        coverImageLocalPath = req.files.coverImage[0].path;
+    if(req.files && Array.isArray(req.files.banner) && req.files.banner[0].path){
+        bannerLocal = req.files.banner[0].path;
     }
 
-    const coverImageLocal = new Object({
+    const bannerLocal = new Object({
         filename : req.files.coverImage[0].filename,
         url : "http://localhost:8000/public/upload/coverImage/"
     })
-
-
 
 
     const hashedPassword = await Bcrypt.hash(password,12);
@@ -53,7 +50,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
         email : email.toLowerCase(),
         password : hashedPassword,
         avatar : avatarLocal,
-        coverImage : coverImageLocal
+        banner : bannerLocal
     });
 
     if(!createUser){
