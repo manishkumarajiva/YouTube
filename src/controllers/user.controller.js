@@ -17,13 +17,13 @@ const RegisterUser = asyncHandler(async (req, res) => {
 
     const existedUser = await UserModel.findOne({ $or : [{username},{email}]});
     if(existedUser){
-        throw new ErrorHandler(409, "User with Email or Username Already Exist");
+        return res.status(200).json(new ResponseHandler(409, "User with Email or Username Already Exist"));
     }
 
     // Avatar
     const avatarLocalPath = req.files.avatar[0]?.path;
     if(!avatarLocalPath){
-        throw new ErrorHandler(401, "Avatar is required");
+        return res.status(200).json(new ResponseHandler(401, "Avatar is required"));
     }
 
     const avatarLocal = new Object({
@@ -32,15 +32,16 @@ const RegisterUser = asyncHandler(async (req, res) => {
     })
     
     // CoverImage
-    let bannerFile;
+    let bannerFile;  let bannerLocal;
     if(req.files && Array.isArray(req.files.banner)){
         bannerFile = req.files.banner[0]?.filename;
+
+        bannerLocal = new Object({
+            filename : bannerFile,
+            url : "http://localhost:8000/public/upload/banner/"
+        })
     }
 
-    const bannerLocal = new Object({
-        filename : bannerFile,
-        url : "http://localhost:8000/public/upload/banner/"
-    })
 
 
     const hashedPassword = await Bcrypt.hash(password,12);
