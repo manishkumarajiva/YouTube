@@ -67,7 +67,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
 
 const GetCurrentUser = asyncHandler(async (req, res) => {
 
-    const userId = new mongoose.Types.ObjectId(req.user?._id);
+    const userId = req.user?._id;
     const userProfile = await UserModel.findById({ _id : userId });
 
     if(!userProfile){

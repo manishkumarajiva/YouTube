@@ -15,14 +15,12 @@ const generateRefreshAndAccessToken = async (user) => {
         const AuthAccessToken = await AccessToken(user);
         const AuthRefreshToken = await RefreshToken(user);
     
-        console.log(AuthAccessToken, "ppp----",AuthRefreshToken, "ooooooo");
+        const saveRefreshToken = await UserModel.findById({ _id : user._id });
 
-        const user = await UserModel.findById({ _id : user._id });
-        console.log("check",user)
-        // user.refreshToken = AuthRefreshToken;
-        // await user.save({ validateBeforeSave : false });
+        saveRefreshToken.refreshToken = AuthRefreshToken;
+        await saveRefreshToken.save({ validateBeforeSave : false });
     
-        // return { AuthAccessToken, AuthRefreshToken };
+        return ({ AuthAccessToken, AuthRefreshToken });
     } catch (error) {
         throw new ErrorHandler(400, "Session Token :: Something Went Wrong");
     }
@@ -47,7 +45,7 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
         throw new ErrorHandler(400, "Incorrect user credential");
     }
 
-    const { AuthAccessToken, AuthRefreshToken } = await generateRefreshAndAccessToken(existUser);
+    const { AuthAccessToken, AuthRefreshToken } =  await generateRefreshAndAccessToken(existUser);
     
     const cookieOption = {
         httpOnly : true, 
