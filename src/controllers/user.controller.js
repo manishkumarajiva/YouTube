@@ -21,7 +21,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     }
 
     // Avatar
-    const avatarLocalPath = req.files.avatar[0]?.path;
+    const avatarLocalPath = req.files.avatar[0]?.filename;
     if(!avatarLocalPath){
         return res.status(200).json(new ResponseHandler(401, "Avatar is required"));
     }
@@ -31,9 +31,10 @@ const RegisterUser = asyncHandler(async (req, res) => {
         url : "http://localhost:8000/public/upload/avatar/"
     })
     
+
     // CoverImage
     let bannerFile;  let bannerLocal;
-    if(req.files && Array.isArray(req.files.banner)){
+    if(req.files && Array.isArray(req.files.banner) && req.files.banner[0]?.filename){
         bannerFile = req.files.banner[0]?.filename;
 
         bannerLocal = new Object({
@@ -41,7 +42,6 @@ const RegisterUser = asyncHandler(async (req, res) => {
             url : "http://localhost:8000/public/upload/banner/"
         })
     }
-
 
 
     const hashedPassword = await Bcrypt.hash(password,12);
@@ -67,7 +67,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
 
 const GetCurrentUser = asyncHandler(async (req, res) => {
 
-    const userId = new mongoose.Types.ObjectId(req.user._id);
+    const userId = new mongoose.Types.ObjectId(req.user?._id);
     const userProfile = await UserModel.findById({ _id : userId });
 
     if(!userProfile){
@@ -81,7 +81,7 @@ const GetCurrentUser = asyncHandler(async (req, res) => {
 
 
 const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
-    const { fullname, email } = req.body;
+    const { fullname, username } = req.body;
 
     if(!fullname || !email){
         throw new ErrorHandler(400, "All fields are required");
@@ -89,7 +89,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 
     const updateUser = await UserModel.findByIdAndUpdate(
         req.user._id,
-        { fullname : fullname, email : email },
+        { fullname : fullname, username : username },
         { new : true }
     ).select("-password");
 
@@ -101,60 +101,59 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 
 const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
-    if(! (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage[0].filename)){
+    if(! (req.files && Array.isArray(req.files.banner) && req.files.banner[0]?.filename)){
         throw new ErrorHandler(401, "Please Select Profile Avatar")
     }
 
     // Local Handling
-    const UserProfile = await UserModel.findById({ _id : req.user._id })
+    const UserProfile = await UserModel.findById({ _id : req.user?._id })
 
-    const OldCoverImage = UserProfile.coverImage.url + UserProfile.coverImage.name;
+    const OldBanner = UserProfile.banner.url + UserProfile.banner.name;
 
-    const NewCoverImage = new Object({
-        name : req.files.coverImage[0].filename,
+    const NewBanner = new Object({
+        name : req.files.banner[0].filename,
         url : "http://localhost:8000/public/upload/converImage/"
     })
 
-    const UpdateCoverImage = await UserModel.findByIdAndUpdate(
-        { _id : req.user._id },
-        NewCoverImage,
+    const UpdateBanner = await UserModel.findByIdAndUpdate(
+        { _id : req.user?._id },
+        NewBanner,
         { new : true }
     )
 
-    if(!UpdateCoverImage){
+    if(!UpdateBanner){
         throw new ErrorHandler(400, "Failed to Update")
     }
 
-    const RemovePreviousAvatar = fs.unlinkSync(OldCoverImage);
+    const RemovePreviousAvatar = fs.unlinkSync(OldBanner);
 
     // Cloudinary
 
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, UpdateCoverImage, "Update Successfully"))
-    
+    .json(new ResponseHandler(201, UpdateBanner, "Update Successfully"))
 });
 
 
 const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
-    if(! (req.files && Array.isArray(req.files.avatar) && req.files.avatar[0].filename)){
+    if(! (req.files && Array.isArray(req.files.avatar) && req.files.avatar[0]?.filename)){
         throw new ErrorHandler(401, "Please Select Profile Avatar")
     }
 
     // Local Handling
-    const UserProfile = await UserModel.findById({ _id : req.user._id })
+    const UserProfile = await UserModel.findById({ _id : req.user?._id })
 
     const OldAvatar = UserProfile.avatar.url + UserProfile.avatar.name;
 
     const NewAvatar = new Object({
-        name : req.files.avatar[0].filename,
+        name : req.files.avatar[0]?.filename,
         url : "http://localhost:8000/public/upload/avatar/"
     })
 
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
-        { _id : req.user._id },
+        { _id : req.user?._id },
         NewAvatar,
         { new : true }
     )
@@ -175,7 +174,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
 const GetWatchHistory = asyncHandler(async (req, res) => {
     
-    const WatchHistory = await UserModel.findById({ _id : req.user._id })
+    const WatchHistory = await UserModel.findById({ _id : req.user?._id })
 
     if(WatchHistory.length < 1){
         throw new ErrorHandler(400, "Empty")

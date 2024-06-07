@@ -15,13 +15,16 @@ const generateRefreshAndAccessToken = async (user) => {
         const AuthAccessToken = await AccessToken(user);
         const AuthRefreshToken = await RefreshToken(user);
     
+        console.log(AuthAccessToken, "ppp----",AuthRefreshToken, "ooooooo");
+
         const user = await UserModel.findById({ _id : user._id });
-        user.refreshToken = AuthRefreshToken;
-        await user.save({ validateBeforeSave : false });
+        console.log("check",user)
+        // user.refreshToken = AuthRefreshToken;
+        // await user.save({ validateBeforeSave : false });
     
-        return { AuthAccessToken, AuthRefreshToken };
+        // return { AuthAccessToken, AuthRefreshToken };
     } catch (error) {
-        throw new ErrorHandler(400, "Somethind Went Wrong");
+        throw new ErrorHandler(400, "Session Token :: Something Went Wrong");
     }
 };
 
@@ -29,7 +32,8 @@ const generateRefreshAndAccessToken = async (user) => {
 const LoginAuthentication = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
 
-    if(!(username && email)){
+
+    if(!(username || email)){
         throw new ErrorHandler(400, "Username or Email are required");
     }
 

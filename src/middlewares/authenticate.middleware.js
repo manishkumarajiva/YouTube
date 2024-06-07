@@ -6,26 +6,25 @@ import ErrorHandler from '../utils/errorHandler.js';
 
 // Access Token
 const AccessToken = async (user) => {
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
         const payload = {
             id : user._id,
             email : user.email,
-            name : user.name
-        };
-    
+            name : user.username
+        }
+
         const optons = {
             issuer : process.env.YOUTUBE_ISSUER,
             expiresIn : process.env.YOUTUBE_ACCESS_TOKEN_EXPIRY
-        };
+        }
     
-        const secrectKey = process.env.YOUTUBE_ACCESS_TOKEN_SECRET_KEY;
-    
+        const secrectKey = process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY;
         JWT.sign(payload, secrectKey, optons, (error, token) => {
             if(error) throw error;
             resolve(token);
-        });
-    });
+        })
+    })
 };
 
 
@@ -33,26 +32,26 @@ const AccessToken = async (user) => {
 
 // Refresh Token
 const RefreshToken = async (user) => {
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
         const payload = {
             id : user._id,
             email : user.email,
-            name : user.name
-        };
+            name : user.username
+        }
     
         const optons = {
             issuer : process.env.YOUTUBE_ISSUER,
             expiresIn : process.env.YOUTUBE_REFRESH_TOKEN_EXPIRY
-        };
+        }
     
         const secrectKey = process.env.YOUTUBE_REFRESH_TOKEN_SECRECT_KEY;
     
         JWT.sign(payload, secrectKey, optons, (error, token) => {
             if(error) throw error;
             resolve(token);
-        });
-    });
+        })
+    })
 };
 
 
