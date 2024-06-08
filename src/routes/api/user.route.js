@@ -20,7 +20,7 @@ router.post("/register", upload.fields([
     }
 ]), RegisterUser);
 router.get("/profile", VerifyToken, GetCurrentUser);
-router.put("/updateprofile", UpdateUserAccountDetails);
+router.put("/updateprofile", VerifyToken, UpdateUserAccountDetails);
 router.put("/coverimage", upload.single("banner"), UpdateUserCoverImage);
 router.put("/avatar", upload.single("avatar"), UpdateUserAvatar);
 router.get("/history", GetWatchHistory);

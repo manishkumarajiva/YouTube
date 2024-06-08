@@ -74,26 +74,26 @@ const GetCurrentUser = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json( new ResponseHandler(200, userProfile, "Successfully Fetched"));
+    .json( new ResponseHandler(200, userProfile, "Successfully Fetched"))
 });
 
 
 const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
     const { fullname, username } = req.body;
 
-    if(!fullname || !email){
+    if(!(fullname || username)){
         throw new ErrorHandler(400, "All fields are required");
-    };
+    }
 
     const updateUser = await UserModel.findByIdAndUpdate(
-        req.user._id,
+        req.user?._id,
         { fullname : fullname, username : username },
         { new : true }
-    ).select("-password");
+    )
 
     return res
     .status(200)
-    .json(new ResponseHandler(200, updateUser, "User Update Successfully"));
+    .json(new ResponseHandler(200, updateUser, "User Update Successfully"))
 });
 
 
