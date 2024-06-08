@@ -23,7 +23,7 @@ router.get("/profile", VerifyToken, GetCurrentUser);
 router.patch("/updateprofile", VerifyToken, UpdateUserAccountDetails);
 router.put("/avatar", VerifyToken, upload.single("avatar"), UpdateUserAvatar);
 router.put("/banner", VerifyToken, upload.single("banner"), UpdateUserCoverImage);
-router.get("/history", GetWatchHistory);
+router.get("/history", VerifyToken, GetWatchHistory);
 
 // ----------------- User's Routes -------------- END
 
