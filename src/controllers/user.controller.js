@@ -8,7 +8,6 @@ import fs from 'fs';
 // --------------- User's Handlers --------------- START
 
 const RegisterUser = asyncHandler(async (req, res) => {
-
     const { fullname, username, email, password } = req.body;
 
     if([fullname, username, email, password].some((field) => field.trim() === "")){
@@ -66,7 +65,6 @@ const RegisterUser = asyncHandler(async (req, res) => {
 
 
 const GetCurrentUser = asyncHandler(async (req, res) => {
-
     const userId = req.user?._id;
     const userProfile = await UserModel.findById({ _id : userId });
 

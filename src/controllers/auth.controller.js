@@ -30,7 +30,6 @@ const generateRefreshAndAccessToken = async (user) => {
 const LoginAuthentication = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
 
-
     if(!(username || email)){
         throw new ErrorHandler(400, "Username or Email are required");
     }
@@ -58,7 +57,7 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("AccessToken", AuthAccessToken, cookieOption)
     .cookie("RefreshToken", AuthRefreshToken, cookieOption)
-    .json( new ResponseHandler(200, existUser, "Successfully Login", AuthAccessToken, AuthRefreshToken))
+    .json( new ResponseHandler(200, existUser, "Successfully Login", AuthAccessToken))
 });
 
 
@@ -86,7 +85,6 @@ const LogoutAuthentication = asyncHandler(async (req, res) => {
         .clearCookie("RefreshToken", cookieOption)
         .json( new ResponseHandler(200, {}, "User Logged Out"))
     }
-
 });
 
 

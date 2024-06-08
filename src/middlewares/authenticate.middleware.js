@@ -3,7 +3,6 @@ import UserModel from "../models/user.model.js";
 import ErrorHandler from '../utils/errorHandler.js';
 
 
-
 // Access Token
 const AccessToken = async (user) => {
     return new Promise((resolve, reject) => {
@@ -57,15 +56,19 @@ const RefreshToken = async (user) => {
 
 
 // Verify Token
-const VerifyToken = async (err, req, res, next) => {
-    const { Token } = req.cookies;
+const VerifyToken = async (req, res, next) => {
+    const Token = req.headers.authorization;
+    if(!Token) throw new ErrorHandler(500, "Please Login To Access");
 
-    if(!Token){
-        throw new ErrorHandler(500, "Please Login To Access");
-    };
+    const bearerToken = Token.split(" ");
+    const bearer = bearerToken[0];
+    const token = bearerToken[1];
 
-    const decode = await JWT.verify(Token, process.env.YOUTUBE_SECRECT_KEY);
-    req.user = await UserModel.findById(decode.id);
+    if(bearer !== "bearer") return res.status(200).json(new ErrorHandler(401,"Incorrect Session Token"));
+
+    const decode =  JWT.verify(token, process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY);
+    const existUser = await UserModel.findById({ _id : decode.id });
+    req.user = existUser;
     next();
 };
 

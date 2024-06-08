@@ -3,7 +3,7 @@ const router = Router();
 import { RegisterUser, GetCurrentUser, UpdateUserAccountDetails } from "../../controllers/user.controller.js";
 import { UpdateUserCoverImage, UpdateUserAvatar, GetWatchHistory } from "../../controllers/user.controller.js";
 import { VerifyToken } from "../../middlewares/authenticate.middleware.js";
-import { VerifyUser } from "../../middlewares/authorize.middleware.js";
+// import { VerifyUser } from "../../middlewares/authorize.middleware.js";
 import upload from "../../middlewares/upload.middleware.js";
 
 
@@ -19,9 +19,9 @@ router.post("/register", upload.fields([
         maxCount : 1
     }
 ]), RegisterUser);
-router.get("/profile", VerifyToken, VerifyUser ,GetCurrentUser);
+router.get("/profile", VerifyToken, GetCurrentUser);
 router.put("/updateprofile", UpdateUserAccountDetails);
-router.put("/coverimage", upload.single("converImage"), UpdateUserCoverImage);
+router.put("/coverimage", upload.single("banner"), UpdateUserCoverImage);
 router.put("/avatar", upload.single("avatar"), UpdateUserAvatar);
 router.get("/history", GetWatchHistory);
 
