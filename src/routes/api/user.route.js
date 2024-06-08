@@ -20,9 +20,9 @@ router.post("/register", upload.fields([
     }
 ]), RegisterUser);
 router.get("/profile", VerifyToken, GetCurrentUser);
-router.put("/updateprofile", VerifyToken, UpdateUserAccountDetails);
-router.put("/coverimage", upload.single("banner"), UpdateUserCoverImage);
-router.put("/avatar", upload.single("avatar"), UpdateUserAvatar);
+router.patch("/updateprofile", VerifyToken, UpdateUserAccountDetails);
+router.put("/avatar", VerifyToken, upload.single("avatar"), UpdateUserAvatar);
+router.put("/banner", VerifyToken, upload.single("banner"), UpdateUserCoverImage);
 router.get("/history", GetWatchHistory);
 
 // ----------------- User's Routes -------------- END

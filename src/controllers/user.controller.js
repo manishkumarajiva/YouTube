@@ -99,8 +99,8 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 
 const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
-    if(! (req.files && Array.isArray(req.files.banner) && req.files.banner[0]?.filename)){
-        throw new ErrorHandler(401, "Please Select Profile Avatar")
+    if(! (req.file && req.file?.filename)){
+        throw new ErrorHandler(401, "Please Select YouTube Banner")
     }
 
     // Local Handling
@@ -109,13 +109,13 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     const OldBanner = UserProfile.banner.url + UserProfile.banner.name;
 
     const NewBanner = new Object({
-        name : req.files.banner[0].filename,
-        url : "http://localhost:8000/public/upload/converImage/"
+        filename : req.file?.filename,
+        url : "http://localhost:8000/public/upload/banner/"
     })
 
     const UpdateBanner = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        NewBanner,
+        { banner : NewBanner },
         { new : true }
     )
 
@@ -123,7 +123,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
         throw new ErrorHandler(400, "Failed to Update")
     }
 
-    const RemovePreviousAvatar = fs.unlinkSync(OldBanner);
+    // const RemovePreviousAvatar = fs.unlinkSync(OldBanner);
 
     // Cloudinary
 
@@ -136,7 +136,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
 const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
-    if(! (req.files && Array.isArray(req.files.avatar) && req.files.avatar[0]?.filename)){
+    if(! (req.file && req.file.filename)){
         throw new ErrorHandler(401, "Please Select Profile Avatar")
     }
 
@@ -146,13 +146,13 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     const OldAvatar = UserProfile.avatar.url + UserProfile.avatar.name;
 
     const NewAvatar = new Object({
-        name : req.files.avatar[0]?.filename,
+        filename : req.file.filename,
         url : "http://localhost:8000/public/upload/avatar/"
     })
 
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        NewAvatar,
+        { avatar : NewAvatar },
         { new : true }
     )
 
@@ -160,7 +160,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
         throw new ErrorHandler(400, "Failed to Update")
     }
 
-    const RemovePreviousAvatar = fs.unlinkSync(OldAvatar);
+    // const RemovePreviousAvatar = fs.unlinkSync(OldAvatar);
     // Cloudinary
 
 
