@@ -71,7 +71,7 @@ const GetChannelVideo = asyncHandler(async (req, res) => {
     }
 
     return res
-    .statu(200)
+    .status(200)
     .json(new ResponseHandler(201, channelVideos, "Fetched Successfully"))
 
 });
@@ -80,20 +80,24 @@ const GetChannelVideo = asyncHandler(async (req, res) => {
 const UpdateChannelVideo = asyncHandler(async (req, res) => {
 
     const { videoId, title, description } = req.body;
-    const thumbnail = req.file.filename;
-    let updateVideo;
-
+    const thumbnail = req.file?.filename;
     if(!thumbnail){
-        updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { title, description }, { new : true });
+        throw new ErrorHandler(401, "Please Select Thumbnail");
     }
+
+    const Thumbnail = new Object({
+        filename : req.file?.filename,
+        url : "http://localhost:8000/public/upload/video/"
+    })
+            
 
     const updatePayload = new Object({
         title : title,
         description : description,
-        thumbnail : thumbnail
+        thumbnail : Thumbnail
     })
 
-    updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, updatePayload, { new : true });
+    const updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, updatePayload, { new : true });
 
     return res
     .status(200)

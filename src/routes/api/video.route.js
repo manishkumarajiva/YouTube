@@ -17,7 +17,7 @@ router.post("/upload", upload.fields([
         maxCount : 1
     }
 ]), VerifyToken, UploadChannelVideo);
-router.get("/singlebyid", GetVideoById);
+router.get("/singlebyid", VerifyToken, GetVideoById);
 router.get("/channelvideo", VerifyToken, GetChannelVideo);
 router.put("/update", upload.single("thumbnail"), UpdateChannelVideo);
 router.patch("/publish", PublishChannelVideo);
