@@ -116,7 +116,7 @@ const PublishChannelVideo = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ErrorHandler(201, publishvideo, "Publish Successfully"))
+    .json(new ResponseHandler(201, publishvideo, "Publish Successfully"))
 });
 
 
@@ -124,7 +124,8 @@ const TogglePublicStatus = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
     let togglePublish;
 
-    const video = await VideoModel.findById({ _id : videoId })
+    const video = await VideoModel.findById({ _id : videoId });
+
     if(video.isPublish){
         togglePublish = await VideoModel.findByIdAndUpdate({ _id : videoId }, { isPublish : false }, { new : true });
     }else{
@@ -133,7 +134,7 @@ const TogglePublicStatus = asyncHandler(async (req, res) => {
 
 
     if(!togglePublish){
-        throw new ErrorHandler(400, "Failed to toggle publish")
+        throw new ErrorHandler(400, "Failed to Toggle publish")
     }
 
     return res

@@ -20,7 +20,7 @@ router.post("/upload", upload.fields([
 router.get("/singlebyid", VerifyToken, GetVideoById);
 router.get("/channelvideo", VerifyToken, GetChannelVideo);
 router.put("/update", upload.single("thumbnail"), UpdateChannelVideo);
-router.patch("/publish", PublishChannelVideo);
+router.patch("/publish", VerifyToken, PublishChannelVideo);
 router.patch("/public", TogglePublicStatus);
 router.delete("/delete", DeleteChannelVideo);
 
