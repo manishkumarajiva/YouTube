@@ -10,23 +10,32 @@ import ErrorHandler from "../utils/errorHandler.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const data = req.body;
 
+    if(!(req.files && Array.isArray(req.files.video) && req.files.video[0]?.filename)){
+        throw new ErrorHandler(401, "Please Select Video");
+    }
+
+
+    if(!(req.files && Array.isArray(req.files.thumbnail) && req.files.thumbnail[0]?.filename)){
+        throw new ErrorHandler(401, "Please Select Thumbnail");
+    }
+
     const videoPlayload = {
-        channel : data.channelId,
+        channel : req.user?._id,
         title : data.title,
         description : data.description,
         duration : data.duration,
-        thumbnail : req.files.thumbnail[0].filename,
-        video : req.files.video[0].filename
+        video : req.files.video[0].filename,
+        thumbnail : req.files.thumbnail[0].filename
     }
 
-    const uploadVideo = await VideoModel.create(videoPlayload)
+    const uploadVideo = await VideoModel.create(videoPlayload);
     if(!uploadVideo){
-        throw new ErrorHandler(401, "Failed to upload")
+        throw new ErrorHandler(401, "Failed to upload");
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, uploadVideo, "Upload Successfully"))
+    .json(new ResponseHandler(201, uploadVideo, "Upload Successfully"));
 });
 
 
