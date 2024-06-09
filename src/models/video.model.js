@@ -8,9 +8,14 @@ const videoSchema = new mongoose.Schema({
         required : true
     },
     video : {
-        type : String,
-        trim : true,
-        required : true
+        filename : {
+            type : String,
+            trim : true
+        },
+        url : {
+            type : String,
+            trim : true
+        }
     },
     title : {
         type : String,
@@ -23,9 +28,14 @@ const videoSchema = new mongoose.Schema({
         required : true
     },
     thumbnail : {
-        type : String,
-        trim : true,
-        required : true
+        filename : {
+            type : String,
+            trim : true
+        },
+        url : {
+            type : String,
+            trim : true
+        }
     },
     duration : {
         type : Number,

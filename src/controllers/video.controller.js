@@ -14,23 +14,32 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
         throw new ErrorHandler(401, "Please Select Video");
     }
 
+    const Video = new Object({
+        filename : req.files.video[0]?.filename,
+        url : "http://localhost:8000/public/upload/video/"
+    })
 
     if(!(req.files && Array.isArray(req.files.thumbnail) && req.files.thumbnail[0]?.filename)){
         throw new ErrorHandler(401, "Please Select Thumbnail");
     }
+
+    const Thumbnail = new Object({
+        filename : req.files.thumbnail[0]?.filename,
+        url : "http://localhost:8000/public/upload/video/"
+    })
 
     const videoPlayload = {
         channel : req.user?._id,
         title : data.title,
         description : data.description,
         duration : data.duration,
-        video : req.files.video[0].filename,
-        thumbnail : req.files.thumbnail[0].filename
+        video : Video,
+        thumbnail : Thumbnail
     }
 
     const uploadVideo = await VideoModel.create(videoPlayload);
     if(!uploadVideo){
-        throw new ErrorHandler(401, "Failed to upload");
+        throw new ErrorHandler(500, "Failed to upload");
     }
 
     return res
@@ -55,7 +64,7 @@ const GetVideoById = asyncHandler(async (req, res) => {
 
 const GetChannelVideo = asyncHandler(async (req, res) => {
 
-    const channelVideos = await VideoModel.find({ channel : req.user._id })
+    const channelVideos = await VideoModel.find({ channel : req.user?._id })
 
     if(channelVideos.length < 1){
         throw new ErrorHandler(400, "Empty")
