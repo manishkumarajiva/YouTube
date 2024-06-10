@@ -11,19 +11,20 @@ const AddVideoComment = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
     const content = req.body.content;
 
+
     const createComment = await CommentModel.create({
-        owner : req.user._id,
-        videoId : videoId,
+        owner : req.user?._id,
+        video : videoId,
         content : content
     })
 
     if(!createComment){
-        throw new ErrorHandler(400, "Failed to comment")
+        throw new ErrorHandler(400, "Failed to comment");
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, createComment, "Comment Successfully Added"))
+    .json(new ResponseHandler(201, createComment, "Comment Successfully Added"));
 });
 
 

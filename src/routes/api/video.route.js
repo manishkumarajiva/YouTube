@@ -17,10 +17,10 @@ router.post("/upload", upload.fields([
         maxCount : 1
     }
 ]), VerifyToken, UploadChannelVideo);
-router.get("/singlebyid", VerifyToken, GetVideoById);
-router.get("/channelvideo", VerifyToken, GetChannelVideo);
+router.get("/singlebyid", GetVideoById);
+router.get("/channelvideo", GetChannelVideo);
 router.put("/update", upload.single("thumbnail"), UpdateChannelVideo);
-router.patch("/publish", VerifyToken, PublishChannelVideo);
+router.patch("/publish", PublishChannelVideo);
 router.patch("/public", TogglePublicStatus);
 router.delete("/delete", DeleteChannelVideo);
 

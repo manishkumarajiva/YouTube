@@ -10,6 +10,7 @@ import CommentRoutes from "./comment.route.js";
 import PlaylistRoutes from "./playlist.route.js";
 import HealthcheckRoutes from "./healthcheck.route.js";
 import SubscriptionRoutes from "./subscription.route.js";
+import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
 
 
 // ----------------- Index Routes -------------- START
@@ -17,9 +18,9 @@ import SubscriptionRoutes from "./subscription.route.js";
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
 router.use("/like", LikeRoutes);
-router.use("/video", VideoRoutes);
+router.use("/video", VerifyToken, VideoRoutes);
 router.use("/tweet", TweetRoutes);
-router.use("/comment", CommentRoutes);
+router.use("/comment", VerifyToken, CommentRoutes);
 router.use("/playlist", PlaylistRoutes);
 router.use("/youtube", HealthcheckRoutes);
 router.use("/subscription", SubscriptionRoutes);
