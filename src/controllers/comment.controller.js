@@ -34,9 +34,9 @@ const GetVideoComments = asyncHandler(async (req, res) => {
     const videoComments = await CommentModel.find({ owner : req.user?._id, video: videoId }).populate("video")
     // .skip(page).limit(limit).sort({ createdAt : newest });
 
-    // // const comments = await CommentModel.documentCount();
-    // const pages = Math.ceil(comments/limit);
-    // const count = videoComments.length;
+    const comments = await CommentModel.documentCount();
+    const pages = Math.ceil(comments/limit);
+    const count = videoComments.length;
 
     if(videoComments.length < 1){
         throw new ErrorHandler(400, "Empty Comment")
