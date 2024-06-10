@@ -52,7 +52,7 @@ const UpdateVideoComment = asyncHandler(async (req, res) => {
     const commentId = req.query.commentId;
     const content = req.body.content;
 
-    const updateComment = await CommentModel.findByIdAndUpdate({ _id : commentId }, content, { new : true });
+    const updateComment = await CommentModel.findByIdAndUpdate({ _id : commentId }, { content : content }, { new : true });
 
     if(!updateComment){
         throw new ErrorHandler(400, "Failed to Update")
