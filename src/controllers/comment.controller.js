@@ -32,7 +32,7 @@ const GetVideoComments = asyncHandler(async (req, res) => {
     let { videoId, limit, page, top, newest } = req.query;
 
     const videoComments = await CommentModel.find({ owner : req.user?._id, video: videoId }).populate("video")
-    // .skip(page).limit(limit).sort({ createdAt : newest });
+    .skip(page).limit(limit).sort({ createdAt : newest });
 
     const comments = await CommentModel.documentCount();
     const pages = Math.ceil(comments/limit);
