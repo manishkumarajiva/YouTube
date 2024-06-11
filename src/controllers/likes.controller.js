@@ -84,7 +84,7 @@ const ToggleTweetLike = asyncHandler(async (req, res) => {
 
     if(tweet){
         const deletetweet = await LikeModel.findByIdAndDelete({ _id : tweet._id });
-        
+
         if(!deletetweet){
             throw new ErrorHandler(400, "Failed to Delete");
         }
@@ -112,17 +112,22 @@ const ToggleTweetLike = asyncHandler(async (req, res) => {
 
 const GetLikedVideos = asyncHandler(async (req, res) => {
 
-    const likedVideos = await LikeModel.find({ likedBy : req.user._id });
+    const likedVideos = await LikeModel.find({ likedBy : req.user?._id });
 
     if(likedVideos.length < 1){
-        throw new ErrorHandler(401, "Empty Likes")
+        throw new ErrorHandler(401, "Empty Likes");
     }
     
     const count = likedVideos.length;
 
+    const response = {
+        count : count,
+        videos : likedVideos
+    }
+
     return res
     .status(200)
-    .json(new ResponseHandler(201, count, likedVideos, "Successfully Fetch"))
+    .json(new ResponseHandler(201, response, "Successfully Fetch"));
 });
 
 // --------------- Like's Handlers --------------- END

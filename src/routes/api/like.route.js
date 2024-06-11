@@ -8,7 +8,7 @@ import { ToggleVideoLike, ToggleCommentLike, ToggleTweetLike, GetLikedVideos } f
 router.patch("/video", ToggleVideoLike);
 router.patch("/comment", ToggleCommentLike);
 router.patch("/tweet", ToggleTweetLike);
-router.get("/videolike", GetLikedVideos);
+router.get("/likedVideo", GetLikedVideos);
 
 // ----------------- Auth's Routes -------------- END
 
