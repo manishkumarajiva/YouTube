@@ -4,14 +4,11 @@ import { Schema } from "mongoose";
 const likeSchema = new mongoose.Schema({
     likedBy : {
         type : Schema.Types.ObjectId,
-        ref : "User",
-        required : true
+        ref : "User"
     },
     video : {
         type : Schema.Types.ObjectId,
-        ref : "Video",
-        required : true
-    },
+        ref : "Video"    },
     comment : {
         type : Schema.Types.ObjectId,
         ref : "Comment"

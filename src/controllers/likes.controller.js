@@ -43,8 +43,8 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
     const commentId = req.query.commentId;
 
     const comment = await LikeModel.findOne({
-        likedBy : req.user._id,
-        commentId : commentId
+        likedBy : req.user?._id,
+        comment : commentId
     })
 
     if(comment){
@@ -61,7 +61,7 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
 
     const createComment = await LikeModel.create({ 
         likedBy : req.user._id,
-        commentId : commentId
+        comment : commentId
      })
 
     if(!createComment){
@@ -78,34 +78,35 @@ const ToggleTweetLike = asyncHandler(async (req, res) => {
     const tweetId = req.query.tweetId;
 
     const tweet = await LikeModel.findOne({
-        likedBy : req.user._id,
-        tweetId : tweetId
+        likedBy : req.user?._id,
+        tweet : tweetId
     })
 
     if(tweet){
-        const deletetweet = await LikeModel.findByIdAndDelete({ _id : tweet._id })
+        const deletetweet = await LikeModel.findByIdAndDelete({ _id : tweet._id });
+        
         if(!deletetweet){
-            throw new ErrorHandler(400, "Failed to Delete")
+            throw new ErrorHandler(400, "Failed to Delete");
         }
+
         return res
         .status(200)
-        .json(new ResponseHandler(201, deletetweet, "Successfully Deleted"))
+        .json(new ResponseHandler(201, deletetweet, "Successfully Deleted"));
     }
 
 
     const createComment = await LikeModel.create({ 
         likedBy : req.user._id,
-        tweetId : tweetId
-     });
+        tweet : tweetId
+     })
 
     if(!createComment){
-        throw new ErrorHandler(400, "Failed to Create")
+        throw new ErrorHandler(400, "Failed to Create");
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, createComment, "Successfully Created"))
-
+    .json(new ResponseHandler(201, createComment, "Successfully Created"));
 });
 
 
