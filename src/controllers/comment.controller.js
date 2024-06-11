@@ -29,22 +29,28 @@ const AddVideoComment = asyncHandler(async (req, res) => {
 
 
 const GetVideoComments = asyncHandler(async (req, res) => {
-    let { videoId, limit, page, top, newest } = req.query;
+    let { videoId, limit, page, top, order } = req.query;
 
     const videoComments = await CommentModel.find({ owner : req.user?._id, video: videoId }).populate("video")
-    .skip(page).limit(limit).sort({ createdAt : newest });
+    .skip((limit * page)).limit(limit).sort({ createdAt : Number(order) });
 
-    const comments = await CommentModel.documentCount();
+    const comments = await CommentModel.countDocuments();
     const pages = Math.ceil(comments/limit);
-    const count = videoComments.length;
+    const count = comments;
 
-    if(videoComments.length < 1){
-        throw new ErrorHandler(400, "Empty Comment")
+    if(count < 1){
+        res.status(200).json(new ErrorHandler(400, "Empty Comment"));
+    }
+
+    const response = {
+        pages : pages,
+        count : count,
+        data : videoComments
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, videoComments, "Video Comments"))
+    .json(new ResponseHandler(201, response, "Video Comments"));
 });
 
 

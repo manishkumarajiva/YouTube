@@ -2,25 +2,21 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 const likeSchema = new mongoose.Schema({
-    channel : {
-        type : Schema.Types.ObjectId,
-        ref : "User",
-        required : true
-    },
     likedBy : {
         type : Schema.Types.ObjectId,
         ref : "User",
         required : true
     },
-    videoId : {
+    video : {
         type : Schema.Types.ObjectId,
-        ref : "Video"
+        ref : "Video",
+        required : true
     },
-    commentId : {
+    comment : {
         type : Schema.Types.ObjectId,
         ref : "Comment"
     },
-    tweetBy : {
+    tweet : {
         type : Schema.Types.ObjectId,
         ref : "Tweet"
     }

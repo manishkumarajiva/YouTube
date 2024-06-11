@@ -17,7 +17,7 @@ import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
-router.use("/like", LikeRoutes);
+router.use("/like", VerifyToken, LikeRoutes);
 router.use("/video", VerifyToken, VideoRoutes);
 router.use("/tweet", TweetRoutes);
 router.use("/comment", VerifyToken, CommentRoutes);

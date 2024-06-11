@@ -10,8 +10,8 @@ const ToggleVideoLike = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
     const like = await LikeModel.findOne({
-        likedBy : req.user._id,
-        videoId : videoId
+        likedBy : req.user?._id,
+        video : videoId
     })
 
     if(like){
@@ -21,23 +21,21 @@ const ToggleVideoLike = asyncHandler(async (req, res) => {
         }
         return res
         .status(200)
-        .json(new ResponseHandler(201, deleteLike, "Successfully Deleted"))
+        .json(new ResponseHandler(201, deleteLike, "Successfully Deleted"));
     }
 
     const createLike = await LikeModel.create({ 
-        likedBy : req.user._id,
-        videoId : videoId
-     });
+        likedBy : req.user?._id,
+        video : videoId
+     })
 
     if(!createLike){
-        throw new ErrorHandler(400, "Failed to Create")
+        throw new ErrorHandler(400, "Failed to Create");
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, createLike, "Successfully Created"))
-
-    
+    .json(new ResponseHandler(201, createLike, "Successfully Created"));
 });
 
 
@@ -50,30 +48,29 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
     })
 
     if(comment){
-        const deleteComment = await LikeModel.findByIdAndDelete({ _id : comment._id })
+        const deleteComment = await LikeModel.findByIdAndDelete({ _id : comment._id });
         if(!deleteComment){
-            throw new ErrorHandler(400, "Failed to Delete")
+            throw new ErrorHandler(400, "Failed to Delete");
         }
+
         return res
         .status(200)
-        .json(new ResponseHandler(201, deleteComment, "Successfully Deleted"))
+        .json(new ResponseHandler(201, deleteComment, "Successfully Deleted"));
     }
 
 
     const createComment = await LikeModel.create({ 
         likedBy : req.user._id,
         commentId : commentId
-     });
+     })
 
     if(!createComment){
-        throw new ErrorHandler(400, "Failed to Create")
+        throw new ErrorHandler(400, "Failed to Create");
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, createComment, "Successfully Created"))
-
-        
+    .json(new ResponseHandler(201, createComment, "Successfully Created"));
 });
 
 
