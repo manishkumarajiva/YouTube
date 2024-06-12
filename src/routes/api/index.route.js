@@ -19,7 +19,7 @@ router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
 router.use("/like", VerifyToken, LikeRoutes);
 router.use("/video", VerifyToken, VideoRoutes);
-router.use("/tweet", TweetRoutes);
+router.use("/tweet", VerifyToken, TweetRoutes);
 router.use("/comment", VerifyToken, CommentRoutes);
 router.use("/playlist", PlaylistRoutes);
 router.use("/youtube", HealthcheckRoutes);

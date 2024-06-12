@@ -6,7 +6,7 @@ import { CreateUserTweet, GetUserTweets, UpdateUserTweet, DeleteUserTweet } from
 // ----------------- Tweet's Routes -------------- START
 
 router.post("/create", CreateUserTweet);
-router.get("/gettweet", GetUserTweets);
+router.get("/fetch", GetUserTweets);
 router.put("/update", UpdateUserTweet);
 router.delete("/delete", DeleteUserTweet);
 

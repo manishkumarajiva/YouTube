@@ -8,14 +8,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 // --------------- Tweet's Handlers --------------- START
 
 const CreateUserTweet = asyncHandler(async (req, res) => {
-    const content = req.body;
+    const content = req.body.content;
 
     if(!content.trim()){
-        throw new ErrorHandler(400, "Content is empty");
+        return res.status(200).json(new ResponseHandler(400, "Content is empty"));
     }
 
     const createTweet = await TweetModel.create({ 
-        owner : req.user._id,
+        owner : req.user?._id,
         content : content
     })
 
@@ -31,7 +31,7 @@ const CreateUserTweet = asyncHandler(async (req, res) => {
 
 const GetUserTweets = asyncHandler(async (req, res) => {
 
-    const userTweet = await TweetModel.find({ owner : req.user._id })
+    const userTweet = await TweetModel.find({ owner : req.user?._id })
 
     if(userTweet.length < 0){
         return res.status(200)
