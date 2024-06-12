@@ -70,7 +70,7 @@ const DeleteUserTweet = asyncHandler(async (req, res) => {
     const deleteTweet = await TweetModel.findByIdAndDelete({ _id : tweetId });
 
     if(!deleteTweet){
-        throw new ErrorHandler(401, "Failed to delete Tweet")
+        return res.status(200).json(new ErrorHandler(401, "Failed to delete Tweet"));
     }
 
     return res

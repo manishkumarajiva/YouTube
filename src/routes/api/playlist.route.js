@@ -7,7 +7,7 @@ import { AddVideoToPlaylist, RemoveVideoFromPlaylist } from "../../controllers/p
 // ----------------- Playlist's Routes -------------- START
 
 router.post("/create", CreateVideoPlaylist);
-router.get("getbyId", GetPlaylistById);
+router.get("/fetch", GetPlaylistById);
 router.put("/update", UpdateVideoPlaylist);
 router.delete("/delete", DeleteVideoPlaylist);
 router.post("/addvideo", AddVideoToPlaylist);

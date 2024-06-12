@@ -1,6 +1,6 @@
 import PlaylistModel from "../models/playlist.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import ResponseHandler from  "../utils/asyncHandler.js";
+import ResponseHandler from  "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 
@@ -11,18 +11,18 @@ const CreateVideoPlaylist = asyncHandler(async (req, res) => {
     const { playlistName, description } = req.body;
 
     const createPlaylist = await PlaylistModel.create({
-        channel : req.user._id,
+        channel : req.user?._id,
         name : playlistName,
         description : description
     })
 
     if(!createPlaylist){
-        throw new ErrorHandler(400, "Failed to Create")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Create"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, createPlaylist, "Successfully Created"))
+    .json(new ResponseHandler(201, createPlaylist, "Successfully Created"));
 });
 
 

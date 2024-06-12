@@ -21,7 +21,7 @@ router.use("/like", VerifyToken, LikeRoutes);
 router.use("/video", VerifyToken, VideoRoutes);
 router.use("/tweet", VerifyToken, TweetRoutes);
 router.use("/comment", VerifyToken, CommentRoutes);
-router.use("/playlist", PlaylistRoutes);
+router.use("/playlist", VerifyToken, PlaylistRoutes);
 router.use("/youtube", HealthcheckRoutes);
 router.use("/subscription", SubscriptionRoutes);
 
