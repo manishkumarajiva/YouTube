@@ -55,12 +55,12 @@ const UpdateUserTweet = asyncHandler(async (req, res) => {
     )
 
     if(!updateTweet){
-        throw new ErrorHandler(401, "Failed to update Tweet")
+        return res.status(200).json(new ErrorHandler(401, "Failed to update Tweet"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, updateTweet, "Successfully Update"))
+    .json(new ResponseHandler(201, updateTweet, "Successfully Update"));
 });
 
 
