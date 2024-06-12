@@ -10,9 +10,14 @@ import ErrorHandler from "../utils/errorHandler.js";
 const CreateVideoPlaylist = asyncHandler(async (req, res) => {
     const { playlistName, description } = req.body;
 
+    const isExist = await PlaylistModel.findOne({ name : playlistName.toLowerCase() });
+    if(isExist){
+        return res.status(200).json(new ErrorHandler(401, "Already Exists"));
+    }
+
     const createPlaylist = await PlaylistModel.create({
         channel : req.user?._id,
-        name : playlistName,
+        name : playlistName.toLowerCase(),
         description : description
     })
 
@@ -27,34 +32,28 @@ const CreateVideoPlaylist = asyncHandler(async (req, res) => {
 
 
 const GetVideoPlaylists = asyncHandler(async (req, res) => {
+    const playlistId = req.query.playlistId;
+    let channelPlaylist;
+
+    if(!playlistId){
+        channelPlaylist = await PlaylistModel.find({ channel : req.user?._id }).sort({ createdAt : -1 });
+    }else{
+        channelPlaylist = await PlaylistModel.findById({ _id : playlistId }).sort({ createdAt : -1 });
+    }
     
-    const channelPlaylist = await PlaylistModel.find().sort({ createdAt : -1 })
 
     if(channelPlaylist.length < 1){
-        throw new ErrorHandler(400, "Empty Playlist")
+        return res.statu(200).json(new ErrorHandler(400, "Empty Playlist"));
     }
 
     const count = channelPlaylist.length;
 
-    return res
-    .status(200)
-    .json(new ResponseHandler(201, channelPlaylist, count, "Successfully Fetched"))
-});
-
-
-const GetPlaylistById = asyncHandler(async (req, res) => {
-    const playlistId = req.query.playlistId;
-
-    const playlist = await PlaylistModel.findById({ _id : playlistId });
-
-    if(!playlist){
-        throw new ErrorHandler(400, "Not Found")
-    }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, playlist, "Successfully Fetched"))
+    .json(new ResponseHandler(201, channelPlaylist, "Successfully Fetched"));
 });
+
 
 
 const UpdateVideoPlaylist = asyncHandler(async (req, res) => {
@@ -140,7 +139,6 @@ const RemoveVideoFromPlaylist = asyncHandler(async (req, res) => {
 export{
     CreateVideoPlaylist,
     GetVideoPlaylists,
-    GetPlaylistById,
     UpdateVideoPlaylist,
     DeleteVideoPlaylist,
     AddVideoToPlaylist,
