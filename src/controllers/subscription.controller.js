@@ -8,15 +8,15 @@ import ErrorHandler from "../utils/errorHandler.js";
 // --------------- Subscription's Handlers --------------- START
 
 const ToggleSubscription = asyncHandler(async (req, res) => {
-    const { subscriberId, channelId } = req.body;
+    const channelId = req.query.channelId;
 
-    const subscribed = await SubscriptionModel.findOne({ subscriberId : subscriberId, channelId : channelId });
+    const subscribed = await SubscriptionModel.findOne({ subscriber : req.user?._id, channel : channelId });
 
     if(subscribed){
         const deleteSubscriber = await SubscriptionModel.findByIdAndDelete({ _id : subscribed._id });
 
         if(!deleteSubscriber){
-            throw new ErrorHandler(400, "Failed to Delete")
+            return res.status(200).json(new ErrorHandler(400, "Failed to Delete"));
         }
 
         return res
@@ -24,15 +24,18 @@ const ToggleSubscription = asyncHandler(async (req, res) => {
         .json(new ResponseHandler(201, deleteSubscriber, "Successfully Deleted"))
     }
 
-    const deleteSubscriber = await SubscriptionModel.findByIdAndDelete({ _id : subscribed._id });
+    const createSubscriber = await SubscriptionModel.create({ 
+        channel : channelId,
+        subscriber : req.user?._id
+    })
 
-    if(!deleteSubscriber){
-        throw new ErrorHandler(400, "Failed to Delete")
+    if(!createSubscriber){
+        return res.status(200).json(new ErrorHandler(400, "Failed to Subscribed"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, deleteSubscriber, "Successfully Deleted"))
+    .json(new ResponseHandler(201, createSubscriber, "Successfully Created"));
 });
 
 

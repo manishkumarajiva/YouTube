@@ -17,13 +17,13 @@ import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
+router.use("/youtube", HealthcheckRoutes);
 router.use("/like", VerifyToken, LikeRoutes);
 router.use("/video", VerifyToken, VideoRoutes);
 router.use("/tweet", VerifyToken, TweetRoutes);
 router.use("/comment", VerifyToken, CommentRoutes);
 router.use("/playlist", VerifyToken, PlaylistRoutes);
-router.use("/youtube", HealthcheckRoutes);
-router.use("/subscription", SubscriptionRoutes);
+router.use("/subscription", VerifyToken, SubscriptionRoutes);
 
 // ----------------- Index Routes -------------- END
 
