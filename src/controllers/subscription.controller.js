@@ -40,12 +40,11 @@ const ToggleSubscription = asyncHandler(async (req, res) => {
 
 
 const GetUserChannelSubscriber = asyncHandler(async (req, res) => {
-    const channelId = req.query.channelId;
 
-    const subscribers = await SubscriptionModel.find({ channelId : channelId });
+    const subscribers = await SubscriptionModel.find({ subscriber : req.user?._id });
 
     if(subscribers.length < 1){
-        throw new ErrorHandler(400, "Empty")
+        return res.status(200).json(new ErrorHandler(400, "Empty"));
     }
 
     const count = subscribers.length;
