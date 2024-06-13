@@ -56,19 +56,18 @@ const GetUserChannelSubscriber = asyncHandler(async (req, res) => {
 
 
 const GetUserSubscribedChannel = asyncHandler(async (req, res) => {
-    const subscriberId = req.query.subscriberId;
 
-    const subscriptions = await SubscriptionModel.find({ subscriberId : subscriberId })
+    const subscriptions = await SubscriptionModel.find({ subscriber : req.user?._id })
 
     if(subscriptions.length < 1){
-        throw new ErrorHandler(400, "Empty")
+        return res.status(200).json(new ErrorHandler(400, "Empty"));
     }
 
     const count = subscriptions.length;
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, subscriptions, count, "Successfully Fetch" ))
+    .json(new ResponseHandler(201, subscriptions, count, "Successfully Fetch" ));
 });
 
 // --------------- Subscription's Handlers --------------- END
