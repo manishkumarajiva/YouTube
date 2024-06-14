@@ -64,26 +64,24 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
 const LogoutAuthentication = asyncHandler(async (req, res) => {
 
     const userLogout = await UserModel.findByIdAndUpdate(
-        req.user._id,
-        {
-            $unset : { refreshToken : 1 }
-        },
+        req.user?._id,
+        { $unset : { refreshToken : 1 } },
         { new : true }
-    );
+    )
 
     const cookieOption = {
         httpOnly : true, 
         secure : true, 
         path : "/", 
         domain : "localhost"
-    };
+    }
 
     if(userLogout){
         return res
         .status(200)
         .clearCookie("AccessToken", cookieOption)
         .clearCookie("RefreshToken", cookieOption)
-        .json( new ResponseHandler(200, {}, "User Logged Out"))
+        .json( new ResponseHandler(200, {}, "User Logged Out"));
     }
 });
 
