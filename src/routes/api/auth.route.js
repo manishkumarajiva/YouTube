@@ -9,9 +9,9 @@ import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
 
 router.post("/login", LoginAuthentication);
 router.get("/logout", VerifyToken, LogoutAuthentication);
+router.patch("/changepassword", VerifyToken, UpdateCurrentPassword);
 router.put("/resetpassword", VerifyToken, ResetUserPassword);
 router.get("/refreshtoken", VerifyToken, RefreshAccessToken);
-router.patch("/changepassword", VerifyToken, UpdateCurrentPassword);
 
 // ----------------- Auth's Routes -------------- END
 

@@ -89,11 +89,11 @@ const LogoutAuthentication = asyncHandler(async (req, res) => {
 const UpdateCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
 
-    const user = await UserModel.findById(req.user._id);
+    const user = await UserModel.findById(req.user?._id);
     const comparePassword = await Bcrypt.compare(oldPassword, user.password);
 
     if(!comparePassword){
-        throw new ErrorHandler(400, "Incorrect Old Password");
+        return res.status(200).json(new ErrorHandler(400, "Incorrect Old Password"));
     }
     
     const hashedPassword = await Bcrypt.hash(newPassword,12);
@@ -102,7 +102,7 @@ const UpdateCurrentPassword = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json( new ResponseHandler(200,{}, "Password Changed Successfully"))
+    .json( new ResponseHandler(200,{}, "Password Changed Successfully"));
 });
 
 
