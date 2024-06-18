@@ -10,6 +10,7 @@ import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
 router.post("/login", LoginAuthentication);
 router.get("/logout", VerifyToken, LogoutAuthentication);
 router.patch("/changepassword", VerifyToken, UpdateCurrentPassword);
+router.patch("/forgetpassword", ForgetUserPassword);
 router.put("/resetpassword", VerifyToken, ResetUserPassword);
 router.get("/refreshtoken", VerifyToken, RefreshAccessToken);
 

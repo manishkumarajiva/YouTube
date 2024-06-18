@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import { AccessToken, RefreshToken } from "../middlewares/authenticate.middleware.js";
 import JWT from "jsonwebtoken";
 import Bcrypt from "bcryptjs";
+import randomString from "randomstring";
 
 
 
@@ -132,11 +133,11 @@ const VerifyUserAccount = asyncHandler(async (req, res) => {
 
 
 const ForgetUserPassword = asyncHandler(async (req, res) => {
-    const { username, email } = req.body;
+    const email = req.body.email;
 
-    const user = await UserModel.findOne({ $or : [{username}, {email}] });
+    const user = await UserModel.findOne({ email : email });
     if(!user){
-        throw new ErrorHandler(400, "User Not Found")
+        return res.status(200).json(new ErrorHandler(400, "User Not Found"));
     }
 
     const token = randomString.generate();
@@ -145,11 +146,11 @@ const ForgetUserPassword = asyncHandler(async (req, res) => {
         resetPasswordToken : token
     });
 
-    const setToken = await UserModel.findByIdAndUpdate({ _id : user._id }, resetPasswordToken, { new : true });
+    const setToken = await UserModel.findByIdAndUpdate({ _id : user?._id }, resetPasswordToken, { new : true });
     if(!setToken){
-        throw new ErrorHandler(409, "Failed to Set Forget Password Token")
+        return res.status(200).json(new ErrorHandler(409, "Failed to Set Forget Password Token"));
     }
-
+    console.log(setToken)
     // send email 
     // Node Mailder
     // http://localhost:8000/api/V.YT.0.0.0.1/auth/resetPassword?resetPasswordToken
