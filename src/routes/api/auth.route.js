@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import { LoginAuthentication, LogoutAuthentication } from "../../controllers/auth.controller.js";
-import { UpdateCurrentPassword, ResetUserPassword, RefreshAccessToken } from "../../controllers/auth.controller.js";
+import { UpdateCurrentPassword, ForgetUserPassword, ResetUserPassword, RefreshAccessToken } from "../../controllers/auth.controller.js";
 import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
 
 
