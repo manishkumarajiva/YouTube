@@ -150,7 +150,7 @@ const ForgetUserPassword = asyncHandler(async (req, res) => {
     if(!setToken){
         return res.status(200).json(new ErrorHandler(409, "Failed to Set Forget Password Token"));
     }
-    console.log(setToken)
+    res.send(setToken)
     // send email 
     // Node Mailder
     // http://localhost:8000/api/V.YT.0.0.0.1/auth/resetPassword?resetPasswordToken
@@ -163,7 +163,7 @@ const ResetUserPassword = asyncHandler(async (req, res) => {
 
     const user = await UserModel.findOne({ resetPasswordToken : resetPasswordToken });
     if(!user){
-        throw new ErrorHandler(400, "User Not Found")
+        return res.status(200).json(new ErrorHandler(400, "User Not Found"));
     }
 
     const hashedPassword = await Bcrypt.hash(newPassword,12);
@@ -173,14 +173,14 @@ const ResetUserPassword = asyncHandler(async (req, res) => {
         password : hashedPassword
     });
 
-    const resetPassword = await UserModel.findByIdAndUpdate({ _id : user._id}, resetPasswordPayload, { new : true });
+    const resetPassword = await UserModel.findOneAndUpdate({ resetPasswordToken : resetPasswordToken }, resetPasswordPayload, { new : true });
     if(!resetPassword){
-        throw new ErrorHandler(400, "Failed to Reset Password")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Reset Password"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, resetPassword, "Password Reset Successfully"))
+    .json(new ResponseHandler(201, resetPassword, "Password Reset Successfully"));
 });
 
 

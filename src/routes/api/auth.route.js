@@ -11,7 +11,7 @@ router.post("/login", LoginAuthentication);
 router.get("/logout", VerifyToken, LogoutAuthentication);
 router.patch("/changepassword", VerifyToken, UpdateCurrentPassword);
 router.patch("/forgetpassword", ForgetUserPassword);
-router.put("/resetpassword", VerifyToken, ResetUserPassword);
+router.patch("/resetpassword", ResetUserPassword);
 router.get("/refreshtoken", VerifyToken, RefreshAccessToken);
 
 // ----------------- Auth's Routes -------------- END
