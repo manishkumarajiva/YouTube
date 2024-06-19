@@ -171,7 +171,10 @@ const ForgetUserPassword = asyncHandler(async (req, res) => {
     };
 
     const emailResp = await SendEmail(mailOptions);
-    return res.status(200).json(new ResponseHandler(200,{},"Please Create New Password, Email has been send"));
+
+    return res
+    .status(200)
+    .json(new ResponseHandler(200,{},"Please Create New Password, Email has been send"));
 });
 
 
@@ -196,6 +199,16 @@ const ResetUserPassword = asyncHandler(async (req, res) => {
         return res.status(200).json(new ErrorHandler(400, "Failed to Reset Password"));
     }
 
+        
+    const mailOptions = {
+        from: "manishkumarajiva@gmail.com",
+        to: email,
+        subject : `Hi ${fullname}, Your Password Changed Successfully`,
+        html : `<h1> Username : ${resetPassword.username} | Password ${newPassword} </h1>`
+    };
+
+    const emailResp = await SendEmail(mailOptions);
+    
     return res
     .status(200)
     .json(new ResponseHandler(201, resetPassword, "Password Reset Successfully"));
