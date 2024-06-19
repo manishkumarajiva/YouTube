@@ -62,22 +62,6 @@ const userSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
-    facebookId : {
-        type : String,
-        trim : true
-    },
-    appleId : {
-        type : String,
-        trim : true
-    },
-    slackId : {
-        type : String,
-        trim : true
-    },
-    githubId : {
-        type : String,
-        trim : true
-    },
     isVerified : {
         type : Boolean,
         default : false
