@@ -23,26 +23,26 @@ const generateRefreshAndAccessToken = async (user) => {
     
         return ({ AuthAccessToken, AuthRefreshToken });
     } catch (error) {
-        throw new ErrorHandler(400, "Session Token :: Something Went Wrong");
+        return res.status(200).json(new ErrorHandler(400, "Session Token :: Something Went Wrong"));
     }
 };
 
 
 const LoginAuthentication = asyncHandler(async (req, res) => {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
-    if(!(username || email)){
-        throw new ErrorHandler(400, "Username or Email are required");
+    if(!email){
+        return res.status(200).json(ErrorHandler(400, "Username or Email are required"));
     }
 
     const existUser = await UserModel.findOne({ $or : [{username},{email}]});
     if(!existUser){
-        throw new ErrorHandler(400, "User Not Found");
+        return res.status(200).json(new ErrorHandler(400, "User Not Found"));
     }
 
     const comparePassword = await Bcrypt.compare(password, existUser.password);
     if(!comparePassword){
-        throw new ErrorHandler(400, "Incorrect user credential");
+        return res.status(200).json(new ErrorHandler(400, "Incorrect user credential"));
     }
 
     const { AuthAccessToken, AuthRefreshToken } =  await generateRefreshAndAccessToken(existUser);
@@ -58,7 +58,7 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("AccessToken", AuthAccessToken, cookieOption)
     .cookie("RefreshToken", AuthRefreshToken, cookieOption)
-    .json( new ResponseHandler(200, existUser, "Successfully Login", AuthAccessToken))
+    .json( new ResponseHandler(200, existUser, "Successfully Login", AuthAccessToken));
 });
 
 
@@ -113,7 +113,7 @@ const VerifyUserAccount = asyncHandler(async (req, res) => {
 
     const user = await UserModel.findOne({ verificationToken : verificationToken });
     if(!user){
-        throw new ErrorHandler(400, "User Not Found")
+        return res.status(200).json(ErrorHandler(400, "User Not Found"));
     }
 
     const verifyPayload = new Object({
@@ -121,9 +121,9 @@ const VerifyUserAccount = asyncHandler(async (req, res) => {
         isVerify : true
     })
 
-    const verifyAccount = await UserModel.findByIdAndUpdate({ _id : user._id }, verifyPayload, { new : true });
+    const verifyAccount = await UserModel.findByIdAndUpdate({ _id : user?._id }, verifyPayload, { new : true });
     if(!verifyAccount){
-        throw new ErrorHandler(409, "Failed To Verify");
+        return res.status(200).json(new ErrorHandler(409, "Failed To Verify"));
     }
 
     return res
@@ -188,7 +188,7 @@ const RefreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.RefreshToken || req.body.RefreshAccessToken;
 
     if(!incomingRefreshToken){
-        throw new ErrorHandler(401, "Unauthorized Request")
+        return res.status(200).json(new ErrorHandler(401, "Unauthorized Request"));
     }
 
     const secretKey = process.env.YOUTUBE_SECRECT_KEY
@@ -196,11 +196,11 @@ const RefreshAccessToken = asyncHandler(async (req, res) => {
 
     const user = await UserModel.findById({ _id : decode.id });
     if(!user){
-        throw new ErrorHandler(401, "Invalid Refresh Token")
+        return res.status(200).json(new ErrorHandler(401, "Invalid Refresh Token"));
     }
 
     if(incomingRefreshToken !== user.refreshToken){
-        throw new ErrorHandler(401, "Refresh Token is expired or used")
+        return res.status(200).json(new ErrorHandler(401, "Refresh Token is expired or used"));
     }
 
     const { AuthAccessToken, AuthRefreshToken } = await generateRefreshAndAccessToken(user);
@@ -216,7 +216,7 @@ const RefreshAccessToken = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("AccessToken", AccessToken, cookieOption)
     .cookie("RefreshToken", AuthRefreshToken, cookieOption)
-    .json(new ResponseHandler(201, user, AuthAccessToken, AuthRefreshToken))
+    .json(new ResponseHandler(201, user, AuthAccessToken, AuthRefreshToken));
 });
 
 // --------------- Auth's Handlers --------------- END

@@ -19,7 +19,7 @@ const AddVideoComment = asyncHandler(async (req, res) => {
     })
 
     if(!createComment){
-        throw new ErrorHandler(400, "Failed to comment");
+        return res.status(200).json(new ErrorHandler(400, "Failed to comment"));
     }
 
     return res
