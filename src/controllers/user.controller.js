@@ -2,6 +2,7 @@ import UserModel from "../models/user.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import SendEmail from "../utils/ses.util.js";
 import Bcrypt from "bcryptjs";
 import fs from 'fs';
 
@@ -55,8 +56,17 @@ const RegisterUser = asyncHandler(async (req, res) => {
     })
 
     if(!createUser){
-        throw new ErrorHandler(500, "Something went wrong during Registeration");
+        return res.status(200).json(new ErrorHandler(500, "Something went wrong during Registeration"));
     }
+
+    const mailOptions = {
+        from: "manishkumarajiva@gmail.com",
+        to: email,
+        subject : `Hi ${fullname}, Your Registeration is successfully completed`,
+        html : `<h1> Username : ${username} | Password ${password} </h1>`
+    };
+
+    const emailResp = await SendEmail(mailOptions);
 
     return res
     .status(201)

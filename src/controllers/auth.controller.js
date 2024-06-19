@@ -6,6 +6,7 @@ import { AccessToken, RefreshToken } from "../middlewares/authenticate.middlewar
 import JWT from "jsonwebtoken";
 import Bcrypt from "bcryptjs";
 import randomString from "randomstring";
+import SendEmail from "../utils/ses.util.js";
 
 
 
@@ -99,7 +100,18 @@ const UpdateCurrentPassword = asyncHandler(async (req, res) => {
     
     const hashedPassword = await Bcrypt.hash(newPassword,12);
     user.password = hashedPassword;
-    await user.save({ validateBeforeSave : false });
+    const userUpdate = await user.save({ validateBeforeSave : false });
+
+
+    const mailOptions = {
+        from: "manishkumarajiva@gmail.com",
+        to: userUpdate.email,
+        subject : `Hi ${userUpdate.LoginAuthenticationfullname}, Your Registeration is successfully completed`,
+        html : `<h1> Username : ${userUpdate.username} | New Password : ${password} </h1>`
+    };
+
+    const emailResp = await SendEmail(mailOptions);
+
 
     return res
     .status(200)
@@ -150,10 +162,16 @@ const ForgetUserPassword = asyncHandler(async (req, res) => {
     if(!setToken){
         return res.status(200).json(new ErrorHandler(409, "Failed to Set Forget Password Token"));
     }
-    res.send(setToken)
-    // send email 
-    // Node Mailder
-    // http://localhost:8000/api/V.YT.0.0.0.1/auth/resetPassword?resetPasswordToken
+    
+    const mailOptions = {
+        from: "manishkumarajiva@gmail.com",
+        to: email,
+        subject : `Hi ${fullname}, Create Your New Password`,
+        html : `<a href="http://localhost:8000/api/V.YT.0.0.0.1/auth/resetPassword?${resetPasswordToken}"/>`
+    };
+
+    const emailResp = await SendEmail(mailOptions);
+    return res.status(200).json(new ResponseHandler(200,{},"Please Create New Password, Email has been send"));
 });
 
 
