@@ -10,7 +10,7 @@ import CommentRoutes from "./comment.route.js";
 import PlaylistRoutes from "./playlist.route.js";
 import HealthcheckRoutes from "./healthcheck.route.js";
 import SubscriptionRoutes from "./subscription.route.js";
-import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
+import { VerifyToken } from  "../../middlewares/authenticate.middleware.js";
 
 
 // ----------------- Index Routes -------------- START
