@@ -76,7 +76,7 @@ const DeleteVideoComment = asyncHandler(async (req, res) => {
     const deleteComment = await CommentModel.findByIdAndDelete({ _id : commentId });
 
     if(!deleteComment){
-        throw new ErrorHandler(400, "Failed to Delete")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Delete"));
     }
 
     return res

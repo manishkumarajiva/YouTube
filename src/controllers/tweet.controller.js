@@ -20,7 +20,7 @@ const CreateUserTweet = asyncHandler(async (req, res) => {
     })
 
     if(!createTweet){
-        throw new ErrorHandler(401, "Failed to create Tweet")
+        return res.status(200).json(new ErrorHandler(401, "Failed to create Tweet"));
     }
 
     return res

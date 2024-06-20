@@ -17,7 +17,7 @@ const ToggleVideoLike = asyncHandler(async (req, res) => {
     if(like){
         const deleteLike = await LikeModel.findByIdAndDelete({ _id : like._id })
         if(!deleteLike){
-            throw new ErrorHandler(400, "Failed to Delete")
+            return res.status(200).json(new ErrorHandler(400, "Failed to Delete"))
         }
         return res
         .status(200)
@@ -30,7 +30,7 @@ const ToggleVideoLike = asyncHandler(async (req, res) => {
      })
 
     if(!createLike){
-        throw new ErrorHandler(400, "Failed to Create");
+        return res.status(200).json(new ErrorHandler(400, "Failed to Create"));
     }
 
     return res
@@ -50,7 +50,7 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
     if(comment){
         const deleteComment = await LikeModel.findByIdAndDelete({ _id : comment._id });
         if(!deleteComment){
-            throw new ErrorHandler(400, "Failed to Delete");
+            return res.status(200).json(new ErrorHandler(400, "Failed to Delete"));
         }
 
         return res
@@ -65,7 +65,7 @@ const ToggleCommentLike = asyncHandler(async (req, res) => {
      })
 
     if(!createComment){
-        throw new ErrorHandler(400, "Failed to Create");
+        return res.status(200).json(new ErrorHandler(400, "Failed to Create"));
     }
 
     return res
@@ -115,7 +115,7 @@ const GetLikedVideos = asyncHandler(async (req, res) => {
     const likedVideos = await LikeModel.find({ likedBy : req.user?._id });
 
     if(likedVideos.length < 1){
-        throw new ErrorHandler(401, "Empty Likes");
+        return res.status(200).json(new ErrorHandler(401, "Empty Likes"));
     }
     
     const count = likedVideos.length;

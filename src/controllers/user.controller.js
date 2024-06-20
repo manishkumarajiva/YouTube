@@ -79,7 +79,7 @@ const GetCurrentUser = asyncHandler(async (req, res) => {
     const userProfile = await UserModel.findById({ _id : userId });
 
     if(!userProfile){
-        throw new ErrorHandler(500, "User Not Fount");
+        return res.status(200).json(new ErrorHandler(500, "User Not Fount"));
     }
 
     return res
@@ -92,7 +92,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
     const { fullname, username } = req.body;
 
     if(!(fullname || username)){
-        throw new ErrorHandler(400, "All fields are required");
+        return res.status(200).json(new ErrorHandler(400, "All fields are required"));
     }
 
     const updateUser = await UserModel.findByIdAndUpdate(
@@ -110,7 +110,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     if(! (req.file && req.file?.filename)){
-        throw new ErrorHandler(401, "Please Select YouTube Banner")
+      return res.status(200).json(ErrorHandler(401, "Please Select YouTube Banner"));
     }
 
     // Local Handling
@@ -130,7 +130,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     )
 
     if(!UpdateBanner){
-        throw new ErrorHandler(400, "Failed to Update")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Update"));
     }
 
     // const RemovePreviousAvatar = fs.unlinkSync(OldBanner);
@@ -167,7 +167,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     )
 
     if(!UpdateAvatar){
-        throw new ErrorHandler(400, "Failed to Update")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Update"));
     }
 
     // const RemovePreviousAvatar = fs.unlinkSync(OldAvatar);
@@ -185,7 +185,7 @@ const GetWatchHistory = asyncHandler(async (req, res) => {
     const WatchHistory = await UserModel.findById({ _id : req.user?._id })
 
     if(WatchHistory.length < 1){
-        throw new ErrorHandler(400, "Empty")
+        return res.status(200).json(new ErrorHandler(400, "Empty"));
     }
 
     return res

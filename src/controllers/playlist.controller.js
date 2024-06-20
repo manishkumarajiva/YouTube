@@ -48,7 +48,6 @@ const GetVideoPlaylists = asyncHandler(async (req, res) => {
 
     const count = channelPlaylist.length;
 
-
     return res
     .status(200)
     .json(new ResponseHandler(201, channelPlaylist, "Successfully Fetched"));
@@ -68,12 +67,12 @@ const UpdateVideoPlaylist = asyncHandler(async (req, res) => {
     const updatePlaylist = await PlaylistModel.findByIdAndUpdate({ _id : playlistId }, updatePayload, { new : true })
 
     if(!updatePayload){
-        throw new ErrorHandler(400, "Failed to Update")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Update"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, updatePlaylist, "Successfully Updated"))
+    .json(new ResponseHandler(201, updatePlaylist, "Successfully Updated"));
 });
 
 
@@ -83,7 +82,7 @@ const DeleteVideoPlaylist = asyncHandler(async (req, res) => {
     const deletePlaylist = await PlaylistModel.findByIdAndDelete({ _id : playlistId });
 
     if(!deletePlaylist){
-        throw new ErrorHandler(400, "Failed to Delete")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Delete"));
     }
 
     return res
@@ -98,7 +97,7 @@ const AddVideoToPlaylist = asyncHandler(async (req, res) => {
     const playlist = await PlaylistModel.findById({ _id : playlistId })
 
     if(!playlist){
-        throw new ErrorHandler(400, "Not Found")
+        return res.status(200).json(new ErrorHandler(400, "Not Found"));
     }
 
     const AddVideo = { videoId : videoId }
@@ -119,7 +118,7 @@ const RemoveVideoFromPlaylist = asyncHandler(async (req, res) => {
     const playlist = await PlaylistModel.findById({ _id : playlistId })
 
     if(!playlist){
-        throw new ErrorHandler(400, "Not Found")
+        return res.status(200).json(new ErrorHandler(400, "Not Found"));
     }
 
     const RemoveVideo = videoId;
