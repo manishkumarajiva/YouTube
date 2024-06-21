@@ -52,13 +52,13 @@ const userSchema = new mongoose.Schema({
     },
     watchHistory : [
         {
-            videoId : {
+            video : {
                 type : Schema.Types.ObjectId,
                 ref : "Video"
             }
         }
     ],
-    googleId : {
+    google : {
         type : String,
         trim : true
     },
