@@ -2,6 +2,7 @@ import VideoModel from "../models/video.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import UserModel from "../models/user.model.js";
 
 
 
@@ -55,6 +56,11 @@ const GetVideoById = asyncHandler(async (req, res) => {
     if(!video){
         throw new ErrorHandler(400, "Empty")
     }
+
+    const user = await UserModel.findById({ _id : req.user?._id });
+
+    user.watchHistory.push({ video : video._id });
+    await user.save({ validateBeforeSave : false });
 
     return res
     .status(200)
