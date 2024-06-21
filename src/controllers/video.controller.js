@@ -162,6 +162,24 @@ const DeleteChannelVideo = asyncHandler(async (req, res) => {
     .json(new ResponseHandler(201, deleteVideo, "Deleted Successfully"))
 });
 
+
+const RemoveHistoryVideo = asyncHandler(async (req, res) => {
+    const videoId = req.query.videoId;
+
+    const user = await UserModel.findById({ _id : req.user?._id });
+
+    user.watchHistory.filter((value) => {
+        return !value.video.equals(videoId);
+    });
+
+    const history = user.save({ validateBeforeSave : false });
+
+    return res
+    .status(200).
+    json(new ResponseHandler(201, history, "Successfully Deleted"));
+
+});
+
 // --------------- Video's Handlers --------------- END
 
 
@@ -173,5 +191,6 @@ export{
     UpdateChannelVideo,
     PublishChannelVideo,
     TogglePublicStatus,
-    DeleteChannelVideo
+    DeleteChannelVideo,
+    RemoveHistoryVideo
 };
