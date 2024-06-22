@@ -3,7 +3,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import UserModel from "../models/user.model.js";
-
+import msg from "../config/message.js";
 
 
 // --------------- Video's Handlers --------------- START
@@ -152,14 +152,14 @@ const TogglePublicStatus = asyncHandler(async (req, res) => {
 const DeleteChannelVideo = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
-    const deleteVideo = await VideoModel.findByIdAndDelete({ _id : videoId })
+    const deleteVideo = await VideoModel.findByIdAndDelete({ _id : videoId });
     if(!deleteVideo){
-        throw new ErrorHandler(400, "Failed to delete")
+        throw new ErrorHandler(400, msg.fdelete);
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, deleteVideo, "Deleted Successfully"))
+    .json(new ResponseHandler(201, deleteVideo, msg.sdelete));
 });
 
 
@@ -176,8 +176,7 @@ const RemoveHistoryVideo = asyncHandler(async (req, res) => {
 
     return res
     .status(200).
-    json(new ResponseHandler(201, history, "Successfully Deleted"));
-
+    json(new ResponseHandler(201, history, msg.sdelete));
 });
 
 // --------------- Video's Handlers --------------- END
