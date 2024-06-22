@@ -2,7 +2,8 @@ let msg = {
 
     payload: "Invalid Payload Values 📛",
     nfuser : "User Not Found 🚷",
-    
+    alexist: "User Already Exist 😄",
+
     //LOGIN & LOGOUT
     slogin: "Login Success 🫂",
     flogin: "Login Failed ⛔",
@@ -21,7 +22,6 @@ let msg = {
     psnfmatch : "Password is incorrect 🔴 ",
 
 
-    email: "Email already exist 📧",
     sendEmail : "Email has been send successfully, Please check your email 📧 ",
 
 

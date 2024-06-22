@@ -4,7 +4,7 @@ import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import SendEmail from "../utils/ses.util.js";
 import Bcrypt from "bcryptjs";
-import fs from 'fs';
+import msg from "../config/message.js";
 
 // --------------- User's Handlers --------------- START
 
@@ -12,12 +12,12 @@ const RegisterUser = asyncHandler(async (req, res) => {
     const { fullname, username, email, password } = req.body;
 
     if([fullname, username, email, password].some((field) => field.trim() === "")){
-        throw new ErrorHandler(401, "All fields are required");
+        throw new ErrorHandler(401, msg.payload);
     }
 
     const existedUser = await UserModel.findOne({ $or : [{username},{email}]});
     if(existedUser){
-        return res.status(200).json(new ResponseHandler(409, "User with Email or Username Already Exist"));
+        return res.status(200).json(new ResponseHandler(409, msg.alexist));
     }
 
     // Avatar
@@ -56,7 +56,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     })
 
     if(!createUser){
-        return res.status(200).json(new ErrorHandler(500, "Something went wrong during Registeration"));
+        return res.status(200).json(new ErrorHandler(500, msg.fregister));
     }
 
     const mailOptions = {
@@ -70,7 +70,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
 
     return res
     .status(201)
-    .json(new ResponseHandler(200, createUser, "User Register Successfully"));
+    .json(new ResponseHandler(200, createUser, msg.sregister));
 });
 
 
@@ -92,7 +92,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
     const { fullname, username } = req.body;
 
     if(!(fullname || username)){
-        return res.status(200).json(new ErrorHandler(400, "All fields are required"));
+        return res.status(200).json(new ErrorHandler(400, msg.payload));
     }
 
     const updateUser = await UserModel.findByIdAndUpdate(
@@ -103,7 +103,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ResponseHandler(200, updateUser, "User Update Successfully"))
+    .json(new ResponseHandler(200, updateUser, msg.supdate));
 });
 
 
@@ -130,7 +130,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     )
 
     if(!UpdateBanner){
-        return res.status(200).json(new ErrorHandler(400, "Failed to Update"));
+        return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
 
     // const RemovePreviousAvatar = fs.unlinkSync(OldBanner);
@@ -140,7 +140,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, UpdateBanner, "Update Successfully"))
+    .json(new ResponseHandler(201, UpdateBanner, msg.supdate));
 });
 
 
@@ -167,7 +167,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     )
 
     if(!UpdateAvatar){
-        return res.status(200).json(new ErrorHandler(400, "Failed to Update"));
+        return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
 
     // const RemovePreviousAvatar = fs.unlinkSync(OldAvatar);
@@ -176,7 +176,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, UpdateAvatar, "Update Successfully"))
+    .json(new ResponseHandler(201, UpdateAvatar, msg.supdate));
 });
 
 
@@ -185,12 +185,12 @@ const GetWatchHistory = asyncHandler(async (req, res) => {
     const WatchHistory = await UserModel.findById({ _id : req.user?._id })
 
     if(WatchHistory.length < 1){
-        return res.status(200).json(new ErrorHandler(400, "Empty"));
+        return res.status(200).json(new ErrorHandler(400, msg.fread));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, WatchHistory, "Successfully Fetch"))
+    .json(new ResponseHandler(201, WatchHistory, msg.sread));
 });
 
 // --------------- User's Handlers --------------- END
