@@ -4,7 +4,7 @@ import SubscriptionModel from "../models/subscription.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
-
+import msg from "../config/message.js";
 
 
 // --------------- Dashboard's Handlers --------------- START
@@ -29,12 +29,12 @@ const GetChannelVideos = asyncHandler(async (req, res) => {
     const ChannelVideos = await VideoModel.find({ channel : req.user._id })
 
     if(ChannelVideos.length < 1){
-        return res.status(200).json(new ErrorHandler(400, "Empty"));
+        return res.status(200).json(new ErrorHandler(400, msg.fread));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, ChannelVideos, "Successfully Fetch"))
+    .json(new ResponseHandler(201, ChannelVideos, msg.sread));
 });
 
 // --------------- Dashboard's Handlers --------------- END

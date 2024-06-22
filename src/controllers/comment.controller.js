@@ -2,7 +2,7 @@ import CommentModel from "../models/comment.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
-
+import msg from "../config/message.js";
 
 
 // --------------- Comment's Handlers --------------- START
@@ -19,12 +19,12 @@ const AddVideoComment = asyncHandler(async (req, res) => {
     })
 
     if(!createComment){
-        return res.status(200).json(new ErrorHandler(400, "Failed to comment"));
+        return res.status(200).json(new ErrorHandler(400, msg.fcreate));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, createComment, "Comment Successfully Added"));
+    .json(new ResponseHandler(201, createComment, msg.screate));
 });
 
 
@@ -39,7 +39,7 @@ const GetVideoComments = asyncHandler(async (req, res) => {
     const count = comments;
 
     if(count < 1){
-        res.status(200).json(new ErrorHandler(400, "Empty Comment"));
+        res.status(200).json(new ErrorHandler(400, msg.fread));
     }
 
     const response = {
@@ -50,7 +50,7 @@ const GetVideoComments = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, response, "Video Comments"));
+    .json(new ResponseHandler(201, response, msg.sread));
 });
 
 
@@ -61,12 +61,12 @@ const UpdateVideoComment = asyncHandler(async (req, res) => {
     const updateComment = await CommentModel.findByIdAndUpdate({ _id : commentId }, { content : content }, { new : true });
 
     if(!updateComment){
-        throw new ErrorHandler(400, "Failed to Update")
+        return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, updateComment, "Successfully Updated"))
+    .json(new ResponseHandler(201, updateComment, msg.supdate));
 });
 
 
@@ -76,12 +76,12 @@ const DeleteVideoComment = asyncHandler(async (req, res) => {
     const deleteComment = await CommentModel.findByIdAndDelete({ _id : commentId });
 
     if(!deleteComment){
-        return res.status(200).json(new ErrorHandler(400, "Failed to Delete"));
+        return res.status(200).json(new ErrorHandler(400, msg.fdelete));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, deleteComment, "Successfully Deleted"))
+    .json(new ResponseHandler(201, deleteComment, msg.sdelete));
 });
 
 // --------------- Comment's Handlers --------------- END
