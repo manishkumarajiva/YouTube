@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import { AccessToken, RefreshToken } from "../middlewares/authenticate.middleware.js";
 import JWT from "jsonwebtoken";
 import Bcrypt from "bcryptjs";
+import msg from "../config/message.js";
 import randomString from "randomstring";
 import SendEmail from "../utils/ses.util.js";
 
@@ -33,17 +34,17 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     if(!email){
-        return res.status(200).json(ErrorHandler(400, "Username or Email are required"));
+        return res.status(200).json(ErrorHandler(400, msg.payload));
     }
 
     const existUser = await UserModel.findOne({ $or : [{username},{email}]});
     if(!existUser){
-        return res.status(200).json(new ErrorHandler(400, "User Not Found"));
+        return res.status(200).json(new ErrorHandler(400, msg.nfuser));
     }
 
     const comparePassword = await Bcrypt.compare(password, existUser.password);
     if(!comparePassword){
-        return res.status(200).json(new ErrorHandler(400, "Incorrect user credential"));
+        return res.status(200).json(new ErrorHandler(400, msg.psnfmatch));
     }
 
     const { AuthAccessToken, AuthRefreshToken } =  await generateRefreshAndAccessToken(existUser);
@@ -59,7 +60,7 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("AccessToken", AuthAccessToken, cookieOption)
     .cookie("RefreshToken", AuthRefreshToken, cookieOption)
-    .json( new ResponseHandler(200, existUser, "Successfully Login", AuthAccessToken));
+    .json( new ResponseHandler(200, existUser, msg.slogin, AuthAccessToken));
 });
 
 
@@ -83,7 +84,7 @@ const LogoutAuthentication = asyncHandler(async (req, res) => {
         .status(200)
         .clearCookie("AccessToken", cookieOption)
         .clearCookie("RefreshToken", cookieOption)
-        .json( new ResponseHandler(200, {}, "User Logged Out"));
+        .json( new ResponseHandler(200, {}, msg.slogout));
     }
 });
 
@@ -95,7 +96,7 @@ const UpdateCurrentPassword = asyncHandler(async (req, res) => {
     const comparePassword = await Bcrypt.compare(oldPassword, user.password);
 
     if(!comparePassword){
-        return res.status(200).json(new ErrorHandler(400, "Incorrect Old Password"));
+        return res.status(200).json(new ErrorHandler(400, msg.psnfmatch));
     }
     
     const hashedPassword = await Bcrypt.hash(newPassword,12);
@@ -115,7 +116,7 @@ const UpdateCurrentPassword = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json( new ResponseHandler(200,{}, "Password Changed Successfully"));
+    .json( new ResponseHandler(200,{}, msg.psupdate));
 });
 
 
@@ -125,7 +126,7 @@ const VerifyUserAccount = asyncHandler(async (req, res) => {
 
     const user = await UserModel.findOne({ verificationToken : verificationToken });
     if(!user){
-        return res.status(200).json(ErrorHandler(400, "User Not Found"));
+        return res.status(200).json(ErrorHandler(400, msg.notFound));
     }
 
     const verifyPayload = new Object({

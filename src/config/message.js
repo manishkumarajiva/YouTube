@@ -1,4 +1,8 @@
-let msgCnfg = {
+let msg = {
+
+    payload: "Invalid Payload Values 📛",
+    nfuser : "User Not Found 🚷",
+    
     //LOGIN & LOGOUT
     slogin: "Login Success 🫂",
     flogin: "Login Failed ⛔",
@@ -14,11 +18,9 @@ let msgCnfg = {
 
     //PASSWORD
     psupdate : "Password has been updated successfully 👍 ",
-    psfmatch : "Password is incorrect 🔴 ",
+    psnfmatch : "Password is incorrect 🔴 ",
 
 
-    //PAYLOAD @EMAIL #PASSWORD
-    payload: "Invalid Payload Values 📛",
     email: "Email already exist 📧",
     sendEmail : "Email has been send successfully, Please check your email 📧 ",
 
@@ -26,7 +28,7 @@ let msgCnfg = {
     //TOKEN
     stoken: "User Login (Token 🎫 ) for Authentication ",
     ftoken: "Token not Generated",
-    etoken : "Token 🎟️ has been expired, please login again",
+    etoken : "Session 🎟️ has been expired, please login again",
     elink : "This link has been expired 🙆 ",
 
     //ROLE WISE AUTH
@@ -49,4 +51,4 @@ let msgCnfg = {
     error: "Error occur in catch(err) 🥵"
 };
 
-module.exports =  msgCnfg;
+export default msg;
