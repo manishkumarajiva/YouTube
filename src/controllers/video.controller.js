@@ -73,12 +73,12 @@ const GetChannelVideo = asyncHandler(async (req, res) => {
     const channelVideos = await VideoModel.find({ channel : req.user?._id })
 
     if(channelVideos.length < 1){
-        throw new ErrorHandler(400, "Empty")
+        throw new ErrorHandler(400, msg.fread)
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, channelVideos, "Fetched Successfully"))
+    .json(new ResponseHandler(201, channelVideos, msg.sread))
 
 });
 
@@ -107,7 +107,7 @@ const UpdateChannelVideo = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, updatePayload, "Update Successfully"))
+    .json(new ResponseHandler(201, updatePayload, msg.supdate))
 });
 
 
