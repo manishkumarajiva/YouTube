@@ -114,15 +114,15 @@ const UpdateChannelVideo = asyncHandler(async (req, res) => {
 const PublishChannelVideo = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
-    const publishvideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { isPublish : true }, { true : false })
+    const publishvideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { isPublish : true }, { true : false });
 
     if(!publishvideo){
-        throw new ErrorHandler(400, "Failed to publish")
+        return res.status(200).json(new ErrorHandler(400, "Failed to publish"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, publishvideo, "Publish Successfully"))
+    .json(new ResponseHandler(201, publishvideo, "Publish Successfully"));
 });
 
 
@@ -140,12 +140,12 @@ const TogglePublicStatus = asyncHandler(async (req, res) => {
 
 
     if(!togglePublish){
-        throw new ErrorHandler(400, "Failed to Toggle publish")
+        return res.status(200).json(new ErrorHandler(400, "Failed to Toggle publish"));
     }
 
     return res
     .status(200)
-    .json(new ResponseHandler(201, togglePublish, "Publish Successfully"))
+    .json(new ResponseHandler(201, togglePublish, "Publish Successfully"));
 });
 
 
@@ -154,7 +154,7 @@ const DeleteChannelVideo = asyncHandler(async (req, res) => {
 
     const deleteVideo = await VideoModel.findByIdAndDelete({ _id : videoId });
     if(!deleteVideo){
-        throw new ErrorHandler(400, msg.fdelete);
+        return res.status(200).json(new ErrorHandler(400, msg.fdelete));
     }
 
     return res
