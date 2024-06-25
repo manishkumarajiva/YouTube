@@ -6,6 +6,7 @@ import SendEmail from "../utils/ses.util.js";
 import Bcrypt from "bcryptjs";
 import msg from "../config/message.js";
 
+
 // --------------- User's Handlers --------------- START
 
 const RegisterUser = asyncHandler(async (req, res) => {
