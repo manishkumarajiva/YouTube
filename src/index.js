@@ -6,6 +6,7 @@ import connectDB from "./database/DBconnect.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
+import morgan from "morgan";
 
 const youtube = express();
 const PORT = process.env.MONGO_PORT || 8000;
@@ -31,6 +32,7 @@ youtube.use(passport.initialize());
 youtube.use(passport.session());
 
 youtube.use(cors("*"));
+youtube.use(morgan("dev"));
 
 youtube.use("/api", ApiRoutes);
 
