@@ -5,8 +5,7 @@ import { UpdateUserCoverImage, UpdateUserAvatar, GetWatchHistory } from "../../c
 import { VerifyToken } from "../../middlewares/authenticate.middleware.js";
 import upload from "../../middlewares/upload.middleware.js";
 import passport from "passport";
-import passportStrategry from "../config/passport.config.js";
-
+import passportStratgy from "../../config/passport.config.js";
 
 // ----------------- User's Routes -------------- START
 
@@ -28,11 +27,10 @@ router.get("/history", VerifyToken, GetWatchHistory);
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
   
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'https://www.linkedin.com/in/manish-leo/' }),
     function(req, res) {
-      // Successful authentication, redirect home.
-      res.redirect('/');
-    });
+      res.redirect("https://github.com/manishkumarajiva?tab=overview&from=2024-06-01&to=2024-06-22");
+});
 
 
 // ----------------- User's Routes -------------- END
