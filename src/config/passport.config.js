@@ -12,10 +12,16 @@ passport.use(new GoogleStrategy({
     console.log("inside google strategy", profile);
     UserModel.findOne({ googleId: profile.id }).then((currUser) => {
       if (currUser) {
+        console.log("EXISTING USER :::")
         done(null, currUser);
       } else {
-        const newUser = new UserModel.create({ googleId: profile.id, fullname: profile.displayName });
-        done(null, newUser)
+        console.log("NEW USER :::");
+        new UserModel({
+          googleId: profile.id, 
+          fullname: "Manish Dhiman"
+        }).save().then((profile) => {
+          done(null, profile);
+        })
       }
     })
   }
