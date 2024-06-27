@@ -25,14 +25,6 @@ router.put("/avatar", VerifyToken, upload.single("avatar"), UpdateUserAvatar);
 router.put("/banner", VerifyToken, upload.single("banner"), UpdateUserCoverImage);
 router.get("/history", VerifyToken, GetWatchHistory);
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
-  
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: 'https://www.linkedin.com/in/manish-leo/' }),
-    function(req, res) {
-      res.redirect("https://github.com/manishkumarajiva?tab=overview&from=2024-06-01&to=2024-06-22");
-});
-
-
 // ----------------- User's Routes -------------- END
 
 export default router;

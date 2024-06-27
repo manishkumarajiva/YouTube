@@ -2,32 +2,15 @@ import UserModel from "../models/user.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
-import { AccessToken, RefreshToken } from "../middlewares/authenticate.middleware.js";
-import JWT from "jsonwebtoken";
 import Bcrypt from "bcryptjs";
 import msg from "../config/message.js";
 import randomString from "randomstring";
 import SendEmail from "../utils/ses.util.js";
+import { generateRefreshAndAccessToken } from "../middlewares/authenticate.middleware.js";
 
 
 
 // --------------- Auth's Handlers --------------- START
-
-const generateRefreshAndAccessToken = async (user) => {
-    try {
-        const AuthAccessToken = await AccessToken(user);
-        const AuthRefreshToken = await RefreshToken(user);
-    
-        const saveRefreshToken = await UserModel.findById({ _id : user._id });
-
-        saveRefreshToken.refreshToken = AuthRefreshToken;
-        await saveRefreshToken.save({ validateBeforeSave : false });
-    
-        return ({ AuthAccessToken, AuthRefreshToken });
-    } catch (error) {
-        return res.status(200).json(new ErrorHandler(400, "Session Token :: Something Went Wrong"));
-    }
-};
 
 
 const LoginAuthentication = asyncHandler(async (req, res) => {

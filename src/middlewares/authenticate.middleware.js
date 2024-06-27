@@ -11,7 +11,7 @@ const AccessToken = async (user) => {
         const payload = {
             id : user._id,
             email : user.email,
-            name : user.username
+            name : user.fullname
         }
 
         const optons = {
@@ -37,7 +37,7 @@ const RefreshToken = async (user) => {
         const payload = {
             id : user._id,
             email : user.email,
-            name : user.username
+            name : user.fullname
         }
     
         const optons = {
@@ -74,4 +74,20 @@ const VerifyToken = async (req, res, next) => {
 };
 
 
-export { AccessToken, RefreshToken, VerifyToken };
+
+const generateRefreshAndAccessToken = async (user) => {
+    try {
+        const AuthAccessToken = await AccessToken(user);
+        const AuthRefreshToken = await RefreshToken(user);
+    
+        const saveRefreshToken = await UserModel.findById({ _id : user._id });
+
+        saveRefreshToken.refreshToken = AuthRefreshToken;
+        await saveRefreshToken.save({ validateBeforeSave : false });
+    
+        return ({ AuthAccessToken, AuthRefreshToken });
+    } catch (error) {
+        return res.status(200).json(new ErrorHandler(400, "Session Token :: Something Went Wrong"));
+    }
+};
+export { VerifyToken, generateRefreshAndAccessToken };
