@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
             const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9) + "-";
             cb(null, uniqueSuffix + `${file.originalname}`);
         },
-    });
+    })
 
     const upload = multer({ storage: Storage });
 
