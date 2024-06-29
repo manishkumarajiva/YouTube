@@ -18,3 +18,6 @@
 
 
 // nvm install 20
+
+
+// R & D about youtube studio
