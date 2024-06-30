@@ -1,11 +1,12 @@
 import { Router } from "express";
 const router = Router();
-import YouTubeRoutes from "./api/index.route.js";
-
+import Platform from "./API/PLATFORM/index.route.js";
+import Studio from "./API/STUDIO/index.js";
 
 // --------------- YouTube App Version --------------- 
-router.use("/V.1.0.0", YouTubeRoutes);
 
+router.use("/V1/platform", Platform);
+router.use("/V1/studio", Studio);
 
 export default router;
 

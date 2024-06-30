@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { AddVideoComment, GetVideoComments, UpdateVideoComment, DeleteVideoComment } from "../../controllers/comment.controller.js";
+import { AddVideoComment, GetVideoComments, UpdateVideoComment, DeleteVideoComment } from "../../../controllers/comment.controller.js";
 
 
 // ----------------- Comment's Routes -------------- START

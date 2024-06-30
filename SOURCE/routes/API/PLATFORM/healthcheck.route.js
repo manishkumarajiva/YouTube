@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { HealthCheckYouTube, YouTubeAppInfo } from "../../controllers/healthcheck.controller.js";
+import { HealthCheckYouTube, YouTubeAppInfo } from "../../../controllers/healthcheck.controller.js";
 
 // ----------------- Healthcheck's Routes -------------- START
 
