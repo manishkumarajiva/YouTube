@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors"
-import ApiRoutes from "./routes/index.js";
+import ApiRoutes from "./routes/version.js";
 import connectDB from "./database/DBconnect.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
