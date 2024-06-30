@@ -1,10 +1,10 @@
 import { Router } from "express";
 const router = Router();
 import passport from "passport";
-import googleStragety from "../../config/passport.config.js";
-import { LoginAuthentication, LogoutAuthentication } from "../../controllers/auth.controller.js";
-import { UpdateCurrentPassword, ForgetUserPassword, ResetUserPassword, RefreshAccessToken } from "../../controllers/auth.controller.js";
-import { VerifyToken } from  "../../middlewares/authenticate.middleware.js"
+import googleStragety from "../../../config/passport.config.js";
+import { LoginAuthentication, LogoutAuthentication } from "../../../controllers/auth.controller.js";
+import { UpdateCurrentPassword, ForgetUserPassword, ResetUserPassword, RefreshAccessToken } from "../../../controllers/auth.controller.js";
+import { VerifyToken } from  "../../../middlewares/authenticate.middleware.js"
 
 
 // ----------------- Auth's Routes -------------- START
