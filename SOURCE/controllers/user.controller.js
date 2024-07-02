@@ -10,38 +10,15 @@ import msg from "../config/message.js";
 // --------------- User's Handlers --------------- START
 
 const RegisterUser = asyncHandler(async (req, res) => {
-    const { fullname, username, email, password } = req.body;
+    const { fullname, email, password } = req.body;
 
-    if([fullname, username, email, password].some((field) => field.trim() === "")){
+    if([fullname, email, password].some((field) => field.trim() === "")){
         throw new ErrorHandler(401, msg.payload);
     }
 
-    const existedUser = await UserModel.findOne({ $or : [{username},{email}]});
+    const existedUser = await UserModel.findOne({ $or : [{email},{email}]});
     if(existedUser){
         return res.status(200).json(new ResponseHandler(409, msg.alexist));
-    }
-
-    // Avatar
-    const avatarLocalPath = req.files.avatar[0]?.filename;
-    if(!avatarLocalPath){
-        return res.status(200).json(new ResponseHandler(401, "Avatar is required"));
-    }
-
-    const avatarLocal = new Object({
-        filename : req.files.avatar[0]?.filename,
-        url : "http://localhost:8000/public/upload/avatar/"
-    })
-    
-
-    // CoverImage
-    let bannerFile;  let bannerLocal;
-    if(req.files && Array.isArray(req.files.banner) && req.files.banner[0]?.filename){
-        bannerFile = req.files.banner[0]?.filename;
-
-        bannerLocal = new Object({
-            filename : bannerFile,
-            url : "http://localhost:8000/public/upload/banner/"
-        })
     }
 
 
@@ -49,11 +26,9 @@ const RegisterUser = asyncHandler(async (req, res) => {
 
     const createUser = await UserModel.create({
         fullname : fullname,
-        username : username.toLowerCase(),
+        username : `@${fullname.split(" ")[0].toLowerCase()}`,
         email : email.toLowerCase(),
-        password : hashedPassword,
-        avatar : avatarLocal,
-        banner : bannerLocal
+        password : hashedPassword
     })
 
     if(!createUser){
@@ -92,11 +67,17 @@ const GetCurrentUser = asyncHandler(async (req, res) => {
 const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
     const { fullname, username } = req.body;
 
-    if(!(fullname || username)){
+    if(!username){
         return res.status(200).json(new ErrorHandler(400, msg.payload));
     }
 
-    const updateUser = await UserModel.findByIdAndUpdate(
+    const usernameExist = await UserModel.findOne({ username : username });
+
+    if(usernameExist){
+        return res.status(200).json(new ErrorHandler(400, msg.alexist));
+    }
+
+    const usernameUpdate = await UserModel.findByIdAndUpdate(
         req.user?._id,
         { fullname : fullname, username : username },
         { new : true }
@@ -104,7 +85,7 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .json(new ResponseHandler(200, updateUser, msg.supdate));
+    .json(new ResponseHandler(200, usernameUpdate, msg.supdate));
 });
 
 
