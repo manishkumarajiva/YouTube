@@ -22,31 +22,11 @@ const userSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
-    banner : {
-        filename : {
-            type : String,
-            trim : true
-        },
-        url : {
-            type : String,
-            trim : true
-        }
-    },
-    avatar : {
-        filename : {
-            type : String,
-            trim : true
-        },
-        url : {
-            type : String,
-            trim : true
-        }
-    },
-    cloudnaryCoverImage : {
+    coverImage : {
         type : String,
         trim : true
     },
-    cloudnaryAvatar : {
+    avatar : {
         type : String,
         trim : true
     },

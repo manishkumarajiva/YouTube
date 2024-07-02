@@ -3,20 +3,23 @@ import fs from "fs";
 import ErrorHandler from "./errorHandler";
 
 
-const UploadMediaService = async (mediafiles) => {
+const CloudinaryUpload = async (path) => {
 
     try {
-        const filePath = mediafiles.path;
         const options = {
             resourse_type : mediafiles.type
         }
     
-        const uploadResponse = await cloudinary.uploader.upload(filePath, options);
-        if(uploadResponse) return uploadResponse;
+        const uploadResponse = await cloudinary.uploader.upload(path, options);
+        if(uploadResponse){
+            fs.unlinkSync(path);
+            return uploadResponse;
+        }
 
     } catch (error) {
+        fs.unlinkSync(path)
         res.status(500).json(new ErrorHandler(500, "🔴 Cloudinary Error"));
     }
 };
 
-export default UploadMediaService;
+export default CloudinaryUpload;

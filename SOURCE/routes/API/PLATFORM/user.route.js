@@ -9,16 +9,7 @@ import passportStratgy from "../../../config/passport.config.js";
 
 // ----------------- User's Routes -------------- START
 
-router.post("/register", upload.fields([
-    {
-        name : "avatar",
-        maxCount : 1
-    },
-    {
-        name : "banner",
-        maxCount : 1
-    }
-]), RegisterUser);
+router.post("/register", RegisterUser);
 router.get("/profile", VerifyToken, GetCurrentUser);
 router.patch("/updateprofile", VerifyToken, UpdateUserAccountDetails);
 router.put("/avatar", VerifyToken, upload.single("avatar"), UpdateUserAvatar);

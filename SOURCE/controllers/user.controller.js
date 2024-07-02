@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import SendEmail from "../utils/ses.util.js";
 import Bcrypt from "bcryptjs";
 import msg from "../config/message.js";
+import CloudinaryUpload from "../utils/cloudinary.util.js";
 
 
 // --------------- User's Handlers --------------- START
@@ -92,18 +93,14 @@ const UpdateUserAccountDetails = asyncHandler(async (req, res) => {
 const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     if(! (req.file && req.file?.filename)){
-      return res.status(200).json(ErrorHandler(401, "Please Select YouTube Banner"));
+      return res.status(200).json(ErrorHandler(401, "Please Select Background Banner"));
     }
 
-    // Local Handling
-    const UserProfile = await UserModel.findById({ _id : req.user?._id })
+    const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
-    const OldBanner = UserProfile.banner.url + UserProfile.banner.name;
+    //Remove Old image from avatar
 
-    const NewBanner = new Object({
-        filename : req.file?.filename,
-        url : "http://localhost:8000/public/upload/banner/"
-    })
+    const NewBanner = await CloudinaryUpload(req.file?.path);
 
     const UpdateBanner = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
@@ -114,11 +111,6 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     if(!UpdateBanner){
         return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
-
-    // const RemovePreviousAvatar = fs.unlinkSync(OldBanner);
-
-    // Cloudinary
-
 
     return res
     .status(200)
@@ -132,15 +124,9 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
         throw new ErrorHandler(401, "Please Select Profile Avatar")
     }
 
-    // Local Handling
     const UserProfile = await UserModel.findById({ _id : req.user?._id })
 
-    const OldAvatar = UserProfile.avatar.url + UserProfile.avatar.name;
-
-    const NewAvatar = new Object({
-        filename : req.file.filename,
-        url : "http://localhost:8000/public/upload/avatar/"
-    })
+    const NewAvatar = await CloudinaryUpload(req.file?.path);
 
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
@@ -151,10 +137,6 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     if(!UpdateAvatar){
         return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
-
-    // const RemovePreviousAvatar = fs.unlinkSync(OldAvatar);
-    // Cloudinary
-
 
     return res
     .status(200)
