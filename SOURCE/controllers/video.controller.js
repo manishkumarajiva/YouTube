@@ -3,37 +3,32 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import UserModel from "../models/user.model.js";
+import CloudinaryUpload from "../utils/cloudinary.util.js";
 import msg from "../config/message.js";
 
 
 // --------------- Video's Handlers --------------- START
 
 const UploadChannelVideo = asyncHandler(async (req, res) => {
-    const data = req.body;
+    const video = req.body;
 
-    if(!(req.files && Array.isArray(req.files.video) && req.files.video[0]?.filename)){
+    if(!(req.files && Array.isArray(req.files.video) && req.files.video[0]?.path)){
         throw new ErrorHandler(401, "Please Select Video");
     }
 
-    const Video = new Object({
-        filename : req.files.video[0]?.filename,
-        url : "http://localhost:8000/public/upload/video/"
-    })
 
-    if(!(req.files && Array.isArray(req.files.thumbnail) && req.files.thumbnail[0]?.filename)){
+    if(!(req.files && Array.isArray(req.files.thumbnail) && req.files.thumbnail[0]?.path)){
         throw new ErrorHandler(401, "Please Select Thumbnail");
     }
 
-    const Thumbnail = new Object({
-        filename : req.files.thumbnail[0]?.filename,
-        url : "http://localhost:8000/public/upload/video/"
-    })
+   const Thumbnail = await CloudinaryUpload(req.files.thumbnail[0]?.path);
+   const Video = await CloudinaryUpload(req.files.video[0]?.path);
 
     const videoPlayload = {
         channel : req.user?._id,
-        title : data.title,
-        description : data.description,
-        duration : data.duration,
+        title : video.title,
+        description : video.description,
+        duration : video.duration,
         video : Video,
         thumbnail : Thumbnail
     }

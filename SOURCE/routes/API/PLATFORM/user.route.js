@@ -4,8 +4,6 @@ import { RegisterUser, GetCurrentUser, UpdateUserAccountDetails } from "../../..
 import { UpdateUserCoverImage, UpdateUserAvatar, GetWatchHistory } from "../../../controllers/user.controller.js";
 import { VerifyToken } from "../../../middlewares/authenticate.middleware.js";
 import upload from "../../../middlewares/upload.middleware.js";
-import passport from "passport";
-import passportStratgy from "../../../config/passport.config.js";
 
 // ----------------- User's Routes -------------- START
 
