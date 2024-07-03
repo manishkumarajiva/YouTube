@@ -78,24 +78,14 @@ const GetChannelVideo = asyncHandler(async (req, res) => {
 });
 
 
-const UpdateChannelVideo = asyncHandler(async (req, res) => {
+const UpdateVideoInfo = asyncHandler(async (req, res) => {
 
     const { videoId, title, description } = req.body;
-    const thumbnail = req.file?.filename;
-    if(!thumbnail){
-        throw new ErrorHandler(401, "Please Select Thumbnail");
-    }
-
-    const Thumbnail = new Object({
-        filename : req.file?.filename,
-        url : "http://localhost:8000/public/upload/video/"
-    })
-            
+      
 
     const updatePayload = new Object({
         title : title,
-        description : description,
-        thumbnail : Thumbnail
+        description : description
     })
 
     const updateVideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, updatePayload, { new : true });
@@ -182,7 +172,7 @@ export{
     UploadChannelVideo,
     GetChannelVideo,
     GetVideoById,
-    UpdateChannelVideo,
+    UpdateVideoInfo,
     PublishChannelVideo,
     TogglePublicStatus,
     DeleteChannelVideo,

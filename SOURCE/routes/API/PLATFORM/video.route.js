@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { UploadChannelVideo, GetChannelVideo, GetVideoById, UpdateChannelVideo } from "../../../controllers/video.controller.js";
+import { UploadChannelVideo, GetChannelVideo, GetVideoById, UpdateVideoInfo } from "../../../controllers/video.controller.js";
 import { PublishChannelVideo, TogglePublicStatus, DeleteChannelVideo, RemoveHistoryVideo } from "../../../controllers/video.controller.js";
 import upload from "../../middlewares/upload.middleware.js";
 
@@ -18,7 +18,8 @@ router.post("/upload", upload.fields([
 ]), UploadChannelVideo);
 router.get("/singlebyid", GetVideoById);
 router.get("/channelvideo", GetChannelVideo);
-router.put("/update", upload.single("thumbnail"), UpdateChannelVideo);
+router.put("/updateinfo", UpdateVideoInfo);
+// router.put("/updateThumbnail", UpdateThumbnail);
 router.patch("/publish", PublishChannelVideo);
 router.patch("/public", TogglePublicStatus);
 router.delete("/delete", DeleteChannelVideo);
