@@ -3,14 +3,18 @@ import fs from "fs";
 import ErrorHandler from "./errorHandler";
 
 
-const CloudinaryUpload = async (path) => {
+const CloudinaryUpload = async (mediafile) => {
 
     try {
         const options = {
-            resourse_type : mediafiles.type
+            resourse_type : mediafile.type,
+            filder_name : mediafile.folder
         }
+
+        const path = mediafile.path;
     
         const uploadResponse = await cloudinary.uploader.upload(path, options);
+        
         if(uploadResponse){
             fs.unlinkSync(path);
             return uploadResponse;
