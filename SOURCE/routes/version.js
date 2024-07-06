@@ -5,8 +5,8 @@ import Studio from "./API/STUDIO/index.js";
 
 // --------------- YouTube App Version --------------- 
 
-router.use("/V1/platform/devhub", Platform);
-router.use("/V1/studio/devhub", Studio);
+router.use("/V1/platform", Platform);
+router.use("/V1/studio", Studio);
 
 export default router;
 
