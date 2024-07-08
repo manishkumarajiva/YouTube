@@ -14,12 +14,13 @@ const PORT = process.env.MONGO_PORT || 8000;
 DevHubApp.use(express.json());
 DevHubApp.use(express.urlencoded({ extended : true }));
 
-DevHubApp.use(cookieParser(process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY, { httpOnly : true, secure : true }));
+DevHubApp.use(cookieParser(process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY, { httpOnly : true, secure : false }));
 
 DevHubApp.use(cookieSession({  
     secret: process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY,
     resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
+    saveUninitialized: false, // don't create session until something stored,
+    secure : false
 }));
 
 

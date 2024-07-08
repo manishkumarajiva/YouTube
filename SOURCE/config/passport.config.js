@@ -36,8 +36,10 @@ passport.use(new GoogleStrategy({
 
       const updateUser = await UserModel.findOneAndUpdate({ googleId : profile.id }, updatePayload, { new : true });
       return done(null, updateUser);
+
     } catch (error) {
       console.error("Passport JS :: ", error.message, "Stack :: ", error.stack);
+      done(error, false);
     }
   }
 ))
