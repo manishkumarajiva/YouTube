@@ -12,22 +12,30 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.GOOGLE_CLIENT_SECRET
 },
   async function (accessToken, refreshToken, profile, done) {
+
     try {
       const userExist = await UserModel.findOne({ googleId : profile.id });
+
       if(!userExist){
 
-        const payload = {
+        const createPayload = {
           googleId : profile.id,
-          fullname : "Manish Dhiman"
+          fullname : "Manish Dhiman",
+          googleAccessToken : accessToken,
+          googleRefreshToken : refreshToken
         }
 
-        const newUser = await UserModel.create(payload);
-        await generateRefreshAndAccessToken(newUser);
+        const newUser = await UserModel.create(createPayload);
         return done(null, newUser);
       }
 
-      await generateRefreshAndAccessToken(userExist);
-      return done(null, userExist);
+      const updatePayload = {
+        googleAccessToken : accessToken,
+        googleRefreshToken : refreshToken
+      }
+
+      const updateUser = await UserModel.findOneAndUpdate({ googleId : profile.id }, updatePayload, { new : true });
+      return done(null, updateUser);
     } catch (error) {
       console.error("Passport JS :: ", error.message, "Stack :: ", error.stack);
     }

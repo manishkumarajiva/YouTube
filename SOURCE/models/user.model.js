@@ -50,7 +50,19 @@ const userSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
+    accessToken : {
+        type : String,
+        trim : true
+    },
     refreshToken : {
+        type : String,
+        trim : true
+    },
+    googleAccessToken : {
+        type : String,
+        trim : true
+    },
+    gootleRefreshToken : {
         type : String,
         trim : true
     },
