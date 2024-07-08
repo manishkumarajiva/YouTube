@@ -10,6 +10,7 @@ import CloudinaryUpload from "../utils/cloudinary.util.js";
 
 // --------------- User's Handlers --------------- START
 
+
 const RegisterUser = asyncHandler(async (req, res) => {
     const { fullname, email, password } = req.body;
 
