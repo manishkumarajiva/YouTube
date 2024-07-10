@@ -1,6 +1,6 @@
-import cloudinary from "../config/cloudnary.config";
+import cloudinary from "../config/cloudnary.config.js";
 import fs from "fs";
-import ErrorHandler from "./errorHandler";
+import ErrorHandler from "../utils/errorHandler.js";
 
 
 const CloudinaryUpload = async (mediafile) => {

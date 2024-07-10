@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { ToggleSubscription, GetUserChannelSubscriber, GetUserSubscribedChannel } from "../../controllers/subscription.controller.js";
+import { ToggleSubscription, GetUserChannelSubscriber, GetUserSubscribedChannel } from "../../../controllers/subscription.controller.js";
 
 
 // ----------------- Subscription's Routes -------------- START

@@ -1,8 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors"
-import ApiRoutes from "./routes/version.js";
-import connectDB from "./database/DBconnect.js";
+import ApiRoutes from "../SOURCE/routes/version.js";
+import connectDB from "../SOURCE/database/DBconnect.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";

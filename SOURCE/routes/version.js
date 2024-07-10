@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import Platform from "./API/PLATFORM/index.route.js";
-import Studio from "./API/STUDIO/index.js";
+import Studio from "./API/STUDIO/index.route.js";
 
 // --------------- YouTube App Version --------------- 
 

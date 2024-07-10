@@ -16,6 +16,8 @@ router.patch("/forgetpassword", ForgetUserPassword);
 router.patch("/resetpassword", ResetUserPassword);
 router.get("/refreshtoken", VerifyToken, RefreshAccessToken);
 
+
+
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
   
 router.get('/google/callback', passport.authenticate('google', { 

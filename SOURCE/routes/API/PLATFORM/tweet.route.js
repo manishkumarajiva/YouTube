@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { CreateUserTweet, GetUserTweets, UpdateUserTweet, DeleteUserTweet } from "../../controllers/tweet.controller.js";
+import { CreateUserTweet, GetUserTweets, UpdateUserTweet, DeleteUserTweet } from "../../../controllers/tweet.controller.js";
 
 
 // ----------------- Tweet's Routes -------------- START

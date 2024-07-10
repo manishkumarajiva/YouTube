@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { ToggleVideoLike, ToggleCommentLike, ToggleTweetLike, GetLikedVideos } from "../../controllers/likes.controller.js";
+import { ToggleVideoLike, ToggleCommentLike, ToggleTweetLike, GetLikedVideos } from "../../../controllers/likes.controller.js";
 
 
 // ----------------- Auth's Routes -------------- START

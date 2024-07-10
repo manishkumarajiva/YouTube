@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import { CreateVideoPlaylist, GetVideoPlaylists, UpdateVideoPlaylist, DeleteVideoPlaylist } from "../../controllers/playlist.controller.js";
-import { AddVideoToPlaylist, RemoveVideoFromPlaylist } from "../../controllers/playlist.controller.js";
+import { CreateVideoPlaylist, GetVideoPlaylists, UpdateVideoPlaylist, DeleteVideoPlaylist } from "../../../controllers/playlist.controller.js";
+import { AddVideoToPlaylist, RemoveVideoFromPlaylist } from "../../../controllers/playlist.controller.js";
 
 
 // ----------------- Playlist's Routes -------------- START
