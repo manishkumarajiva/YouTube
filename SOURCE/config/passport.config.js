@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import UserModel from "../models/user.model.js";
+// import { AccessToken } from "../middlewares/authenticate.middleware.js";
 
 
 
@@ -10,15 +11,16 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.GOOGLE_REDIRECT_CALLBACK_URI
 },
   async function (accessToken, refreshToken, profile, done) {
-
     try {
+
+
       const userExist = await UserModel.findOne({ googleId : profile.id });
 
       if(!userExist){
-
         const createPayload = {
           googleId : profile.id,
           fullname : profile.displayName,
+          email : profile.email,
           googleAccessToken : accessToken,
           googleRefreshToken : refreshToken
         }
