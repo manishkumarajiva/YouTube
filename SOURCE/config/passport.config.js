@@ -18,7 +18,7 @@ passport.use(new GoogleStrategy({
 
         const createPayload = {
           googleId : profile.id,
-          fullname : "Manish Dhiman",
+          fullname : profile.displayName,
           googleAccessToken : accessToken,
           googleRefreshToken : refreshToken
         }
