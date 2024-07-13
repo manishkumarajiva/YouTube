@@ -13,6 +13,9 @@
 
 
 
+// const MongoStore = require('connect-mongo')(session);
+
+
 // DevHubApp.use(cookieSession({  
 //     secret: //process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY,
 //     resave: false, // don't save session if unmodified
@@ -29,6 +32,31 @@
 //     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }), // Store sessions in MongoDB
 //     cookie: { maxAge: 24 * 60 * 60 * 1000 } // 1-day cookie expiration
 //   }));
+
+
+
+// Middleware to verify accessToken
+function verifyAccessToken(req, res, next) {
+    const accessToken = req.user.accessToken; // Assuming accessToken is stored in req.user
+
+    // Example: Verify the accessToken with OAuth provider's API (Google API)
+    // You may need to make a request to Google API's tokeninfo endpoint or use a library like `google-auth-library`
+
+    // Example pseudo-code for verifying accessToken (Google OAuth specific)
+    googleAuthLibrary.verifyAccessToken(accessToken, (err, tokenInfo) => {
+        if (err) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+        // Access token is valid, proceed to next middleware or route handler
+        next();
+    });
+}
+
+// Example protected route using verifyAccessToken middleware
+app.get('/api/data', verifyAccessToken, (req, res) => {
+    res.json({ message: 'Authenticated', user: req.user });
+});
+
 
 
 
