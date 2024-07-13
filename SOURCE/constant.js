@@ -60,6 +60,27 @@ app.get('/api/data', verifyAccessToken, (req, res) => {
 
 
 
+
+async function verifyGoogleAccessToken(accessToken) {
+    const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
+    return response.data && response.data.aud === process.env.GOOGLE_CLIENT_ID;
+  }
+  
+  async function protectRoute(req, res, next) {
+    if (req.isAuthenticated()) {
+      const isValidToken = await verifyGoogleAccessToken(req.user.accessToken);
+      if (isValidToken) {
+        return next();
+      } else {
+        return res.status(401).json({ message: 'Invalid access token' });
+      }
+    } else {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+  }
+
+
+
 // app.use(session({
 //     secret: 'your_secret_key',
 //     resave: false, // Do not save session if unmodified
