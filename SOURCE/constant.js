@@ -43,3 +43,30 @@
 //     }),
 //     cookie: { maxAge: 24 * 60 * 60 * 1000 } // 1 day
 //   }));
+
+
+
+
+// req.session: Provides access to the session object, allowing you to store session data across requests.
+// req.params: Contains route parameters (e.g., /users/:id).
+// req.query: Contains query string parameters.
+// req.body: Contains parsed request body, typically from form submissions or JSON payloads.
+// req.cookies: Contains parsed cookies sent by the client.
+// req.headers: Contains HTTP headers sent by the client.
+// req.path: Contains the path part of the URL.
+// req.method: Contains the HTTP method (GET, POST, PUT, etc.) of the request.
+// req.url: Contains the full URL requested by the client.
+
+
+
+
+
+// req.isUnauthenticated()
+// Checks if the current user is authenticated. Returns true if the user is authenticated; otherwise, returns false
+
+// req.isAuthenticated()
+// Opposite of req.isAuthenticated(). Returns true if the user is not authenticated; otherwise, returns false.
+
+
+// req.user 
+// contains the authenticated user object. This is set by Passport.js during the authentication process.
