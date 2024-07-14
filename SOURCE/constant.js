@@ -35,49 +35,49 @@
 
 
 
-// Middleware to verify accessToken
-function verifyAccessToken(req, res, next) {
-    const accessToken = req.user.accessToken; // Assuming accessToken is stored in req.user
+// // Middleware to verify accessToken
+// function verifyAccessToken(req, res, next) {
+//     const accessToken = req.user.accessToken; // Assuming accessToken is stored in req.user
 
-    // Example: Verify the accessToken with OAuth provider's API (Google API)
-    // You may need to make a request to Google API's tokeninfo endpoint or use a library like `google-auth-library`
+//     // Example: Verify the accessToken with OAuth provider's API (Google API)
+//     // You may need to make a request to Google API's tokeninfo endpoint or use a library like `google-auth-library`
 
-    // Example pseudo-code for verifying accessToken (Google OAuth specific)
-    googleAuthLibrary.verifyAccessToken(accessToken, (err, tokenInfo) => {
-        if (err) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
-        // Access token is valid, proceed to next middleware or route handler
-        next();
-    });
-}
+//     // Example pseudo-code for verifying accessToken (Google OAuth specific)
+//     googleAuthLibrary.verifyAccessToken(accessToken, (err, tokenInfo) => {
+//         if (err) {
+//             return res.status(401).json({ message: 'Unauthorized' });
+//         }
+//         // Access token is valid, proceed to next middleware or route handler
+//         next();
+// //     });
+// // }
 
-// Example protected route using verifyAccessToken middleware
-app.get('/api/data', verifyAccessToken, (req, res) => {
-    res.json({ message: 'Authenticated', user: req.user });
-});
-
-
+// // Example protected route using verifyAccessToken middleware
+// app.get('/api/data', verifyAccessToken, (req, res) => {
+//     res.json({ message: 'Authenticated', user: req.user });
+// });
 
 
 
-async function verifyGoogleAccessToken(accessToken) {
-    const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
-    return response.data && response.data.aud === process.env.GOOGLE_CLIENT_ID;
-  }
+
+
+// async function verifyGoogleAccessToken(accessToken) {
+//     const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
+//     return response.data && response.data.aud === process.env.GOOGLE_CLIENT_ID;
+//   }
   
-  async function protectRoute(req, res, next) {
-    if (req.isAuthenticated()) {
-      const isValidToken = await verifyGoogleAccessToken(req.user.accessToken);
-      if (isValidToken) {
-        return next();
-      } else {
-        return res.status(401).json({ message: 'Invalid access token' });
-      }
-    } else {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-  }
+//   async function protectRoute(req, res, next) {
+//     if (req.isAuthenticated()) {
+//       const isValidToken = await verifyGoogleAccessToken(req.user.accessToken);
+//       if (isValidToken) {
+//         return next();
+//       } else {
+//         return res.status(401).json({ message: 'Invalid access token' });
+//       }
+//     } else {
+//       return res.status(401).json({ message: 'Unauthorized' });
+//     }
+//   }
 
 
 
@@ -124,84 +124,84 @@ async function verifyGoogleAccessToken(accessToken) {
 
 
 // Middleware to verify accessToken
-async function verifyAccessToken(accessToken) {
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: accessToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    return payload && payload.aud === process.env.GOOGLE_CLIENT_ID;
-  } catch (error) {
-    return false;
-  }
-}
+// async function verifyAccessToken(accessToken) {
+//   try {
+//     const ticket = await client.verifyIdToken({
+//       idToken: accessToken,
+//       audience: process.env.GOOGLE_CLIENT_ID,
+//     });
+//     const payload = ticket.getPayload();
+//     return payload && payload.aud === process.env.GOOGLE_CLIENT_ID;
+//   } catch (error) {
+//     return false;
+//   }
+// }
 
-// Middleware to protect routes
-async function protectRoute(req, res, next) {
-  if (req.isAuthenticated()) {
-    const isValidToken = await verifyAccessToken(req.user.accessToken);
-    if (isValidToken) {
-      return next();
-    } else {
-      return res.status(401).json({ message: 'Invalid access token' });
-    }
-  } else {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-}
+// // Middleware to protect routes
+// async function protectRoute(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     const isValidToken = await verifyAccessToken(req.user.accessToken);
+//     if (isValidToken) {
+//       return next();
+//     } else {
+//       return res.status(401).json({ message: 'Invalid access token' });
+//     }
+// //   } else {
+//     return res.status(401).json({ message: 'Unauthorized' });
+//   }
+// }
 
-// Protected route example
-app.get('/api/protected', protectRoute, (req, res) => {
-  res.json({ message: 'Access granted', user: req.user });
-});
-
-
-
-// Using Passport.js with Google OAuth
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
-},
-function(accessToken, refreshToken, profile, done) {
-  // Store accessToken and refreshToken securely
-  const user = {
-    profile: profile,
-    accessToken: accessToken,
-    refreshToken: refreshToken
-  };
-  return done(null, user);
-}));
+// // Protected route example
+// app.get('/api/protected', protectRoute, (req, res) => {
+//   res.json({ message: 'Access granted', user: req.user });
+// });
 
 
 
+// // Using Passport.js with Google OAuth
+// passport.use(new GoogleStrategy({
+//   clientID: process.env.GOOGLE_CLIENT_ID,
+//   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//   callbackURL: process.env.GOOGLE_CALLBACK_URL
+// },
+// function(accessToken, refreshToken, profile, done) {
+//   // Store accessToken and refreshToken securely
+//   const user = {
+//     profile: profile,
+//     accessToken: accessToken,
+//     refreshToken: refreshToken
+//   };
+//   return done(null, user);
+// }));
 
-// Middleware to issue JWT
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    // Successful authentication, issue JWT
-    const user = req.user; // User object containing accessToken and refreshToken
-    const jwtToken = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.cookie('jwt', jwtToken, { httpOnly: true, secure: true });
-    res.redirect('/profile');
-  });
 
-// Example protected route using JWT for authorization
-app.get('/profile', (req, res) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-      res.json({ message: 'Authenticated', user: decoded });
-    });
-  } else {
-    res.status(401).json({ message: 'Unauthorized' });
-  }
-});
+
+
+// // Middleware to issue JWT
+// app.get('/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   (req, res) => {
+//     // Successful authentication, issue JWT
+//     const user = req.user; // User object containing accessToken and refreshToken
+//     const jwtToken = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+//     res.cookie('jwt', jwtToken, { httpOnly: true, secure: true });
+//     res.redirect('/profile');
+//   });
+
+// // Example protected route using JWT for authorization
+// app.get('/profile', (req, res) => {
+//   const token = req.cookies.jwt;
+//   if (token) {
+//     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+//       if (err) {
+//         return res.status(401).json({ message: 'Unauthorized' });
+//       }
+//       res.json({ message: 'Authenticated', user: decoded });
+//     });
+//   } else {
+//     res.status(401).json({ message: 'Unauthorized' });
+//   }
+// });
 
 
 // req.logout(err => {
@@ -210,16 +210,16 @@ app.get('/profile', (req, res) => {
 
 
 
-const axios = require('axios');
+// const axios = require('axios');
 
-async function verifyAccessToken(accessToken) {
-  try {
-    const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
-    return response.data; // Valid token data
-  } catch (error) {
-    return null; // Invalid token
-  }
-}
+// async function verifyAccessToken(accessToken) {
+//   try {
+//     const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
+//     return response.data; // Valid token data
+//   } catch (error) {
+//     return null; // Invalid token
+//   }
+// }
 
 
 // app.get('/', (req, res) => {
@@ -233,10 +233,41 @@ async function verifyAccessToken(accessToken) {
 
 
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next(); // User is authenticated, proceed to next middleware
-  } else {
-    res.status(401).json({ message: 'Unauthorized' }); // Not authenticated
-  }
-}
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next(); // User is authenticated, proceed to next middleware
+//   } else {
+//     res.status(401).json({ message: 'Unauthorized' }); // Not authenticated
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+// DevHubApp.use(session({
+//     secret: 'your_secret_key',
+//     resave: false, // Do not save session if unmodified
+//     saveUninitialized: false, // Do not create session until something is stored
+//     cookie : { maxAge : 1 * 60 * 60 * 1000 }
+// }));
+
+// app.get('/set-session', (req, res) => {
+//   req.session.user = { id: 123 };
+//   req.session.pageviews = 1;
+//   res.send('Session initialized');
+// });
+
+// app.get('/check-session', (req, res) => {
+//   if (req.session.user) {
+//       res.send(`User ID: ${req.session.user.id}, Pageviews: ${req.session.pageviews}`);
+//   } else {
+//       res.send('No session data');
+//   }
+// });

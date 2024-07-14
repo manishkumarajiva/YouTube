@@ -9,7 +9,7 @@ const AccessToken = async (user) => {
     return new Promise((resolve, reject) => {
 
         const payload = {
-            id : user._id,
+            id : user._id ?? user.id,
             email : user.email,
             name : user.fullname
         }
@@ -90,4 +90,4 @@ const generateRefreshAndAccessToken = async (user) => {
         return res.status(200).json(new ErrorHandler(400, "Session Token :: Something Went Wrong"));
     }
 };
-export { VerifyToken, generateRefreshAndAccessToken };
+export { AccessToken, VerifyToken, generateRefreshAndAccessToken };

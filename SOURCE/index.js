@@ -7,7 +7,6 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
 import session from "express-session";
-import MongoStore from "connect-mongo";
 import morgan from "morgan";
 
 const DevHubApp = express();
@@ -17,13 +16,14 @@ const PORT = process.env.MONGO_PORT || 8000;
 DevHubApp.use(express.json());
 DevHubApp.use(express.urlencoded({ extended : true }));
 
+DevHubApp.use(cookieParser(process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY, { httpOnly : true, secure : false }));
 
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false, // Do not save session if unmodified
-    saveUninitialized: false, // Do not create session until something is stored
-}));
-
+DevHubApp.use(cookieSession({  
+    secret: process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY,
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored,
+    secure : false,
+})); 
 
 
 DevHubApp.use(cookieSession({
