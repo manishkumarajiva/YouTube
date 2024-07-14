@@ -123,7 +123,7 @@ async function verifyGoogleAccessToken(accessToken) {
 
 
 
-Middleware to verify accessToken
+// Middleware to verify accessToken
 async function verifyAccessToken(accessToken) {
   try {
     const ticket = await client.verifyIdToken({
@@ -155,3 +155,55 @@ async function protectRoute(req, res, next) {
 app.get('/api/protected', protectRoute, (req, res) => {
   res.json({ message: 'Access granted', user: req.user });
 });
+
+
+
+// Using Passport.js with Google OAuth
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
+},
+function(accessToken, refreshToken, profile, done) {
+  // Store accessToken and refreshToken securely
+  const user = {
+    profile: profile,
+    accessToken: accessToken,
+    refreshToken: refreshToken
+  };
+  return done(null, user);
+}));
+
+
+
+
+// Middleware to issue JWT
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Successful authentication, issue JWT
+    const user = req.user; // User object containing accessToken and refreshToken
+    const jwtToken = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.cookie('jwt', jwtToken, { httpOnly: true, secure: true });
+    res.redirect('/profile');
+  });
+
+// Example protected route using JWT for authorization
+app.get('/profile', (req, res) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      res.json({ message: 'Authenticated', user: decoded });
+    });
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+
+// req.logout(err => {
+//   if (err) { return next(err); }
+//   res.redirect('/');
