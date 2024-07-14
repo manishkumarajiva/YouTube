@@ -119,3 +119,39 @@ async function verifyGoogleAccessToken(accessToken) {
 
 // req.user 
 // contains the authenticated user object. This is set by Passport.js during the authentication process.
+
+
+
+
+Middleware to verify accessToken
+async function verifyAccessToken(accessToken) {
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: accessToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    return payload && payload.aud === process.env.GOOGLE_CLIENT_ID;
+  } catch (error) {
+    return false;
+  }
+}
+
+// Middleware to protect routes
+async function protectRoute(req, res, next) {
+  if (req.isAuthenticated()) {
+    const isValidToken = await verifyAccessToken(req.user.accessToken);
+    if (isValidToken) {
+      return next();
+    } else {
+      return res.status(401).json({ message: 'Invalid access token' });
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+}
+
+// Protected route example
+app.get('/api/protected', protectRoute, (req, res) => {
+  res.json({ message: 'Access granted', user: req.user });
+});
