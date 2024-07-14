@@ -207,3 +207,16 @@ app.get('/profile', (req, res) => {
 // req.logout(err => {
 //   if (err) { return next(err); }
 //   res.redirect('/');
+
+
+
+const axios = require('axios');
+
+async function verifyAccessToken(accessToken) {
+  try {
+    const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
+    return response.data; // Valid token data
+  } catch (error) {
+    return null; // Invalid token
+  }
+}
