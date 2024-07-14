@@ -220,3 +220,23 @@ async function verifyAccessToken(accessToken) {
     return null; // Invalid token
   }
 }
+
+
+// app.get('/', (req, res) => {
+//     if (!req.session.views) {
+//       req.session.views = 0;
+//     }
+//     req.session.views++;
+//     res.send(`Number of views: ${req.session.views}`);
+//   });
+
+
+
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next(); // User is authenticated, proceed to next middleware
+  } else {
+    res.status(401).json({ message: 'Unauthorized' }); // Not authenticated
+  }
+}

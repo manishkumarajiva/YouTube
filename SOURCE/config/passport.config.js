@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import UserModel from "../models/user.model.js";
-// import { AccessToken } from "../middlewares/authenticate.middleware.js";
 
 
 
@@ -34,8 +33,8 @@ passport.use(new GoogleStrategy({
         googleRefreshToken : refreshToken
       }
 
-      const updateUser = await UserModel.findOneAndUpdate({ googleId : profile.id }, updatePayload, { new : true });
-      return done(null, updateUser);
+      const user = await UserModel.findOneAndUpdate({ googleId : profile.id }, updatePayload, { new : true });
+      return done(null, user);
 
     } catch (error) {
       console.error("Passport JS :: ", error.message, "Stack :: ", error.stack);
