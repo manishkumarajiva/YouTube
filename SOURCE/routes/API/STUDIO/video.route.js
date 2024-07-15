@@ -6,7 +6,16 @@ import upload from "../../../middlewares/upload.middleware.js";
 
 // ----------------- Video's Routes -------------- START
 
-router.post("/upload", upload.single("video"), UploadChannelVideo);
+router.post("/upload", upload.fields([
+    {
+        name : "video",
+        maxCount : 1
+    },
+    {
+        name : "thumbnail",
+        maxCount : 1
+    }
+]), UploadChannelVideo);
 router.get("/singlebyid", GetVideoById);
 router.get("/channelvideo", GetChannelVideo);
 router.put("/updateinfo", UpdateVideoInfo);

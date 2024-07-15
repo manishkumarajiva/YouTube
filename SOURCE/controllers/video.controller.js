@@ -12,12 +12,11 @@ import msg from "../config/message.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const video = req.body;
 
-    if(!req.file){
+    if(!req.file?.path){
         return res.status(200).json(new ErrorHandler(401, "Please Select Video"));
     }
 
-
-   const Video = await CloudinaryUpload(req.video?.path);
+   const Video = await CloudinaryUpload(req.file?.path);
 
     const videoPlayload = {
         channel : req.user?._id,
@@ -93,7 +92,7 @@ const UpdateVideoInfo = asyncHandler(async (req, res) => {
 const PublishChannelVideo = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
-    const publishvideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { isPublish : true }, { true : false });
+    const publishvideo = await VideoModel.findByIdAndUpdate({ _id : videoId }, { isPublish : true }, { new : true });
 
     if(!publishvideo){
         return res.status(200).json(new ErrorHandler(400, "Failed to publish"));
