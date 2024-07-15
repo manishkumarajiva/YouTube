@@ -12,8 +12,8 @@ import msg from "../config/message.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const video = req.body;
 
-    if(!(req.files && Array.isArray(req.files.video) && req.files.video[0]?.path)){
-        throw new ErrorHandler(401, "Please Select Video");
+    if(!req.file){
+        return res.status(200).json(new ErrorHandler(401, "Please Select Video"));
     }
 
 
