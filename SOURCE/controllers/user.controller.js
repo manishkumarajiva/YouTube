@@ -18,7 +18,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
         throw new ErrorHandler(401, msg.payload);
     }
 
-    const existedUser = await UserModel.findOne({ $or : [{email},{email}]});
+    const existedUser = await UserModel.findOne({ email });
     if(existedUser){
         return res.status(200).json(new ResponseHandler(409, msg.alexist));
     }

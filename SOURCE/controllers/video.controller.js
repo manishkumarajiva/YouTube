@@ -17,20 +17,14 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
     }
 
 
-    if(!(req.files && Array.isArray(req.files.thumbnail) && req.files.thumbnail[0]?.path)){
-        throw new ErrorHandler(401, "Please Select Thumbnail");
-    }
-
-   const Thumbnail = await CloudinaryUpload(req.files.thumbnail[0]?.path);
-   const Video = await CloudinaryUpload(req.files.video[0]?.path);
+   const Video = await CloudinaryUpload(req.video?.path);
 
     const videoPlayload = {
         channel : req.user?._id,
         title : video.title,
         description : video.description,
         duration : video.duration,
-        video : Video,
-        thumbnail : Thumbnail
+        video : Video
     }
 
     const uploadVideo = await VideoModel.create(videoPlayload);
