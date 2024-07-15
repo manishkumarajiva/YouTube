@@ -12,7 +12,7 @@ import msg from "../config/message.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const video = req.body;
 
-    if(!req.file?.path){
+    if(!a){
         return res.status(200).json(new ErrorHandler(401, "Please Select Video"));
     }
 
