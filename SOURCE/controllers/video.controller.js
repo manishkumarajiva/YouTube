@@ -12,10 +12,11 @@ import msg from "../config/message.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const video = req.body;
 
-    if(!a){
+    if(!req.files.video[0]?.path){
         return res.status(200).json(new ErrorHandler(401, "Please Select Video"));
     }
 
+    
    const Video = await CloudinaryUpload(req.file?.path);
 
     const videoPlayload = {
