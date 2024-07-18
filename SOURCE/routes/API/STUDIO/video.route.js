@@ -3,6 +3,7 @@ const router = Router();
 import { UploadChannelVideo, GetChannelVideo, GetVideoById, UpdateVideoInfo } from "../../../controllers/video.controller.js";
 import { PublishChannelVideo, TogglePublicStatus, DeleteChannelVideo, RemoveHistoryVideo } from "../../../controllers/video.controller.js";
 import upload from "../../../middlewares/upload.middleware.js";
+import { VerifyToken } from "../../../middlewares/authenticate.middleware.js";
 
 // ----------------- Video's Routes -------------- START
 
@@ -15,7 +16,7 @@ router.post("/upload", upload.fields([
         name : "thumbnail",
         maxCount : 1
     }
-]), UploadChannelVideo);
+]), VerifyToken, UploadChannelVideo);
 router.get("/singlebyid", GetVideoById);
 router.get("/channelvideo", GetChannelVideo);
 router.put("/updateinfo", UpdateVideoInfo);
