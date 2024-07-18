@@ -20,7 +20,7 @@ const LoginAuthentication = asyncHandler(async (req, res) => {
         return res.status(200).json(ErrorHandler(400, msg.payload));
     }
 
-    const existUser = await UserModel.findOne({ $or : [{username},{email}]});
+    const existUser = await UserModel.findOne({email});
     if(!existUser){
         return res.status(200).json(new ErrorHandler(400, msg.nfuser));
     }

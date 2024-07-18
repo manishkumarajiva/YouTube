@@ -15,7 +15,7 @@ const RegisterUser = asyncHandler(async (req, res) => {
     const { fullname, email, password } = req.body;
 
     if([fullname, email, password].some((field) => field.trim() === "")){
-        throw new ErrorHandler(401, msg.payload);
+        return res.status(200).json(new ErrorHandler(401, msg.payload));
     }
 
     const existedUser = await UserModel.findOne({ email });
@@ -37,14 +37,14 @@ const RegisterUser = asyncHandler(async (req, res) => {
         return res.status(200).json(new ErrorHandler(500, msg.fregister));
     }
 
-    const mailOptions = {
-        from: "manishkumarajiva@gmail.com",
-        to: email,
-        subject : `Hi ${fullname}, Your Registeration is successfully completed`,
-        html : `<h1> Username : ${username} | Password ${password} </h1>`
-    };
+    // const mailOptions = {
+    //     from: "manishkumarajiva@gmail.com",
+    //     to: email,
+    //     subject : `Hi ${fullname}, Your Registeration is successfully completed`,
+    //     html : `<h1> Username : ${username} | Password ${password} </h1>`
+    // };
 
-    const emailResp = await SendEmail(mailOptions);
+    // const emailResp = await SendEmail(mailOptions);
 
     return res
     .status(201)
