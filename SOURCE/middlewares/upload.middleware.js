@@ -7,10 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-
 const Storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, DIRECTORY, "public/upload"));
+        cb(null, path.join(__dirname, DIRECTORY, "PUBLIC/upload/"));
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9) + "-";
@@ -26,7 +25,7 @@ export default upload;
 
 
 
-
+// const upload = multer({ dest: 'uploads/' });
 
 
 

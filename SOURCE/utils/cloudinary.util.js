@@ -14,15 +14,16 @@ const CloudinaryUpload = async (mediafile) => {
         const path = mediafile.path;
     
         const uploadResponse = await cloudinary.uploader.upload(path, options);
+        console.log(uploadResponse)
         
-        if(uploadResponse){
-            fs.unlinkSync(path);
-            return uploadResponse;
-        }
+        // if(uploadResponse){
+        //     fs.unlinkSync(path);
+        //     return uploadResponse;
+        // }
 
     } catch (error) {
-        fs.unlinkSync(path)
-        res.status(500).json(new ErrorHandler(500, "🔴 Cloudinary Error"));
+        // fs.unlinkSync(path)
+        // res.status(500).json(new ErrorHandler(500, "🔴 Cloudinary Error"));
     }
 };
 
