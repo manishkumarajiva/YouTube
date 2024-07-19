@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 
 const CloudinaryUpload = async (mediafile) => {
+    console.log(mediafile)
 
     try {
         const options = {

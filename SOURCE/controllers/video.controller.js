@@ -23,7 +23,7 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 
     const desgination = {
         path: req.files.video[0]?.path,
-        type: "mp4",
+        type: "video",
         folder: "/DevHub/Video/"
     }
 
