@@ -8,8 +8,8 @@ const CloudinaryUpload = async (mediafile) => {
 
     try {
         const options = {
-            resourse_type : mediafile.type,
-            filder_name : mediafile.folder
+            resource_type : mediafile.type,
+            folder : mediafile.folder
         }
 
         const path = mediafile.path;
