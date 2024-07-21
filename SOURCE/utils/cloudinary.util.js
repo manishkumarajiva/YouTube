@@ -1,10 +1,14 @@
 import cloudinary from "../config/cloudnary.config.js";
 import fs from "fs";
+import path from "path";
 import ErrorHandler from "../utils/errorHandler.js";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
+
 
 
 const CloudinaryUpload = async (mediafile) => {
-    try {
         const options = {
             resource_type : mediafile.type,
             folder : mediafile.folder
@@ -14,15 +18,7 @@ const CloudinaryUpload = async (mediafile) => {
     
         const uploadResponse = await cloudinary.uploader.upload(path, options);
         
-        if(uploadResponse){
-            fs.unlinkSync(path);
-            return uploadResponse;
-        }
-
-    } catch (error) {
-        fs.unlinkSync(path)
-        res.status(500).json(new ErrorHandler(500, "🔴 Cloudinary Error"));
-    }
+        return uploadResponse;
 };
 
 export default CloudinaryUpload;

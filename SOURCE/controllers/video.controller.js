@@ -12,41 +12,35 @@ import msg from "../config/message.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const video = req.body;
 
-    if (!req.files.video[0]?.path) {
+    console.log(req.file);
+
+
+    if (!req.file?.path) {
         return res.status(200).json(new ErrorHandler(401, "Please Select Video"));
     }
 
-    // if (!req.files.thumbnail[0]?.path) {
-    //     return res.status(200).json(new ErrorHandler(401, "Please Select Thumbnail"));
-
-    // }
-
     const desgination = {
-        path: req.files.video[0]?.path,
+        path: req.file?.path,
         type: "video",
         folder: "/DevHub/Video/"
     }
 
     const Video = await CloudinaryUpload(desgination);
 
-    console.log(Video,"5225")
+    const videoPlayload = {
+        channel: req.user?._id,
+        title: video.title,
+        description: video.description,
+        duration: video.duration,
+        video: Video.secure_url
+    }
 
-    // const videoPlayload = {
-    //     channel: req.user?._id,
-    //     title: video.title,
-    //     description: video.description,
-    //     duration: video.duration,
-    //     video: Video
-    // }
+    const uploadVideo = await VideoModel.create(videoPlayload);
+    if (!uploadVideo) {
+        throw new ErrorHandler(500, "Failed to upload");
+    }
 
-    // const uploadVideo = await VideoModel.create(videoPlayload);
-    // if (!uploadVideo) {
-    //     throw new ErrorHandler(500, "Failed to upload");
-    // }
-
-    // return res
-    //     .status(200)
-    //     .json(new ResponseHandler(201, uploadVideo, "Upload Successfully"));
+    return res.status(200).json(new ResponseHandler(201, uploadVideo, "Upload Successfully"));
 });
 
 

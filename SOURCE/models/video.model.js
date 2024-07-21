@@ -9,13 +9,11 @@ const videoSchema = new mongoose.Schema({
     },
     video : {
         type : String,
-        trim : true,
-        required : true
+        trim : true
     },
     thumbnail : {
         type : String,
-        trim : true,
-        required : true
+        trim : true
     },
     title : {
         type : String,

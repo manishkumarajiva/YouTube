@@ -7,16 +7,7 @@ import { VerifyToken } from "../../../middlewares/authenticate.middleware.js";
 
 // ----------------- Video's Routes -------------- START
 
-router.post("/upload", upload.fields([
-    {
-        name : "video",
-        maxCount : 1
-    },
-    {
-        name : "thumbnail",
-        maxCount : 1
-    }
-]), VerifyToken, UploadChannelVideo);
+router.post("/upload", upload.single("video"), VerifyToken, UploadChannelVideo);
 router.get("/singlebyid", GetVideoById);
 router.get("/channelvideo", GetChannelVideo);
 router.put("/updateinfo", UpdateVideoInfo);
