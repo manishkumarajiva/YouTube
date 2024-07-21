@@ -4,8 +4,6 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 
 const CloudinaryUpload = async (mediafile) => {
-    console.log(mediafile)
-
     try {
         const options = {
             resource_type : mediafile.type,
@@ -15,16 +13,15 @@ const CloudinaryUpload = async (mediafile) => {
         const path = mediafile.path;
     
         const uploadResponse = await cloudinary.uploader.upload(path, options);
-        console.log(uploadResponse)
         
-        // if(uploadResponse){
-        //     fs.unlinkSync(path);
-        //     return uploadResponse;
-        // }
+        if(uploadResponse){
+            fs.unlinkSync(path);
+            return uploadResponse;
+        }
 
     } catch (error) {
-        // fs.unlinkSync(path)
-        // res.status(500).json(new ErrorHandler(500, "🔴 Cloudinary Error"));
+        fs.unlinkSync(path)
+        res.status(500).json(new ErrorHandler(500, "🔴 Cloudinary Error"));
     }
 };
 

@@ -29,7 +29,7 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 
     const Video = await CloudinaryUpload(desgination);
 
-    console.log(Video)
+    console.log(Video,"5225")
 
     // const videoPlayload = {
     //     channel: req.user?._id,
