@@ -5,12 +5,13 @@ import ErrorHandler from "../utils/errorHandler.js";
 import UserModel from "../models/user.model.js";
 import CloudinaryUpload from "../utils/cloudinary.util.js";
 import msg from "../config/message.js";
+import { format } from "morgan";
 
 
 // --------------- Video's Handlers --------------- START
 
 const UploadChannelVideo = asyncHandler(async (req, res) => {
-    const video = req.body;
+    const { title, description } = req.body;
 
 
     if (!req.file?.path) {
@@ -23,19 +24,25 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
         folder: "/DevHub/Video/"
     }
 
-    const Video = await CloudinaryUpload(desgination);
+    const video = await CloudinaryUpload(desgination);
 
     const videoPlayload = {
         channel: req.user?._id,
-        title: video.title,
-        description: video.description,
+        video: video.secure_url,
+        title: title,
+        description: description,
         duration: video.duration,
-        video: Video.secure_url
+        size : video.bytes,
+        width : video.width,
+        height : video.height,
+        format : video.format,
+        frameRate : video.frame_rate,
+        bitRate : video.bit_rate
     }
 
     const uploadVideo = await VideoModel.create(videoPlayload);
     if (!uploadVideo) {
-        throw new ErrorHandler(500, "Failed to upload");
+        res.status(200).json(new ErrorHandler(500, "Failed to upload"));
     }
 
     return res.status(200).json(new ResponseHandler(201, uploadVideo, "Upload Successfully"));

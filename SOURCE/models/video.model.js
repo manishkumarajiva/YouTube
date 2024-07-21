@@ -29,6 +29,40 @@ const videoSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
+    width : {
+        type : Number,
+        required : true
+    },
+    height : {
+        type : Number,
+        required : true
+    },
+    format : {
+        type : String,
+        required : true
+    },
+    size : {
+        type : Number,
+        required : true
+    },
+    frameRate : {
+        type : Number,
+        required : true
+    },
+    bitRate : {
+        type : Number,
+        required : true
+    },
+    duration : {
+        type : Number,
+        required : true
+    },
+    tags : [
+        {
+            type : String
+        }
+    ],
+
     views : {
         type : Number,
         default : 0
@@ -42,3 +76,6 @@ const videoSchema = new mongoose.Schema({
 
 const VideoModel = new mongoose.model("Video",videoSchema);
 export default VideoModel;
+
+
+    
