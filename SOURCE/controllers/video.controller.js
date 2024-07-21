@@ -49,6 +49,34 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 });
 
 
+const UploadVideoThumbnail = asyncHandler(async (req, res) => {
+    const videoId = req.query.videoId;
+
+    if(req.file?.path){
+        return res.status(200).json(new ErrorHandler(401, "Please Select Thumbnail"));
+    }
+
+    const desgination = {
+        path: req.file?.path,
+        type: "image",
+        folder: "/DevHub/Thumbnail/"
+    }
+
+    const thumbnail = await CloudinaryUpload(desgination);
+
+    const thumbnailPayload = {
+        thumbnail : thumbnail.secure_url
+    }
+
+    const uploadThumbnail = await VideoModel.findByIdAndUpdate({ _id : videoId }, thumbnailPayload, { new : true });
+    if(!uploadThumbnail){
+        return res.status(200).json(new ErrorHandler(401, "Failed to Upload"));
+    }
+
+    res.status(200).json(new ResponseHandler(200, uploadThumbnail, "Upload Successfully"));
+});
+
+
 const GetVideoById = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
