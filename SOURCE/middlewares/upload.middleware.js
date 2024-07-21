@@ -9,7 +9,15 @@ const __dirname = path.dirname(__filename);
 
 const Storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, DIRECTORY, "PUBLIC/upload/"));
+        if (file.fieldname === "avatar") {
+            cb(null, path.join(__dirname, DIRECTORY, "PUBLIC/upload/avatar"));
+        } else if (file.fieldname === "banner") {
+            cb(null, path.join(__dirname, DIRECTORY, "PUBLIC/upload/banner"));
+        } else if (file.fieldname === "video") {
+            cb(null, path.join(__dirname, DIRECTORY, "PUBLIC/upload/video"));
+        } else {
+            cb(null, path.join(__dirname, DIRECTORY, "PUBLIC/upload/thumbnail"));
+        }
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9) + "-";
@@ -28,13 +36,3 @@ export default upload;
 // const upload = multer({ dest: 'uploads/' });
 
 
-
-// if(file.fieldname === "avatar"){
-//     cb(null, path.join(__dirname, DIRECTORY, "public/upload/avatar"));
-// }else if(file.fieldname === "banner"){
-//     cb(null, path.join(__dirname, DIRECTORY, "public/upload/banner"));
-// }else if(file.fieldname === "video"){
-//     cb(null, path.join(__dirname, DIRECTORY, "public/upload/video"));
-// }else{
-//     cb(null, path.join(__dirname, DIRECTORY, "public/upload/thumbnail"));
-// }
