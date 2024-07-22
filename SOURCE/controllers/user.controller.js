@@ -117,9 +117,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
         return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
 
-    return res
-    .status(200)
-    .json(new ResponseHandler(201, UpdateBanner, msg.supdate));
+    return res.status(200).json(new ResponseHandler(201, UpdateBanner, msg.supdate));
 });
 
 
@@ -131,11 +129,17 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
     const UserProfile = await UserModel.findById({ _id : req.user?._id })
 
-    const NewAvatar = await CloudinaryUpload(req.file?.path);
+    const desgination = {
+        path: req.file?.path,
+        type: "image",
+        folder: "/DevHub/Avatar/"
+    }
+
+    const NewAvatar = await CloudinaryUpload(desgination);
 
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { avatar : NewAvatar },
+        { avatar : NewAvatar.secure_url },
         { new : true }
     )
 
@@ -143,9 +147,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
         return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
 
-    return res
-    .status(200)
-    .json(new ResponseHandler(201, UpdateAvatar, msg.supdate));
+    return res.status(200).json(new ResponseHandler(201, UpdateAvatar, msg.supdate));
 });
 
 
