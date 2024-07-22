@@ -99,13 +99,17 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
-    //Remove Old image from avatar
+    const desgination = {
+        path: req.file?.path,
+        type: "image",
+        folder: "/DevHub/Banner/"
+    }
 
-    const NewBanner = await CloudinaryUpload(req.file?.path);
+    const NewBanner = await CloudinaryUpload(desgination);
 
     const UpdateBanner = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { banner : NewBanner },
+        { banner : NewBanner.secure_url },
         { new : true }
     )
 

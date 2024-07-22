@@ -13,11 +13,9 @@ const CloudinaryUpload = async (mediafile) => {
             resource_type : mediafile.type,
             folder : mediafile.folder
         }
-
-        const path = mediafile.path;
-    
-        const uploadResponse = await cloudinary.uploader.upload(path, options);
         
+        const path = mediafile.path;
+        const uploadResponse = await cloudinary.uploader.upload(path, options);
         return uploadResponse;
 };
 
