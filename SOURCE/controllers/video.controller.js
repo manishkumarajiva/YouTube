@@ -203,6 +203,7 @@ const RemoveHistoryVideo = asyncHandler(async (req, res) => {
 // Export Video Handlers
 export {
     UploadChannelVideo,
+    UploadVideoThumbnail,
     GetChannelVideo,
     GetVideoById,
     UpdateVideoInfo,

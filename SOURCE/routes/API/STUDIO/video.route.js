@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { UploadChannelVideo, GetChannelVideo, GetVideoById, UpdateVideoInfo } from "../../../controllers/video.controller.js";
+import { UploadChannelVideo, GetChannelVideo, GetVideoById, UpdateVideoInfo, UploadVideoThumbnail } from "../../../controllers/video.controller.js";
 import { PublishChannelVideo, TogglePublicStatus, DeleteChannelVideo, RemoveHistoryVideo } from "../../../controllers/video.controller.js";
 import upload from "../../../middlewares/upload.middleware.js";
 import { VerifyToken } from "../../../middlewares/authenticate.middleware.js";
@@ -8,6 +8,7 @@ import { VerifyToken } from "../../../middlewares/authenticate.middleware.js";
 // ----------------- Video's Routes -------------- START
 
 router.post("/upload", upload.single("video"), VerifyToken, UploadChannelVideo);
+router.post("/thumbnail", upload.single("thumbnail"), UploadVideoThumbnail);
 router.get("/singlebyid", GetVideoById);
 router.get("/channelvideo", GetChannelVideo);
 router.put("/updateinfo", UpdateVideoInfo);
