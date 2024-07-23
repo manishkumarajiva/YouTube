@@ -68,6 +68,11 @@ const VerifyToken = async (req, res, next) => {
     if(bearer !== "bearer") return res.status(200).json(new ResponseHandler(401,"Incorrect Session Token"));
 
     const decode =  JWT.verify(token, process.env.YOUTUBE_ACCESS_TOKEN_SECRECT_KEY);
+    
+    if(!decode){
+        return res.status(200).json({ status : 401, message : "session has been expired"});
+    }
+
     const existUser = await UserModel.findById({ _id : decode.id });
     req.user = existUser;
     next();

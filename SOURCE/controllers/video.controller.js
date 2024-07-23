@@ -3,9 +3,8 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ResponseHandler from "../utils/responseHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import UserModel from "../models/user.model.js";
-import CloudinaryUpload from "../utils/cloudinary.util.js";
+import { CloudinaryUpload, CloudinaryDelete } from "../utils/cloudinary.util.js";
 import msg from "../config/message.js";
-import { format } from "morgan";
 
 
 // --------------- Video's Handlers --------------- START

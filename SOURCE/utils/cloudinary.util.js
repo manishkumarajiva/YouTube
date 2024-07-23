@@ -19,4 +19,11 @@ const CloudinaryUpload = async (mediafile) => {
         return uploadResponse;
 };
 
-export default CloudinaryUpload;
+
+const CloudinaryDelete = async (filepath) => {
+    const deleteResponse = await cloudinary.uploader.destroy(`/DevHub/${filepath}`);
+    console.log(deleteResponse,"DELETE")
+    return deleteResponse;
+}
+
+export {CloudinaryUpload, CloudinaryDelete };

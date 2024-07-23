@@ -5,7 +5,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import SendEmail from "../utils/ses.util.js";
 import Bcrypt from "bcryptjs";
 import msg from "../config/message.js";
-import CloudinaryUpload from "../utils/cloudinary.util.js";
+import {CloudinaryUpload, CloudinaryDelete } from "../utils/cloudinary.util.js";
 
 
 // --------------- User's Handlers --------------- START
@@ -124,10 +124,15 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
     if(! (req.file && req.file.filename)){
-        throw new ErrorHandler(401, "Please Select Profile Avatar")
+        throw new ErrorHandler(401, "Please Select Profile Avatar");
     }
 
-    const UserProfile = await UserModel.findById({ _id : req.user?._id })
+    const UserProfile = await UserModel.findById({ _id : req.user?._id });
+
+    if(UserProfile.avatar.trim() !== ""){
+        const filepath = UserProfile.avatar.split("DevHub")[1];
+        await CloudinaryDelete(filepath);
+    }
 
     const desgination = {
         path: req.file?.path,
@@ -136,10 +141,10 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     }
 
     const NewAvatar = await CloudinaryUpload(desgination);
-
+    console.log(NewAvatar,"UPLOAD");
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { avatar : NewAvatar.secure_url },
+        { avatar : NewAvatar.url },
         { new : true }
     )
 
