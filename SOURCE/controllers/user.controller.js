@@ -146,7 +146,8 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
         { avatar : NewAvatar.url, public_id : NewAvatar.public_id },
         { new : true }
     )
-
+    console.log(UpdateAvatar,"KKKK");
+    
     if(!UpdateAvatar){
         return res.status(200).json(new ErrorHandler(400, msg.fupdate));
     }
