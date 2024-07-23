@@ -99,6 +99,10 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
+    if(UserProfile.coverImage.trim() !== ""){
+        await CloudinaryDelete(UserProfile.public_id);
+    }
+
     const desgination = {
         path: req.file?.path,
         type: "image",
@@ -109,7 +113,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     const UpdateBanner = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { banner : NewBanner.secure_url },
+        { banner : NewBanner.secure_url, public_id : NewBanner.public_id },
         { new : true }
     )
 

@@ -11,7 +11,15 @@ const videoSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
+    video_id : {
+        type : String,
+        trim : true
+    },
     thumbnail : {
+        type : String,
+        trim : true
+    },
+    thumbnail_id : {
         type : String,
         trim : true
     },

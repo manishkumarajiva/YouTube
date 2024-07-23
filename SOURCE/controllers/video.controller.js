@@ -48,11 +48,17 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 });
 
 
-const UploadVideoThumbnail = asyncHandler(async (req, res) => {
+const UpdateVideoThumbnail = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
     if(req.file?.path){
         return res.status(200).json(new ErrorHandler(401, "Please Select Thumbnail"));
+    }
+
+    const video = await VideoModel.findById({ _id : videoId });
+
+    if(video.thumbnail.trim() !== ""){
+        await CloudinaryDelete(UserProfile.public_id);
     }
 
     const desgination = {
@@ -64,7 +70,8 @@ const UploadVideoThumbnail = asyncHandler(async (req, res) => {
     const thumbnail = await CloudinaryUpload(desgination);
 
     const thumbnailPayload = {
-        thumbnail : thumbnail.secure_url
+        thumbnail : thumbnail.secure_url,
+        thumbnail_id : thumbnail.public_id
     }
 
     const uploadThumbnail = await VideoModel.findByIdAndUpdate({ _id : videoId }, thumbnailPayload, { new : true });
@@ -202,7 +209,7 @@ const RemoveHistoryVideo = asyncHandler(async (req, res) => {
 // Export Video Handlers
 export {
     UploadChannelVideo,
-    UploadVideoThumbnail,
+    UpdateVideoThumbnail,
     GetChannelVideo,
     GetVideoById,
     UpdateVideoInfo,
