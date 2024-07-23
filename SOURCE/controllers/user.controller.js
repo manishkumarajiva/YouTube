@@ -130,8 +130,7 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
     if(UserProfile.avatar.trim() !== ""){
-        const filepath = UserProfile.avatar.split("DevHub")[1];
-        await CloudinaryDelete(filepath);
+        await CloudinaryDelete(UserProfile.public_id);
     }
 
     const desgination = {
@@ -141,10 +140,10 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
     }
 
     const NewAvatar = await CloudinaryUpload(desgination);
-    console.log(NewAvatar,"UPLOAD");
+
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { avatar : NewAvatar.url },
+        { avatar : NewAvatar.url, public_id : NewAvatar.public_id },
         { new : true }
     )
 

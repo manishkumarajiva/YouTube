@@ -21,8 +21,7 @@ const CloudinaryUpload = async (mediafile) => {
 
 
 const CloudinaryDelete = async (filepath) => {
-    const deleteResponse = await cloudinary.uploader.destroy(`/DevHub/${filepath}`);
-    console.log(deleteResponse,"DELETE")
+    const deleteResponse = await cloudinary.uploader.destroy(filepath);
     return deleteResponse;
 }
 

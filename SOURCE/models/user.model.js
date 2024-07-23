@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
         type : String,
         trim : true
     },
+    public_id : {
+        type : String,
+        trim : true
+    },
     watchHistory : [
         {
             video : {
