@@ -100,7 +100,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
     const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
     if(UserProfile.coverImage.public_id){
-        await CloudinaryDelete(UserProfile.public_id);
+        await CloudinaryDelete(UserProfile.coverImage.public_id);
     }
 
     const desgination = {
@@ -118,7 +118,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     const UpdateBanner = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { banner : updatePayload },
+        { coverImage : updatePayload },
         { new : true }
     )
 
