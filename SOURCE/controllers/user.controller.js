@@ -99,7 +99,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
-    if(UserProfile.coverImage.trim() !== ""){
+    if(UserProfile.coverImage.public_id){
         await CloudinaryDelete(UserProfile.public_id);
     }
 
@@ -111,9 +111,14 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 
     const NewBanner = await CloudinaryUpload(desgination);
 
+    const updatePayload = {
+        image : NewBanner.secure_url,
+        public_id : NewBanner.public_id
+    }
+
     const UpdateBanner = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { banner : NewBanner.secure_url, public_id : NewBanner.public_id },
+        { banner : updatePayload },
         { new : true }
     )
 
@@ -125,6 +130,7 @@ const UpdateUserCoverImage = asyncHandler(async (req, res) => {
 });
 
 
+
 const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
     if(! (req.file && req.file.filename)){
@@ -133,8 +139,8 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
     const UserProfile = await UserModel.findById({ _id : req.user?._id });
 
-    if(UserProfile.avatar.trim() !== ""){
-        await CloudinaryDelete(UserProfile.public_id);
+    if(UserProfile.avatar.public_id){
+        await CloudinaryDelete(UserProfile.avatar.public_id);
     }
 
     const desgination = {
@@ -145,9 +151,14 @@ const UpdateUserAvatar = asyncHandler(async (req, res) => {
 
     const NewAvatar = await CloudinaryUpload(desgination);
 
+    const updatePayload = {
+        image : NewAvatar.secure_url,
+        public_id : NewAvatar.public_id
+    }
+
     const UpdateAvatar = await UserModel.findByIdAndUpdate(
         { _id : req.user?._id },
-        { avatar : NewAvatar.secure_url, public_id : NewAvatar.public_id },
+        { avatar : updatePayload },
         { new : true }
     )
 
