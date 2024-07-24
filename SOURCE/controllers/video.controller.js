@@ -12,7 +12,6 @@ import msg from "../config/message.js";
 const UploadChannelVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
 
-
     if (!req.file?.path) {
         return res.status(200).json(new ErrorHandler(401, "Please Select Video"));
     }
@@ -25,9 +24,14 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 
     const video = await CloudinaryUpload(desgination);
 
+    const NewVideo = {
+        url : video.secure_url,
+        public_id : video.public_id
+    }
+
     const videoPlayload = {
         channel: req.user?._id,
-        video: video.secure_url,
+        video : NewVideo,       
         title: title,
         description: description,
         duration: video.duration,
@@ -51,14 +55,15 @@ const UploadChannelVideo = asyncHandler(async (req, res) => {
 const UpdateVideoThumbnail = asyncHandler(async (req, res) => {
     const videoId = req.query.videoId;
 
-    if(req.file?.path){
+    if(!req.file?.path){
         return res.status(200).json(new ErrorHandler(401, "Please Select Thumbnail"));
     }
 
-    const video = await VideoModel.findById({ _id : videoId });
+    const Video = await VideoModel.findById({ _id : videoId });
 
-    if(video.thumbnail.trim() !== ""){
-        await CloudinaryDelete(UserProfile.public_id);
+
+    if(Video.thumbnail.public_id){
+        await CloudinaryDelete(Video.thumbnail.public_id);
     }
 
     const desgination = {
@@ -70,11 +75,11 @@ const UpdateVideoThumbnail = asyncHandler(async (req, res) => {
     const thumbnail = await CloudinaryUpload(desgination);
 
     const thumbnailPayload = {
-        thumbnail : thumbnail.secure_url,
-        thumbnail_id : thumbnail.public_id
+        image : thumbnail.secure_url,
+        public_id : thumbnail.public_id
     }
 
-    const uploadThumbnail = await VideoModel.findByIdAndUpdate({ _id : videoId }, thumbnailPayload, { new : true });
+    const uploadThumbnail = await VideoModel.findByIdAndUpdate({ _id : videoId }, { thumbnail : thumbnailPayload }, { new : true });
     if(!uploadThumbnail){
         return res.status(200).json(new ErrorHandler(401, "Failed to Upload"));
     }
