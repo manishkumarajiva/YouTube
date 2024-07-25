@@ -16,6 +16,7 @@ const CloudinaryUpload = async (mediafile) => {
         
         const path = mediafile.path;
         const uploadResponse = await cloudinary.uploader.upload(path, options);
+        fs.unlinkSync(path);
         return uploadResponse;
 };
 
